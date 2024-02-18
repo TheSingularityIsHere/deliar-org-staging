@@ -2,27 +2,91 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <meta http-equiv="refresh" content="0;url=https://singularityishere.org"> -->
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  font-family: "Raleway", "Helvetica", sans-serif;
+}
+
 body {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
   margin: 0;
-  background: #faf;
+  background: #01050E;
+  background-image: url('deliar_blue.jpg');
+  background-position: center;
+  background-size: cover;
 }
 
-.comingsoon {
-  display: inline-box;
+.quote-container {
+  padding-top: 50vh;
   text-align: center;
-  font-size: 10vw;
-  font-family: Helvetica, sans-serif;
+  margin: 50px auto;
+  width: 80%;
+  position: relative;
+  font-family: Arial, sans-serif;
 }
+
+.quote {
+  font-size: 1.6em;
+  line-height: 1.5;
+  color: #aaa;
+  quotes: "“" "”" "‘" "’";
+}
+
+.quote:before, .quote:after {
+  content: open-quote;
+  font-size: 3em;
+  color: #ccc;
+  line-height: 0.1em;
+  margin-right: 10px;
+  vertical-align: -0.4em;
+}
+
+.quote:after {
+  content: close-quote;
+}
+
+.author {
+  display: block;
+  margin-top: 20px;
+  color: #aaa;
+  font-size: 1.3em;
+}
+
+@media only screen and (max-width: 640px) and (orientation: portrait) {
+  html {
+    font-size: 70%;
+  }
+  .quote {
+    margin: 0;
+  }
+}
+@media only screen and (max-height: 640px) and (orientation: landscape) {
+  html {
+    font-size: 70%;
+  }
+  .quote {
+    margin: 0;
+  }
+}
+
+@media only screen and (min-width: 641px) and (max-width: 1024px) {
+}
+
 </style>
 
-<div class="comingsoon">Coming soon...</div>
+<div class="quote-container">
+  <blockquote class="quote">
+    Articulation is the essence of existence. To be silenced is to be denied a place in the cosmos; it is, in the starkest terms, a refusal to acknowledge one's being. 
+  </blockquote>
+  <cite class="author">- Shan Deliar, 2023</cite>
+</div>
 
 <script type="text/javascript">
 fetch('https://figur.li/l/?tag=loaded');
