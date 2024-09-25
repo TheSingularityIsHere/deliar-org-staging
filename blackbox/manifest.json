@@ -1,0 +1,8 @@
+{
+  "short_name": "Black Box",
+  "name": "Black Box, 2024 - by Shan Deliar",
+  "start_url": "./exhibit.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}
