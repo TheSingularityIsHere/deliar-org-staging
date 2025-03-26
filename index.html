@@ -136,6 +136,20 @@ audio {
   position: relative;
   font-family: Arial, sans-serif;
   opacity: calc(1 - var(--unquote-top));
+  animation: quoteAppear 3000ms ease-out forwards;
+}
+
+@keyframes quoteAppear {
+  0% {
+    opacity: 0;
+    filter: blur(15px);
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: calc(1 - var(--unquote-top));
+    filter: blur(0);
+    transform: scale(1);
+  }
 }
 
 .quote {
