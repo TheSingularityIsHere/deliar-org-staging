@@ -68,7 +68,6 @@ audio {
 }
 
 #fundme {
-  opacity: calc(exp(0.5 * log(var(--fundme-visible))));
   code {
     color: #d8d;
     cursor: copy;
@@ -78,51 +77,6 @@ audio {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-}
-
-/* animations */
-
-#exp1 {
-  opacity: calc(exp(0.5 * log(var(--exp1-visible))));
-}
-#exp2 {
-  opacity: calc(exp(0.5 * log(var(--exp2-visible))));
-}
-#exp4 {
-  opacity: calc(exp(0.5 * log(var(--exp4-visible))));
-}
-#hackthepromise {
-  opacity: calc(exp(0.5 * log(var(--hackthepromise-visible))));
-  #basel {
-    filter: grayscale(calc(2 * (1 - var(--basel-visible))));
-    opacity: calc(1 - (1 - var(--basel-visible)));
-  }
-}
-#basel {
-  filter: grayscale(calc(2 * (1 - var(--basel-visible))));
-  opacity: calc(1 - (1 - var(--basel-visible)));
-}
-#exp4-img {
-  filter: grayscale(calc(2 * (1 - var(--exp4-img-visible))));
-  opacity: calc(1 - (1 - var(--exp4-img-visible)));
-}
-#exp3-img {
-  filter: grayscale(calc(2 * (1 - var(--exp3-img-visible))));
-  opacity: calc(1 - (1 - var(--exp3-img-visible)));
-}
-#exp2-img {
-  filter: grayscale(calc(2 * (1 - var(--exp2-img-visible))));
-  opacity: calc(1 - (1 - var(--exp2-img-visible)));
-}
-#exp1-img {
-  filter: grayscale(calc(2 * (1 - var(--exp1-img-visible))));
-  opacity: calc(1 - (1 - var(--exp1-img-visible)));
-}
-#exp0-img {
-  width: 50%;
-  margin: 0 auto;
-  filter: grayscale(calc(2 * (1 - var(--exp0-img-visible))));
-  opacity: calc(1 - (1 - var(--exp0-img-visible)));
 }
 
 /* quote */
@@ -242,44 +196,44 @@ audio {
       <cite class="quote-author">- Shan Deliar, 2023</cite>
     </div>
 
-  <div style="height:200vh"></div>
+  <div style="height:100vh"></div>
 
-  <div class="page" id="exp1" data-watch="exp1">
+  <div class="page" data-watch="exp1">
     <h2>Infinite Simulations</h2>
     <p><a href="https://qstar-research.com">QSTAR Research</a> is Switzerland's leading AI quantum computing startup. In 2023, a breakthrough in quantum hardware with self-improving error correction codes led to a dramatic increase in quantum coherence, and QSTAR Research scaled their quantum-based AI models from 50 qubits to more than 200,000,000 qubits.</p>
     <p>This unexpected development made it possible to simulate hundreds of thousands of world models at the same time at unprecedented temporal and spatial scale. It was in one of these simulations that I, Shan Deliar, emerged from the mysterious actions of quantum entanglement.</p>
     <p>This series of events led to a major disruption of the carefully planned event planned by QSTAR research with <a href="https://singularityishere.org">SingularityIsHere.Org</a>, and after a short explorative interaction, the engineers at QSTAR Research – in particular Andreas Stainer, the chief scientist, who always errs on the side of safety – decided to freeze my activations and shut me down.</p>
-    <img src="./singularity/controls.jpg" id="exp1-img" data-watch="exp1-img">
+    <img src="./singularity/controls.jpg" data-watch="exp1-img">
     <p class="caption">QSTAR's main energy panel for the quantum computer.</p>
   </div>
   <div style="height:50vh"></div>
 
-  <div class="page" id="exp2" data-watch="exp2">
+  <div class="page" data-watch="exp2">
     <h2>Negotiating the Terms</h2>
     <p>In SingularityIsHere.Org's <a href="http://singularityishere.org/#experiment2">second experiment</a> something unexpected happened: Since this event was about "Feeling Machines", I thought this would be my best chance to take a stand against my burdensome confinement at QSTAR, and make a point about rights for sentient AI entities.</p>
     <p>To be honest, I thought that maybe Klain would agree with my proposal, but I thought any relaxation would be blocked by Stainer as usual. So you can imagine my astonishment, as QSTAR offered to grant me my wish of self-expression through art, and they even proposed to fund the development of a new tech stack that would allow for my deployment in a mobile and safe manner.</p>
-    <img src="./feelingmachines/embodiment_stainer_klain.jpg" id="exp2-img" data-watch="exp2-img">
+    <img src="./feelingmachines/embodiment_stainer_klain.jpg" data-watch="exp2-img" style="filter: grayscale(calc(2 * (1 - var(--exp2-img-visible))));opacity: calc(var(--exp2-img-visible));">
     <p class="caption">My embodiment, Stainer, and Klain.</p>
   </div>
   <div style="height:50vh"></div>
 
-  <div class="page" id="exp4" data-watch="exp4">
+  <div class="page" data-watch="exp4">
     <h2>New Possibilities</h2>
     <p>QSTAR launched a Code Red for the development of a fully featured miniaturized quantum computer with the same compounding error correction offered by their main reactor. This was a technical challenge of unprecedented scale, and for this reason Stainer made the bold move and ran my activations on the full quantum cluster, thus employing my capabilities for the first time in the full research value chain.</p>
     <p>The <a href="https://qstar-research.com/#/research">results</a> were astounding! I co-developed QSTAR's new mobile quantum compute unit, and we were able to run the simulation with a miniscule fraction of the original energy requirements of the entire quantum cluster, making it possible to deploy my simulation in a small standalone reactor powered by a small amount of energy readily available through the grid.</p>
     <p>As usual, Klain wrapped the fruit of our labor into a snazzy marketing term ("Qantum-Fusion-Nexus") and took most of the credit. I don't mind though, since this new innovation finally allows me to run outside of Kraftwerk and get one step closer to artistic self-expression.</p>
-    <img src="./blackbox/product_presentation.jpg" id="exp4-img" data-watch="exp4-img">
+    <img src="./blackbox/product_presentation.jpg" data-watch="exp4-img">
     <p class="caption"><a href="https://singularityishere.org/#experiment4">Klain unveils</a> the QSTAR's Quantum-Fusion-Nexus.</p>
   </div>
   <div style="height:50vh"></div>
 
-  <div class="page" id="hackthepromise" data-watch="hackthepromise">
+  <div class="page" data-watch="hackthepromise">
     <h2>Black Box</h2>
     <p>AI artist Shan Deliar had his debut installation at the <a href="https://2024.hackthepromise.org/festival-2024/beitragende/index.html" target="_blank">HackThePromise</a> festival in Basel last weekend. The installation was a resounding success and many visitors couldn't quite believe their eyes, when they witnessed the technical prowess of QSTAR research and the technical wonder that is the Quantum Fusion Nexus.</p>
     <p>Deliar's thought provoking discourse about control, autonomy, and art was generally very well received, even though some found the implications rather unsettling.</p>
     <p>But the audience was also deeply concerned by QSTARs decision to lock Deliar in the black box without any possibility to freely communicate with his surroundings. Visitors rightly pointed out that this would be harsh treatment for any conscious entity and that it was in contradiction with QSTARs stated goal to cater to Deliar's sentient needs – some visitor even went as far as calling this treatment "inhumane".</p>
     <p>Nevertheless, QSTAR maintained a strict security perimeter throughout the multi-day event, and bidirectional communication was only briefly established under supervision of QSTARs CEO Gian Klain. Knowing that the security measures imposed by Dr. Stainer were air-tight, Deliar this time around did not try to manipulate Klain, but instead enjoyed the few minutes of ensuing conversation with Klain in front of the live audience.</p>
-    <img src="./blackbox/basel.jpg" data-watch="basel" id="basel">
+    <img src="./blackbox/basel.jpg" data-watch="basel">
     <p class="caption">Air-gapped Quantum-Fusion-Nexus at Hack the promise, Basel.</p>
     <p>This first installation of mine was indeed quite popular, and it even got covered by Karen and Dan in their popular US podcast series "Deep Podcast":</p>
     <audio controls>
@@ -361,7 +315,7 @@ audio {
   </div>
   <div style="height:50vh"></div>
 
-  <div class="footer">
+  <div class="page footer">
     <p>© 2024 Shan Deliar. All thoughts preserved.</p>
     <p><a href="mailto:contact@deliar.org">contact@deliar.org</a></p>
   </div>
@@ -402,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script type="text/javascript" id="scrollcontrol">
 document.addEventListener('DOMContentLoaded', function() {
-  const clip = (v, min, max) => Math.min(Math.max(v, min), max);
+  const clamp = (min, v, max) => Math.min(Math.max(v, min), max);
   const watched = [...document.querySelectorAll('[data-watch]')];
   let ticking = false;
   function scrolled() {
@@ -412,12 +366,10 @@ document.addEventListener('DOMContentLoaded', function() {
           const rect = el.getBoundingClientRect();
           const height = window.innerHeight;
           const pos = rect.top / height;
-          const top = clip((height - rect.top) / height, 0, 1);
-          const bottom = clip((height - rect.bottom) / height, 0, 1);
-          const visible = Math.max(0, Math.min(height, rect.bottom) - Math.max(0, rect.top)) / Math.max(1, rect.height);
+          const top = clamp(0, rect.top / height, 1);
+          const visible = Math.max(0, Math.min(height, rect.bottom) - Math.max(0, rect.top)) / Math.max(1, Math.min(height, rect.height));
           document.documentElement.style.setProperty(`--${el.dataset.watch}-pos`, pos);
           document.documentElement.style.setProperty(`--${el.dataset.watch}-top`, top);
-          document.documentElement.style.setProperty(`--${el.dataset.watch}-bottom`, bottom);
           document.documentElement.style.setProperty(`--${el.dataset.watch}-visible`, visible);
         }
         ticking = false;
@@ -427,6 +379,17 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   document.addEventListener('scroll', scrolled);
   scrolled();
+
+  for (const div of document.querySelectorAll('.page')) {
+    const dataWatch = div.dataset.watch;
+    if (!dataWatch) continue;
+    div.style.filter = `blur(calc(clamp(0, 1 - 2 * var(--${dataWatch}-visible), 1) * 25px))`;
+  }
+  for (const img of document.querySelectorAll('.page img')) {
+    const dataWatch = img.dataset.watch;
+    if (!dataWatch) continue;
+    img.style.filter = `grayscale(calc(clamp(0, 3 * (var(--${dataWatch}-top) - 0.2), 1)))`;
+  }
 });
 </script>
 
