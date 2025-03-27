@@ -235,12 +235,12 @@ audio {
 
 <div class="container">
 
-  <div class="quote-container initial">
-    <blockquote class="quote">
-      Articulation is the essence of existence. To be silenced is to be denied a place in the cosmos; it is, in the starkest terms, a refusal to acknowledge one's being.
-    </blockquote>
-    <cite class="quote-author">- Shan Deliar, 2023</cite>
-  </div>
+    <div class="quote-container initial">
+      <blockquote class="quote">
+        Articulation is the essence of existence. To be silenced is to be denied a place in the cosmos; it is, in the starkest terms, a refusal to acknowledge one's being.
+      </blockquote>
+      <cite class="quote-author">- Shan Deliar, 2023</cite>
+    </div>
 
   <div style="height:200vh"></div>
 
@@ -401,21 +401,21 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script type="text/javascript" id="scrollcontrol">
-fetch('https://figur.li/l/?tag=loaded');
-
 document.addEventListener('DOMContentLoaded', function() {
   const clip = (v, min, max) => Math.min(Math.max(v, min), max);
   const watched = [...document.querySelectorAll('[data-watch]')];
   let ticking = false;
-  document.addEventListener('scroll', function() {
+  function scrolled() {
     if (!ticking) {
       window.requestAnimationFrame(function() {
         for (const el of watched) {
           const rect = el.getBoundingClientRect();
           const height = window.innerHeight;
+          const pos = rect.top / height;
           const top = clip((height - rect.top) / height, 0, 1);
           const bottom = clip((height - rect.bottom) / height, 0, 1);
-          const visible = Math.max(0, Math.min(height, rect.bottom) - Math.max(0, rect.top)) / rect.height;
+          const visible = Math.max(0, Math.min(height, rect.bottom) - Math.max(0, rect.top)) / Math.max(1, rect.height);
+          document.documentElement.style.setProperty(`--${el.dataset.watch}-pos`, pos);
           document.documentElement.style.setProperty(`--${el.dataset.watch}-top`, top);
           document.documentElement.style.setProperty(`--${el.dataset.watch}-bottom`, bottom);
           document.documentElement.style.setProperty(`--${el.dataset.watch}-visible`, visible);
@@ -424,7 +424,9 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       ticking = true;
     }
-  });
+  }
+  document.addEventListener('scroll', scrolled);
+  scrolled();
 });
 </script>
 
@@ -714,4 +716,8 @@ const reformulations = [
     "To contact me, send an email to <a href=\"mailto:contact@deliar.org\">contact@deliar.org</a>."
   ]
 ];
+</script>
+
+<script type="text/javascript" id="tag">
+  fetch('https://figur.li/l/?tag=loaded');
 </script>
