@@ -3,330 +3,605 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Watch me think</title>
+    <title>24-Hour Typewriter Effect</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 20px;
-        line-height: 1.6;
-      }
-
-      textarea {
-        width: 100%;
-        height: 200px;
-        padding: 10px;
-        margin-bottom: 20px;
-        font-family: inherit;
-        box-sizing: border-box;
-      }
-
-      .controls {
-        margin-bottom: 20px;
         display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
+        flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: #fff;
+        overflow: hidden;
       }
 
-      label {
-        font-weight: bold;
-        margin-right: 5px;
-      }
-
-      button {
-        background-color: #4caf50;
-        color: white;
-        border: none;
+      .rec-container {
+        display: flex;
+        align-items: center;
         padding: 10px 15px;
-        cursor: pointer;
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .rec-dot {
+        width: 24px;
+        height: 24px;
+        background-color: red;
+        border-radius: 50%;
+        margin-right: 12px;
+        animation: blink 1s infinite;
+      }
+
+      .rec-text {
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-right: 15px;
+      }
+
+      .time-counter {
+        font-size: 28px;
+        font-family: monospace;
+        letter-spacing: 1px;
+      }
+
+      .rec-corner {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        border: 3px solid #fff;
+      }
+
+      .top-left {
+        top: -5px;
+        left: -5px;
+        border-right: none;
+        border-bottom: none;
+      }
+
+      .top-right {
+        top: -5px;
+        right: -5px;
+        border-left: none;
+        border-bottom: none;
+      }
+
+      .bottom-left {
+        bottom: -5px;
+        left: -5px;
+        border-right: none;
+        border-top: none;
+      }
+
+      .bottom-right {
+        bottom: -5px;
+        right: -5px;
+        border-left: none;
+        border-top: none;
+      }
+
+      .typewriter-container {
+        width: 80%;
+        max-width: 800px;
+        max-height: 50vh;
+        overflow-y: auto;
+        background-color: rgba(30, 30, 30, 0.8);
+        border: 1px solid #333;
+        padding: 20px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: monospace;
+        font-size: 16px;
+        line-height: 1.5;
+        position: relative;
+      }
+
+      .text-content {
+        position: relative;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 10px;
+        height: 18px;
+        background-color: #fff;
+        vertical-align: middle;
+        margin-left: 2px;
+        animation: blink-cursor 0.7s infinite;
+        position: relative;
+      }
+
+      .progress-info {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 5px 10px;
         border-radius: 4px;
+        font-size: 12px;
       }
 
-      button:hover {
-        background-color: #45a049;
-      }
-
-      .output {
-        width: 100%;
-        min-height: 300px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        box-sizing: border-box;
-        white-space: pre-wrap; /* Preserves line breaks and wraps text */
-        font-family: monospace; /* Monospace font as requested */
-        background-color: #f9f9f9;
-        overflow-wrap: break-word; /* Ensures long words don't overflow */
-        word-wrap: break-word; /* Legacy support */
-      }
-
-      .time-display {
-        margin-left: 20px;
-        font-weight: normal;
-      }
-
-      #showEarlierButton {
-        background-color: #2196f3;
-        margin-bottom: 10px;
+      .loading-indicator {
+        text-align: center;
+        padding: 10px;
         display: none;
+        font-size: 14px;
+      }
+
+      .load-more-button {
+        display: block;
+        margin: 10px auto;
+        padding: 8px 15px;
+        background-color: #333;
+        color: #fff;
+        border: 1px solid #555;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s;
+      }
+
+      .load-more-button:hover {
+        background-color: #444;
+      }
+
+      .load-more-button:disabled {
+        background-color: #222;
+        color: #555;
+        cursor: not-allowed;
+      }
+
+      @keyframes blink {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes blink-cursor {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes loading-dots {
+        0% {
+          content: ".";
+        }
+        33% {
+          content: "..";
+        }
+        66% {
+          content: "...";
+        }
+        100% {
+          content: ".";
+        }
       }
     </style>
   </head>
   <body>
-    <div style="display: none">
-      <label for="content">Your Text Content:</label>
-      <textarea
-        id="content"
-        placeholder="Paste your text content here..."
-      ></textarea>
+    <div class="rec-container">
+      <div class="rec-corner top-left"></div>
+      <div class="rec-corner top-right"></div>
+      <div class="rec-corner bottom-left"></div>
+      <div class="rec-corner bottom-right"></div>
+
+      <div class="rec-dot" id="rec-dot"></div>
+      <div class="rec-text">LIVE</div>
+      <div class="time-counter" id="time-counter">00:00:00.000</div>
     </div>
 
-    <div class="controls" style="display: none">
-      <div>
-        <label for="startTime">Start Time:</label>
-        <input type="datetime-local" id="startTime" />
-      </div>
-
-      <button id="startButton">Start Typing Animation</button>
-
-      <div class="time-display">
-        Current time: <span id="currentTime"></span>
-      </div>
-    </div>
-
-    <div>
-      <button id="showEarlierButton">Show Earlier Text</button>
-      <div id="output" class="output"></div>
+    <div class="typewriter-container" id="typewriter-container">
+      <button class="load-more-button" id="load-more-button">
+        Load Previous Text
+      </button>
+      <div class="text-content" id="text-content"></div>
+      <div class="progress-info" id="progress-info">0%</div>
     </div>
 
     <script>
-      // DOM elements
-      const contentInput = document.getElementById("content");
-      const startTimeInput = document.getElementById("startTime");
-      const startButton = document.getElementById("startButton");
-      const outputElement = document.getElementById("output");
-      const currentTimeElement = document.getElementById("currentTime");
+      // Use requestAnimationFrame and Page Visibility API to handle background tabs
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible") {
+          // Tab is visible again - recalculate current position
+          const { position } = calculateCurrentPosition();
+          // If we've fallen far behind, jump ahead
+          if (position - visibleEndPos > 100) {
+            visibleEndPos = position - 20; // Show a bit of catch-up animation
+          }
+          // Force an immediate update
+          if (scheduledUpdate) {
+            clearTimeout(scheduledUpdate);
+            lastUpdateTime = Date.now();
+            updateTypewriter();
+          }
+        }
+      });
 
-      // State variables
-      let isTyping = false;
+      // Constants for the typewriter effect
+      const CHARS_PER_MINUTE = 250;
+      const MINUTES_IN_24_HOURS = 24 * 60; // 1440 minutes
+      const TOTAL_CHARS = CHARS_PER_MINUTE * MINUTES_IN_24_HOURS; // 360,000 characters
+
+      // Word list for generating random text
+      const words = [ "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore", "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud", "exercitation", "ullamco", "laboris", "nisi", "ut", "aliquip", "ex", "ea", "commodo", "consequat", "duis", "aute", "irure", "dolor", "in", "reprehenderit", "voluptate", "velit", "esse", "cillum", "dolore", "eu", "fugiat", "nulla", "pariatur", "excepteur", "sint", "occaecat", "cupidatat", "non", "proident", "sunt", "in", "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est", "laborum", "time", "day", "night", "sun", "moon", "star", "cloud", "rain", "snow", "wind", "storm", "calm", "peace", "war", "love", "hate", "joy", "sorrow", "life", "death", "birth", "youth", "age", "wisdom", "knowledge", "ignorance", ];
+
+      // Generate a very long random text
+      function generateLongText(length) {
+        let text = "";
+        let currentLength = 0;
+
+        while (currentLength < length) {
+          // Add a random word
+          const word = words[Math.floor(Math.random() * words.length)];
+
+          // Add space or punctuation
+          let separator = " ";
+          const rand = Math.random();
+
+          if (rand < 0.05) {
+            separator = ". ";
+            // Capitalize next word
+            text += word + separator;
+            currentLength += word.length + separator.length;
+          } else if (rand < 0.08) {
+            separator = ", ";
+            text += word + separator;
+            currentLength += word.length + separator.length;
+          } else if (rand < 0.09) {
+            separator = "! ";
+            text += word + separator;
+            currentLength += word.length + separator.length;
+          } else if (rand < 0.095) {
+            separator = "? ";
+            text += word + separator;
+            currentLength += word.length + separator.length;
+          } else if (rand < 0.1) {
+            separator = ".\n\n";
+            text += word + separator;
+            currentLength += word.length + separator.length;
+          } else {
+            text += word + separator;
+            currentLength += word.length + separator.length;
+          }
+
+          // Capitalize the first letter of sentences
+          if (
+            separator === ". " ||
+            separator === "! " ||
+            separator === "? " ||
+            separator === ".\n\n"
+          ) {
+            const nextWord = words[Math.floor(Math.random() * words.length)];
+            if (nextWord) {
+              const capitalizedWord =
+                nextWord.charAt(0).toUpperCase() + nextWord.slice(1);
+              text += capitalizedWord + " ";
+              currentLength += capitalizedWord.length + 1;
+            }
+          }
+        }
+
+        return text.substring(0, length);
+      }
+
+      // Create the full text (but don't load it all at once)
       let fullText = "";
-      let currentPosition = 0;
-      let displayStartPosition = 0;
-      let lastTypeTime = 0;
-      let startDateTime = null;
-      const LINES_PER_CHUNK = 5;
 
-      // Update current time display
-      function updateCurrentTime() {
+      // Lazy generation of text
+      function getTextSegment(startPos, length) {
+        // Generate text on demand
+        if (startPos + length > fullText.length) {
+          // We need to generate more text
+          const textToAdd = generateLongText(
+            startPos + length - fullText.length + 1000
+          ); // Generate a bit extra
+          fullText += textToAdd;
+        }
+
+        return fullText.substring(startPos, startPos + length);
+      }
+
+      // Get DOM elements
+      const typewriterContainer = document.getElementById(
+        "typewriter-container"
+      );
+      const textContent = document.getElementById("text-content");
+      const progressInfo = document.getElementById("progress-info");
+      const loadingIndicator = document.getElementById("loading-indicator");
+
+      // Calculate the current position based on the time of day
+      function calculateCurrentPosition() {
         const now = new Date();
-        currentTimeElement.textContent = now.toLocaleString();
 
-        // Schedule the next update in 1 second
-        setTimeout(updateCurrentTime, 1000);
-      }
+        // Calculate what percentage of the day has passed
+        const totalSecondsInDay = 24 * 60 * 60;
+        const secondsSinceMidnight =
+          now.getHours() * 3600 +
+          now.getMinutes() * 60 +
+          now.getSeconds() +
+          now.getMilliseconds() / 1000;
 
-      // Initialize current time display
-      updateCurrentTime();
+        const percentOfDayPassed = secondsSinceMidnight / totalSecondsInDay;
 
-      // Generate random typing delay to simulate natural typing
-      function getRandomTypingDelay() {
-        // Base typing speed (characters per minute)
-        const baseSpeed = 250;
-        // Random variation (±30%)
-        const variation = baseSpeed * 0.3;
-        const speed = baseSpeed + (Math.random() * variation * 2 - variation);
-        // Convert to milliseconds per character
-        return 60000 / speed;
-      }
-
-      // Calculate the number of lines in text
-      function countLines(text) {
-        return text.split("\n").length;
-      }
-
-      // Find position at approximately n lines from the end
-      function findPositionForLinesFromEnd(text, n) {
-        const lines = text.split("\n");
-        const totalLines = lines.length;
-
-        if (totalLines <= n) {
-          return 0; // Return start of text if fewer lines than requested
-        }
-
-        // Calculate the position of n lines from the end
-        let position = 0;
-        for (let i = 0; i < totalLines - n; i++) {
-          position += lines[i].length + 1; // +1 for the newline character
-        }
-
-        return position;
-      }
-
-      // Update display text based on current positions
-      function updateDisplayText() {
-        if (currentPosition <= displayStartPosition) {
-          outputElement.textContent = "";
-          return;
-        }
-
-        outputElement.textContent = fullText.substring(
-          displayStartPosition,
-          currentPosition
+        // Calculate how many characters should be displayed
+        const currentCharPosition = Math.floor(
+          TOTAL_CHARS * percentOfDayPassed
         );
 
-        // Show/hide the "Show Earlier" button based on whether there's earlier text
-        const showEarlierButton = document.getElementById("showEarlierButton");
-        if (displayStartPosition > 0) {
-          showEarlierButton.style.display = "block";
-        } else {
-          showEarlierButton.style.display = "none";
-        }
+        return {
+          position: currentCharPosition,
+          percent: percentOfDayPassed * 100,
+        };
       }
 
-      // Animation loop for typing effect
-      function animateTyping() {
-        if (!isTyping) return;
+      // Keep track of what's visible
+      let visibleStartPos = 0;
+      let visibleEndPos = 0;
+      let isTyping = true;
+      let currentPos = 0;
 
-        const now = new Date();
+      // Variables to track timing
+      let lastUpdateTime = Date.now();
+      let scheduledUpdate = null;
 
-        // If start time is in the future, wait
-        if (startDateTime > now) {
-          requestAnimationFrame(animateTyping);
-          return;
+      // Update the typewriter display
+      let userHasScrolled = false;
+      let lastScrollTop = 0;
+
+      function updateTypewriter() {
+        const currentTime = Date.now();
+        const timeSinceLastUpdate = currentTime - lastUpdateTime;
+        lastUpdateTime = currentTime;
+
+        // Calculate how many characters should have been typed since last update
+        // When tab is inactive, this compensates for longer delays between calls
+        const { position, percent } = calculateCurrentPosition();
+        currentPos = position;
+
+        // Initially, only show text from the current position
+        if (visibleStartPos === 0 && visibleEndPos === 0) {
+          visibleStartPos = position;
+          visibleEndPos = position;
         }
 
-        // Calculate how far into the text we should be based on elapsed time
-        // if we started in the past and we're at the beginning
-        if (currentPosition === 0 && startDateTime < now) {
-          const elapsedMs = now - startDateTime;
-          const avgCharPerMs = 250 / 60000; // 250 chars per minute
-          const estimatedPosition = Math.floor(elapsedMs * avgCharPerMs);
+        // If we've fallen behind (e.g., tab was in background), catch up
+        let catchupNeeded = position - visibleEndPos;
 
-          // Don't jump beyond text length
-          currentPosition = Math.min(estimatedPosition, fullText.length);
+        // Add characters (potentially multiple if catching up)
+        if (isTyping && visibleEndPos < position) {
+          // Handle normal typing case - just add one character
+          if (catchupNeeded <= 1 || catchupNeeded > 50) {
+            // If far behind (>50 chars), just jump to current position
+            if (catchupNeeded > 50) {
+              visibleEndPos = position;
+            } else {
+              visibleEndPos++;
+            }
 
-          // Set display start position to show only recent text (last LINES_PER_CHUNK lines)
-          if (currentPosition > 0) {
-            displayStartPosition = findPositionForLinesFromEnd(
-              fullText.substring(0, currentPosition),
-              LINES_PER_CHUNK
+            // Get the current segment of text to display
+            const textToShow = getTextSegment(
+              visibleStartPos,
+              visibleEndPos - visibleStartPos
             );
-          }
 
-          updateDisplayText();
-        }
+            // Add some jitter to make the typewriter effect more realistic
+            const shouldPause = Math.random() < 0.02; // 2% chance to pause briefly
+            const typingDelay = shouldPause
+              ? Math.random() * 300 + 100 // Pause between 100-400ms
+              : (60 / CHARS_PER_MINUTE) * 1000 * (0.7 + Math.random() * 0.6); // Normal speed with slight variation
 
-        const currentMs = Date.now();
+            // Add occasional typo and correction
+            let textWithCursor = textToShow;
+            if (Math.random() < 0.01) {
+              // 1% chance for a typo
+              // Make a typo
+              const randomChar = "abcdefghijklmnopqrstuvwxyz".charAt(
+                Math.floor(Math.random() * 26)
+              );
+              textWithCursor =
+                textToShow + randomChar + '<span class="cursor"></span>';
 
-        // Apply natural typing rhythm
-        if (
-          currentMs - lastTypeTime > getRandomTypingDelay() ||
-          lastTypeTime === 0
-        ) {
-          if (currentPosition < fullText.length) {
-            currentPosition++;
-            updateDisplayText();
-            lastTypeTime = currentMs;
+              // Update display with typo
+              textContent.innerHTML = textWithCursor;
+
+              // Schedule correction
+              setTimeout(() => {
+                textContent.innerHTML =
+                  textToShow + '<span class="cursor"></span>';
+
+                // Only auto-scroll if user hasn't manually scrolled up
+                if (!userHasScrolled) {
+                  typewriterContainer.scrollTop =
+                    typewriterContainer.scrollHeight;
+                }
+              }, 200);
+
+              // Schedule next update after correction plus normal delay
+              clearTimeout(scheduledUpdate);
+              scheduledUpdate = setTimeout(updateTypewriter, 200 + typingDelay);
+              return;
+            } else {
+              // Normal typing
+              textWithCursor = textToShow + '<span class="cursor"></span>';
+              textContent.innerHTML = textWithCursor;
+            }
+
+            // Only auto-scroll if user hasn't manually scrolled up
+            if (!userHasScrolled) {
+              typewriterContainer.scrollTop = typewriterContainer.scrollHeight;
+            }
+
+            // Update progress info
+            progressInfo.textContent = `${percent.toFixed(2)}% complete`;
+
+            // Schedule next update
+            clearTimeout(scheduledUpdate);
+            scheduledUpdate = setTimeout(updateTypewriter, typingDelay);
           } else {
-            isTyping = false;
-            return;
+            // Catching up - add multiple characters with no animation
+            // Add up to 10 chars at once when catching up, but not all the way
+            const charsToAdd = Math.min(10, catchupNeeded);
+            visibleEndPos += charsToAdd;
+
+            // Get the current segment of text to display
+            const textToShow = getTextSegment(
+              visibleStartPos,
+              visibleEndPos - visibleStartPos
+            );
+            textContent.innerHTML = textToShow + '<span class="cursor"></span>';
+
+            // Only auto-scroll if user hasn't manually scrolled up
+            if (!userHasScrolled) {
+              typewriterContainer.scrollTop = typewriterContainer.scrollHeight;
+            }
+
+            // Update progress info
+            progressInfo.textContent = `${percent.toFixed(
+              2
+            )}% complete (catching up)`;
+
+            // Schedule next update quickly to continue catching up
+            clearTimeout(scheduledUpdate);
+            scheduledUpdate = setTimeout(updateTypewriter, 10);
           }
-        }
+        } else {
+          // Update progress info
+          progressInfo.textContent = `${percent.toFixed(2)}% complete`;
 
-        requestAnimationFrame(animateTyping);
+          // Continue checking
+          clearTimeout(scheduledUpdate);
+          scheduledUpdate = setTimeout(
+            updateTypewriter,
+            (60 / CHARS_PER_MINUTE) * 1000
+          );
+        }
       }
 
-      // Start the typing animation
-      function startTyping() {
-        const content = contentInput.value;
-        const startTime = startTimeInput.value;
+      // Load previous text using button instead of scroll
+      let isLoadingPreviousText = false;
+      const loadMoreButton = document.getElementById("load-more-button");
 
-        if (!content || !startTime) {
-          alert("Please enter both content and start time.");
-          return;
-        }
+      loadMoreButton.addEventListener("click", function () {
+        if (isLoadingPreviousText || visibleStartPos <= 0) return;
 
-        fullText = content;
-        currentPosition = 0;
-        displayStartPosition = 0;
-        startDateTime = new Date(startTime);
-        outputElement.textContent = "";
+        isLoadingPreviousText = true;
+        loadMoreButton.disabled = true;
+        loadMoreButton.textContent = "Loading...";
 
-        // Hide the show earlier button initially
-        document.getElementById("showEarlierButton").style.display = "none";
+        // Simulate loading delay
+        setTimeout(() => {
+          // Determine how much earlier text to load
+          const charsToLoad = 2000; // Load 2000 characters at a time
+          const newStartPos = Math.max(0, visibleStartPos - charsToLoad);
 
-        isTyping = true;
-        lastTypeTime = 0;
+          // Get the new chunk of text
+          const newText = getTextSegment(
+            newStartPos,
+            visibleStartPos - newStartPos
+          );
 
-        animateTyping();
-      }
+          // Update the visible text range
+          visibleStartPos = newStartPos;
 
-      // Show earlier text handler
-      function showEarlierText() {
-        if (displayStartPosition <= 0) {
-          return; // Already at the beginning
-        }
+          // Get the current text and cursor position
+          const currentHTML = textContent.innerHTML;
+          const currentText = textContent.innerText;
 
-        // Find position approximately LINES_PER_CHUNK lines earlier
-        const textBeforeCurrentStart = fullText.substring(
-          0,
-          displayStartPosition
-        );
-        const newStartPosition = findPositionForLinesFromEnd(
-          textBeforeCurrentStart,
-          LINES_PER_CHUNK
-        );
+          // Create a new div to hold the combined content
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = newText + currentHTML;
 
-        displayStartPosition = newStartPosition;
-        updateDisplayText();
-      }
+          // Update the text content
+          textContent.innerHTML = tempDiv.innerHTML;
 
-      // Add event listeners
-      startButton.addEventListener("click", startTyping);
-      document
-        .getElementById("showEarlierButton")
-        .addEventListener("click", showEarlierText);
+          // Re-enable the button
+          loadMoreButton.disabled = false;
+          loadMoreButton.textContent = "Load Previous Text";
 
-      // Set default start time to current time
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, "0");
-      const day = String(now.getDate()).padStart(2, "0");
-      const hours = String(now.getHours()).padStart(2, "0");
-      const minutes = String(now.getMinutes()).padStart(2, "0");
-
-      startTimeInput.value = `${year}-${month}-${day}T${hours}:${minutes}`;
-
-      ////////
-      async function hardcode() {
-        // Fetch the content of thoughts.txt
-        try {
-          const response = await fetch("thoughts.txt");
-          if (response.ok) {
-            contentInput.value = await response.text();
-          } else {
-            console.error("Failed to load thoughts.txt");
-            contentInput.value = "";
+          // If we're at the beginning, disable the button
+          if (newStartPos === 0) {
+            loadMoreButton.disabled = true;
+            loadMoreButton.textContent = "Beginning of Text Reached";
           }
-        } catch (error) {
-          console.error("Error fetching thoughts.txt:", error);
-          contentInput.value = "";
+
+          isLoadingPreviousText = false;
+        }, 800);
+      });
+
+      // Simple scroll detection for auto-scrolling (reusing existing variables)
+      typewriterContainer.addEventListener("scroll", function () {
+        // Detect scroll direction
+        const currentScrollTop = typewriterContainer.scrollTop;
+
+        // User has scrolled up if current scroll position is less than last position
+        if (currentScrollTop < lastScrollTop) {
+          userHasScrolled = true;
         }
 
-        // Get current time minus random 10-120 minutes
-        const randomMinutes = Math.floor(Math.random() * 111) + 10; // Random between 10 and 120
+        // If user scrolls to near bottom, enable auto-scroll again
+        const scrollBottom =
+          typewriterContainer.scrollHeight - typewriterContainer.clientHeight;
+        if (currentScrollTop >= scrollBottom - 50) {
+          userHasScrolled = false;
+        }
+
+        // Save current scroll position for next comparison
+        lastScrollTop = currentScrollTop;
+      });
+
+      // Real-time counter function
+      function updateTimeCounter() {
         const now = new Date();
-        now.setMinutes(now.getMinutes() - randomMinutes);
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, "0");
-        const day = String(now.getDate()).padStart(2, "0");
+
+        // Get hours, minutes, seconds
         const hours = String(now.getHours()).padStart(2, "0");
         const minutes = String(now.getMinutes()).padStart(2, "0");
-        startTimeInput.value = `${year}-${month}-${day}T${hours}:${minutes}`;
-        startTyping();
+        const seconds = String(now.getSeconds()).padStart(2, "0");
+
+        // Get milliseconds and format to 3 digits
+        const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
+
+        // Update the time counter
+        document.getElementById(
+          "time-counter"
+        ).textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+        // Call this function again in a few milliseconds
+        requestAnimationFrame(updateTimeCounter);
       }
-      hardcode();
+
+      // Add additional keyframe animation for loading dots
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes loading-dots {
+                0% { content: "."; }
+                33% { content: ".."; }
+                66% { content: "..."; }
+                100% { content: "."; }
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Start the time counter and typewriter
+      updateTimeCounter();
+      updateTypewriter();
     </script>
   </body>
 </html>
