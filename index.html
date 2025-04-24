@@ -571,7 +571,7 @@
       const { closestIndex, closestInnerIndex, closestDistance } =
         findClosestReformulation(text);
 
-      if (closestIndex !== -1 && closestDistance <= 100) {
+      if (closestIndex !== -1 && closestDistance <= 10) {
         const alternatives = generations[closestIndex].filter(
           (_, index) => index !== closestInnerIndex
         );
