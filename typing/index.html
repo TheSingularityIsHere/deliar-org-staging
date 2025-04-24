@@ -547,7 +547,7 @@
                  } else {
                      loadMoreContainer.style.display = 'block'; // Show it even if disabled initially
                      loadMoreButton.disabled = true;
-                     loadMoreButton.textContent = 'Beginning Reached';
+                     loadMoreButton.textContent = initialElapsed > 0 ? 'Beginning Reached' : 'Waiting...';
                  }
 
                 // Initial display update and start animation loop
