@@ -53,8 +53,12 @@
             letter-spacing: 1px;
         }
 
-        .time-counter, .progress-info {
+        .time-counter, .progress-info, .day-counter {
              letter-spacing: 1px;
+        }
+
+        .day-time-counters {
+            text-align: right;
         }
 
         .typewriter-container {
@@ -161,8 +165,10 @@
              <div class="rec-text" id="live-text">LOADING</div>
          </div>
          <div class="progress-info" id="progress-info" style="display: none;">--%</div>
-         <div class="day-counter" id="day-counter">YYYY-MM-DD</div>
-         <div class="time-counter" id="time-counter">--:--:--.---</div>
+         <div class="day-time-counters">
+            <span class="day-counter" id="day-counter">YYYY-MM-DD</span>
+            <span class="time-counter" id="time-counter">--:--:--.---</span>
+         </div>
     </div>
 
     <div class="typewriter-container" id="typewriter-container">
