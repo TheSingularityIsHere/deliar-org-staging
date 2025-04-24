@@ -210,6 +210,7 @@
         let displayStartIndex = 0; // Index of the earliest text segment currently *rendered*
         let currentTargetState = { textIndex: 0, charIndex: 0, isFinished: false };
         let isLive = false; // Flag to track if the display is live or showing history/future
+        let lastLogTime = 0; // Track when we last logged info
 
         // --- Helper Functions ---
 
@@ -345,6 +346,12 @@
 
             const elapsedSeconds = (currentTime - startTime.getTime()) / 1000;
             currentTargetState = calculateTargetState(elapsedSeconds);
+
+            // Log information every 10 seconds
+            if (currentTime - lastLogTime >= 10000) {
+                logCurrentState(elapsedSeconds);
+                lastLogTime = currentTime;
+            }
 
              // Update Live/Status Indicator
              switch(currentTargetState.timeStatus) {
@@ -595,6 +602,58 @@
             const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
             timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
             requestAnimationFrame(updateTimeCounter); // Continue the loop
+        }
+
+        // --- Logging Function ---
+        function logCurrentState(elapsedSeconds) {
+            if (!startTime || textArray.length === 0 || !currentTargetState) return;
+
+            // Calculate time difference from start time
+            const days = Math.floor(elapsedSeconds / 86400);
+            const hours = Math.floor((elapsedSeconds % 86400) / 3600);
+            const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+            const seconds = Math.floor(elapsedSeconds % 60);
+
+            // Current time
+            const now = new Date();
+            const timeStr = now.toISOString();
+
+            // Cursor position info
+            const textIndex = currentTargetState.textIndex;
+            const charIndex = currentTargetState.charIndex;
+
+            // Calculate absolute character position
+            let absoluteCharPosition = charIndex;
+            for (let i = 0; i < textIndex; i++) {
+                absoluteCharPosition += textArray[i].length;
+            }
+
+            // Get context around cursor
+            let contextBefore = "";
+            let contextAfter = "";
+
+            if (textIndex < textArray.length) {
+                const currentText = textArray[textIndex];
+                const contextSize = 20; // Characters to show before/after cursor
+
+                const startPos = Math.max(0, charIndex - contextSize);
+                const endPos = Math.min(currentText.length, charIndex + contextSize);
+
+                contextBefore = currentText.substring(startPos, charIndex).replace(/\n/g, '/');
+                contextAfter = currentText.substring(charIndex, endPos).replace(/\n/g, '/');
+            }
+
+            // Log the information
+            console.log(`
+=== LOG UPDATE (${timeStr}) ===
+Time since start: ${days}d ${hours}h ${minutes}m ${seconds}s (${elapsedSeconds.toFixed(2)}s)
+Cursor position: Text #${textIndex+1}/${textArray.length}, Char ${charIndex}/${textArray[textIndex]?.length || 0} (${(100*charIndex/(textArray[textIndex]?.length || 1)).toFixed(2)}%)
+Overall: Char ${absoluteCharPosition}/${textArray.reduce((acc, curr) => acc + curr.length, 0)} (${(100*absoluteCharPosition/(textArray.reduce((acc, curr) => acc + curr.length, 0))).toFixed(2)}%)
+Context around target: "...${contextBefore}<-CURSOR->${contextAfter}..."
+Display state: ${isLive ? 'LIVE' : 'HISTORY'}, User scrolled: ${userHasScrolled}
+Progress: ${(elapsedSeconds / totalDurationSeconds * 100).toFixed(2)}%
+=== END LOG ===
+`);
         }
 
         // --- Start Everything ---
