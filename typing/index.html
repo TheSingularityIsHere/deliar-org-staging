@@ -160,7 +160,8 @@
              <div class="rec-dot" id="rec-dot"></div>
              <div class="rec-text" id="live-text">LOADING</div>
          </div>
-         <div class="progress-info" id="progress-info">--%</div>
+         <div class="progress-info" id="progress-info" style="display: none;">--%</div>
+         <div class="day-counter" id="day-counter">YYYY-MM-DD</div>
          <div class="time-counter" id="time-counter">--:--:--.---</div>
     </div>
 
@@ -612,6 +613,13 @@
             const seconds = String(now.getSeconds()).padStart(2, "0");
             const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
             timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+            // Update day counter with current date in YYYY-MM-DD format
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+            const day = String(now.getDate()).padStart(2, "0");
+            document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+
             requestAnimationFrame(updateTimeCounter); // Continue the loop
         }
 
