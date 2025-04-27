@@ -99,7 +99,7 @@
     width: 80%;
     position: relative;
     font-family: Arial, sans-serif;
-    animation: quoteAppear 3000ms ease-out forwards;
+    animation: quoteAppear 1000ms ease-out forwards;
   }
 
   @keyframes quoteAppear {
@@ -549,14 +549,14 @@
       if (currentIndex >= paragraphsToProcess.length) return;
 
       const p = paragraphsToProcess[currentIndex];
-      replaceWithRandomAlternative(p);
+      replaceWithRandomAlternative(p, currentIndex);
 
       // Set up observer for this paragraph
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) {
-              replaceWithRandomAlternative(entry.target);
+              replaceWithRandomAlternative(entry.target, currentIndex);
             }
           });
         },
@@ -574,79 +574,60 @@
       }
     }
 
-    function findClosestReformulation(text) {
-      let closestMatch = null;
-      let closestDistance = Infinity;
-      let closestIndex = -1;
-      let closestInnerIndex = -1;
+    function findReformulation(text) {
+      // Normalize the text by trimming and removing extra whitespace
+      const normalizedText = text.trim().replace(/\s+/g, ' ');
 
       for (let i = 0; i < generations.length; i++) {
         const innerList = generations[i];
         for (let j = 0; j < innerList.length; j++) {
-          const distance = editDistance(text.trim(), innerList[j].trim());
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestMatch = innerList[j];
-            closestIndex = i;
-            closestInnerIndex = j;
+          // Normalize each candidate text the same way
+          const normalizedCandidate = innerList[j].trim().replace(/\s+/g, ' ');
+
+          // Check for exact match after normalization
+          if (normalizedText === normalizedCandidate) {
+            return [i, j];
           }
         }
       }
 
-      return { closestIndex, closestInnerIndex, closestDistance };
+      // If no exact match is found, fall back to a simple contains check
+      for (let i = 0; i < generations.length; i++) {
+        const innerList = generations[i];
+        for (let j = 0; j < innerList.length; j++) {
+          const normalizedCandidate = innerList[j].trim().replace(/\s+/g, ' ');
+
+          // Check if one contains the other (for partial matches)
+          if (normalizedText.includes(normalizedCandidate) ||
+              normalizedCandidate.includes(normalizedText)) {
+            return [i, j];
+          }
+        }
+      }
+
+      return [null, null];
     }
 
-    function replaceWithRandomAlternative(p) {
+    function replaceWithRandomAlternative(p, documentIndex) {
       const text = p.innerHTML;
 
-      const { closestIndex, closestInnerIndex, closestDistance } =
-        findClosestReformulation(text);
+      const [index, innerIndex] = findReformulation(text);
 
-      if (closestIndex !== -1 && closestDistance <= 10) {
-        const alternatives = generations[closestIndex].filter(
-          (_, index) => index !== closestInnerIndex
-        );
+      if (index !== null) {
+        const alternatives = generations[index].filter( (_, idx) => idx !== innerIndex);
         if (alternatives.length > 0) {
           const randomIndex = Math.floor(Math.random() * alternatives.length);
-          console.log(
-            closestDistance,
-            p.innerHTML,
-            "\n=>\n",
-            alternatives[randomIndex]
+          console.log(`
+#${documentIndex} -> ${index}
+${p.innerHTML}
+=>
+${alternatives[randomIndex]}`
           );
           p.innerHTML = alternatives[randomIndex];
         }
       } else {
-        console.log("oops", closestIndex, closestDistance, text);
+        console.log("💩 ", documentIndex, text);
       }
-    }
-
-    function editDistance(s1, s2) {
-      if (s1.length === 0) return s2.length;
-      if (s2.length === 0) return s1.length;
-
-      const matrix = [];
-
-      for (let i = 0; i <= s1.length; i++) {
-        matrix[i] = [i];
-      }
-
-      for (let j = 0; j <= s2.length; j++) {
-        matrix[0][j] = j;
-      }
-
-      for (let i = 1; i <= s1.length; i++) {
-        for (let j = 1; j <= s2.length; j++) {
-          const cost = s1.charAt(i - 1) === s2.charAt(j - 1) ? 0 : 1;
-          matrix[i][j] = Math.min(
-            matrix[i - 1][j] + 1,
-            matrix[i][j - 1] + 1,
-            matrix[i - 1][j - 1] + cost
-          );
-        }
-      }
-
-      return matrix[s1.length][s2.length];
     }
 
     // Start processing paragraphs in a non-blocking way
