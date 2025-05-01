@@ -14,28 +14,36 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            min-height: 100vh; /* Use min-height for flexibility */
+            height: 100vh; /* Change from min-height to fixed height */
             margin: 0;
-            padding: 20px;
+            padding: 20px 20px 0 20px; /* Remove bottom padding */
             font-family: Arial, sans-serif;
             background-color: #000;
             color: #fff;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow: hidden; /* Prevent any scrolling on body */
+            box-sizing: border-box; /* Include padding in height calculation */
         }
 
         .status-container {
-            width: 80%;
+            width: 90%;
             max-width: 800px;
             display: flex;
-            justify-content: space-between; /* Align items */
+            justify-content: space-between;
             align-items: center;
             padding: 10px 15px;
             border: 1px solid #333;
             background-color: rgba(30, 30, 30, 0.8);
             margin-bottom: 20px;
-            position: relative; /* Needed for corners if you add them back */
-            font-family: monospace;
-            font-size: 18px; /* Adjusted size */
+            position: relative;
+            font-family: 'Kode Mono', monospace;
+            font-size: 18px;
+            box-sizing: border-box;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+            font-smooth: never;
+            letter-spacing: 0.5px;
+            color: #0f0;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
         }
 
          .live-indicator {
@@ -66,19 +74,21 @@
         }
 
         .typewriter-container {
-            width: 80%;
+            width: 90%;
             max-width: 800px;
-            height: 60vh; /* Increased height */
+            height: calc(100vh - 80px); /* Calculate remaining space: viewport height - (top padding + status container + margins) */
             overflow-y: auto;
             background-color: rgba(30, 30, 30, 0.8);
             border: 1px solid #333;
             padding: 20px;
-            font-family: "Courier New", Courier, monospace; /* Classic monospace */
+            font-family: "Courier New", Courier, monospace;
             font-size: 16px;
-            line-height: 1.6; /* Increased line height */
+            line-height: 1.6;
             position: relative;
-            white-space: pre-wrap; /* Preserve whitespace and wrap */
+            white-space: pre-wrap;
             word-wrap: break-word;
+            box-sizing: border-box;
+            margin-bottom: 20px; /* Add some space at the bottom */
         }
 
         .text-content {
