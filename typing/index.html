@@ -365,6 +365,63 @@
             return { textIndex: lastIndex, charIndex: textArray[lastIndex].length, isFinished: true, timeStatus: 'after_end' };
         }
 
+        // Modify the findLastVisiblePosition function
+        function findLastVisiblePosition() {
+            const container = typewriterContainer;
+            const segments = textContentElement.getElementsByClassName('text-segment');
+            const containerRect = container.getBoundingClientRect();
+            const scrollBottom = container.scrollTop + container.clientHeight;
+
+            let lastVisibleIndex = currentTargetState.textIndex;
+            let lastVisibleChar = currentTargetState.charIndex;
+
+            // Start from the last segment and work backwards
+            for (let i = segments.length - 1; i >= 0; i--) {
+                const segment = segments[i];
+                const segmentRect = segment.getBoundingClientRect();
+                const relativeTop = segmentRect.top - containerRect.top;
+
+                if (relativeTop < container.clientHeight) {
+                    // This segment is visible
+                    lastVisibleIndex = displayStartIndex + i;
+                    // If this is the current segment being typed, use the current char index
+                    if (lastVisibleIndex === currentTargetState.textIndex) {
+                        lastVisibleChar = currentTargetState.charIndex;
+                    } else {
+                        lastVisibleChar = textArray[lastVisibleIndex].length;
+                    }
+                    break;
+                }
+            }
+
+            return { textIndex: lastVisibleIndex, charIndex: lastVisibleChar };
+        }
+
+        // Modify the calculateTimestampForPosition function
+        function calculateTimestampForPosition(textIndex, charIndex) {
+            if (!startTime || textIndex >= textArray.length) return null;
+
+            let secondsFromStart = 0;
+
+            // Add time for all completed segments before this one
+            for (let i = 0; i < textIndex; i++) {
+                secondsFromStart += textDurations[i];
+            }
+
+            // Add partial time for the current segment
+            if (textArray[textIndex].length > 0) {
+                const progress = charIndex / textArray[textIndex].length;
+                secondsFromStart += textDurations[textIndex] * progress;
+            }
+
+            return new Date(startTime.getTime() + (secondsFromStart * 1000));
+        }
+
+        // Add this helper function to split text into paragraphs
+        function splitIntoParagraphs(text) {
+            return text.split('\n\n').filter(p => p.length > 0);
+        }
+
         // --- Main Update and Rendering ---
 
         function updateDisplay() {
@@ -383,8 +440,8 @@
                 lastLogTime = currentTime;
             }
 
-             // Update Live/Status Indicator
-             switch(currentTargetState.timeStatus) {
+            // Update Live/Status Indicator
+            switch(currentTargetState.timeStatus) {
                 case 'before_start':
                     liveTextElement.textContent = "WAITING";
                     recDotElement.style.animation = 'none';
@@ -392,63 +449,67 @@
                     isLive = false;
                     break;
                 case 'after_end':
-                     liveTextElement.textContent = "FINISHED";
-                     recDotElement.style.animation = 'none';
-                     recDotElement.style.opacity = '1';
-                     recDotElement.style.backgroundColor = 'darkgrey';
-                     isLive = false;
+                    liveTextElement.textContent = "FINISHED";
+                    recDotElement.style.animation = 'none';
+                    recDotElement.style.opacity = '1';
+                    recDotElement.style.backgroundColor = 'darkgrey';
+                    isLive = false;
                     break;
-                 case 'in_progress':
-                 default:
-                     liveTextElement.textContent = "LIVE";
-                     recDotElement.style.animation = 'blink 1s infinite';
-                     recDotElement.style.backgroundColor = 'red';
-                     recDotElement.style.opacity = '1';
-                     isLive = userHasScrolled ? false : true; // Live only if at the bottom
-                     break;
-             }
-
-
-            // Determine the full text to render
-            let fullVisibleText = "";
-            for (let i = displayStartIndex; i < currentTargetState.textIndex; i++) {
-                 // Add explicit paragraph breaks between segments if desired
-                 // fullVisibleText += textArray[i] + "\n\n---\n\n";
-                fullVisibleText += textArray[i];
+                case 'in_progress':
+                default:
+                    if (userHasScrolled) {
+                        liveTextElement.textContent = "HISTORY";
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '0'; // Hide the dot completely
+                        isLive = false;
+                    } else {
+                        liveTextElement.textContent = "LIVE";
+                        recDotElement.style.animation = 'blink 1s infinite';
+                        recDotElement.style.backgroundColor = 'red';
+                        recDotElement.style.opacity = '1';
+                        isLive = true;
+                    }
+                    break;
             }
-            // Add the current segment up to the target character
-            if (currentTargetState.textIndex >= displayStartIndex && currentTargetState.textIndex < textArray.length) {
-                 fullVisibleText += textArray[currentTargetState.textIndex].substring(0, currentTargetState.charIndex);
-            } else if (currentTargetState.isFinished && displayStartIndex <= currentTargetState.textIndex) {
-                // If finished, make sure the last segment is fully displayed if it was loaded
-                 fullVisibleText += textArray[currentTargetState.textIndex];
-            }
-
 
             // Update DOM - Clear previous content except cursor
             while (textContentElement.firstChild !== cursorSpan) {
                 textContentElement.removeChild(textContentElement.firstChild);
             }
 
-            // Split the full text by segment index for potential styling/structure
+            // Render text segments with paragraph splits
             for (let i = displayStartIndex; i < textArray.length; i++) {
                 const segmentText = textArray[i];
 
                 if (i < currentTargetState.textIndex) {
-                    // Show full segment for previous segments
-                    const span = document.createElement('span');
-                    span.className = 'text-segment';
-                    span.textContent = segmentText;
-                    textContentElement.insertBefore(span, cursorSpan);
+                    // For completed segments, split into paragraphs
+                    const paragraphs = splitIntoParagraphs(segmentText);
+                    let charCount = 0;
+                    paragraphs.forEach((paragraph, pIndex) => {
+                        const span = document.createElement('span');
+                        span.className = 'text-segment';
+                        span.textContent = paragraph + (pIndex < paragraphs.length - 1 ? '\n\n' : '');
+                        // Calculate timestamp based on when this paragraph would have been completed
+                        charCount += paragraph.length + (pIndex < paragraphs.length - 1 ? 2 : 0); // Add 2 for '\n\n'
+                        const segmentTime = calculateTimestampForPosition(i, charCount);
+                        span.dataset.timestamp = segmentTime.getTime();
+                        textContentElement.insertBefore(span, cursorSpan);
+                    });
                 } else if (i === currentTargetState.textIndex) {
-                    // For current segment, split at cursor position
-                    const span = document.createElement('span');
-                    span.className = 'text-segment';
-                    span.textContent = segmentText.substring(0, currentTargetState.charIndex);
-                    textContentElement.insertBefore(span, cursorSpan);
-
-                    // Hide cursor if finished
-                    cursorSpan.style.display = currentTargetState.isFinished ? 'none' : 'inline-block';
+                    // For current segment, handle partial rendering
+                    const fullText = segmentText.substring(0, currentTargetState.charIndex);
+                    const paragraphs = splitIntoParagraphs(fullText);
+                    let charCount = 0;
+                    paragraphs.forEach((paragraph, pIndex) => {
+                        const span = document.createElement('span');
+                        span.className = 'text-segment';
+                        span.textContent = paragraph + (pIndex < paragraphs.length - 1 ? '\n\n' : '');
+                        // Calculate timestamp based on when this paragraph would have been completed
+                        charCount += paragraph.length + (pIndex < paragraphs.length - 1 ? 2 : 0); // Add 2 for '\n\n'
+                        const segmentTime = calculateTimestampForPosition(i, Math.min(charCount, currentTargetState.charIndex));
+                        span.dataset.timestamp = segmentTime.getTime();
+                        textContentElement.insertBefore(span, cursorSpan);
+                    });
                 } else {
                     break; // Don't render future segments
                 }
@@ -619,20 +680,61 @@
 
         // --- Real-time Counter ---
         function updateTimeCounter() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, "0");
-            const minutes = String(now.getMinutes()).padStart(2, "0");
-            const seconds = String(now.getSeconds()).padStart(2, "0");
-            const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
-            timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+            if (!userHasScrolled) {
+                // Only update current time when in LIVE mode
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, "0");
+                const minutes = String(now.getMinutes()).padStart(2, "0");
+                const seconds = String(now.getSeconds()).padStart(2, "0");
+                const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
+                timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
 
-            // Update day counter with current date in YYYY-MM-DD format
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-            const day = String(now.getDate()).padStart(2, "0");
-            document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+                // Update day counter
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, "0");
+                const day = String(now.getDate()).padStart(2, "0");
+                document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+            } else if (currentTargetState.timeStatus === 'in_progress') {
+                // In history mode, use the timestamp from the last visible segment
+                const timestamp = findLastVisibleTimestamp();
+                if (timestamp) {
+                    const historicalTime = new Date(timestamp);
+                    const hours = String(historicalTime.getHours()).padStart(2, "0");
+                    const minutes = String(historicalTime.getMinutes()).padStart(2, "0");
+                    const seconds = String(historicalTime.getSeconds()).padStart(2, "0");
+                    const milliseconds = String(historicalTime.getMilliseconds()).padStart(3, "0");
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
 
-            requestAnimationFrame(updateTimeCounter); // Continue the loop
+                    // Update day counter
+                    const year = historicalTime.getFullYear();
+                    const month = String(historicalTime.getMonth() + 1).padStart(2, "0");
+                    const day = String(historicalTime.getDate()).padStart(2, "0");
+                    document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+                }
+            }
+
+            requestAnimationFrame(updateTimeCounter);
+        }
+
+        // Replace findLastVisiblePosition with this simpler version
+        function findLastVisibleTimestamp() {
+            const container = typewriterContainer;
+            const segments = textContentElement.getElementsByClassName('text-segment');
+            const containerRect = container.getBoundingClientRect();
+
+            // Start from the last segment and work backwards
+            for (let i = segments.length - 1; i >= 0; i--) {
+                const segment = segments[i];
+                const segmentRect = segment.getBoundingClientRect();
+                const relativeTop = segmentRect.top - containerRect.top;
+
+                // If any part of the segment is visible in the viewport
+                if (relativeTop < container.clientHeight) {
+                    return parseInt(segment.dataset.timestamp);
+                }
+            }
+
+            return null;
         }
 
         // --- Logging Function ---
