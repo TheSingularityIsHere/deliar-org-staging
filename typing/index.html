@@ -178,7 +178,7 @@
             </button>
         </div>
         <div class="text-content" id="text-content">
-            </div>
+        </div>
          <div class="message-overlay" id="message-overlay">
              Initializing... Please Wait.
          </div>
@@ -221,7 +221,7 @@
         let textCumulativeEndSeconds = []; // Cumulative end time in seconds relative to start
         let totalDurationSeconds = 0;
         let startTime = null; // JS Date object for start time
-        let animationFrameId = null;
+        let updateDisplayTimeoutId = null; // Instead of animationFrameId
         let userHasScrolled = false;
         let lastScrollTop = 0;
         let displayStartIndex = 0; // Index of the earliest text segment currently *rendered*
@@ -358,7 +358,7 @@
         function updateDisplay() {
             const currentTime = Date.now();
             if (!startTime || textArray.length === 0) {
-                animationFrameId = requestAnimationFrame(updateDisplay); // Keep checking
+                updateDisplayTimeoutId = setTimeout(updateDisplay, 100); // Check again in 100ms
                 return; // Not initialized yet
             }
 
@@ -464,8 +464,8 @@
                  : (currentTargetState.isFinished ? 100 : 0);
              progressInfoElement.textContent = `${progressPercent.toFixed(2)}%`;
 
-            // Schedule next frame
-            animationFrameId = requestAnimationFrame(updateDisplay);
+            // Schedule next update (every 50ms, adjust as needed)
+            updateDisplayTimeoutId = setTimeout(updateDisplay, 50);
         }
 
         function loadPreviousSegment() {
@@ -565,8 +565,8 @@
             } catch (error) {
                 console.error("Initialization failed:", error);
                 showMessage(`Error: ${error.message}. Please check console and configuration.`, true);
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
+                if (updateDisplayTimeoutId) {
+                    clearTimeout(updateDisplayTimeoutId);
                 }
             }
         }
@@ -600,14 +600,14 @@
              if (document.visibilityState === "visible") {
                  console.log("Tab became visible, forcing state update.");
                  // No need to explicitly catch up, updateDisplay handles it based on time
-                 if (animationFrameId === null && startTime) { // Restart loop if stopped
+                 if (updateDisplayTimeoutId === null && startTime) { // Restart loop if stopped
                      updateDisplay();
                  }
              } else {
                  console.log("Tab became hidden.");
-                 // Optional: Could cancelAnimationFrame here and restart on visible
-                 // cancelAnimationFrame(animationFrameId);
-                 // animationFrameId = null;
+                 // Optional: Could clearTimeout here and restart on visible
+                 // clearTimeout(updateDisplayTimeoutId);
+                 // updateDisplayTimeoutId = null;
              }
          });
 
