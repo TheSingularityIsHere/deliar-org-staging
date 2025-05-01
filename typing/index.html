@@ -91,22 +91,26 @@
         }
 
         .text-segment {
-            /* Optional: Add styling for loaded segments */
-            /* border-top: 1px dashed #444; */
-            /* margin-top: 10px; */
-            /* padding-top: 10px; */
-             display: block; /* Ensure segments stack */
+            display: inline; /* Change to inline instead of block */
         }
 
         .cursor {
             display: inline-block;
-            width: 10px;
-            height: 1.2em; /* Relative to font size */
-            background-color: #eee; /* Brighter cursor */
-            vertical-align: text-bottom; /* Align better with text */
-            margin-left: 1px;
-            animation: blink-cursor 1s infinite steps(1, start); /* Sharper blink */
-            box-shadow: 0 0 3px #fff; /* Subtle glow */
+            width: 15px;
+            height: 1.4em;
+            background-color: #0f0;
+            vertical-align: middle;
+            margin-left: 0;
+            animation: blink-cursor 1.0s steps(2) infinite;
+        }
+
+        @keyframes blink-cursor {
+            0%, 49% {
+                background-color: #0f0;
+            }
+            50%, 100% {
+                background-color: transparent;
+            }
         }
 
         .message-overlay {
@@ -156,11 +160,6 @@
 
         @keyframes blink {
             50% { opacity: 0.3; }
-        }
-
-        @keyframes blink-cursor {
-             0%, 100% { opacity: 1; }
-             50% { opacity: 0; }
         }
 
     </style>
@@ -235,6 +234,7 @@
         let currentTargetState = { textIndex: 0, charIndex: 0, isFinished: false };
         let isLive = false; // Flag to track if the display is live or showing history/future
         let lastLogTime = 0; // Track when we last logged info
+        let cursorSpan = null; // Add this line with other global variables
 
         // --- Helper Functions ---
 
@@ -420,44 +420,33 @@
             }
 
 
-            // Update DOM - Clear previous content and add new
-            textContentElement.innerHTML = ''; // Clear previous content efficiently
+            // Update DOM - Clear previous content except cursor
+            while (textContentElement.firstChild !== cursorSpan) {
+                textContentElement.removeChild(textContentElement.firstChild);
+            }
 
-             // Split the full text by segment index for potential styling/structure
-             let segmentStartIndex = 0;
-             for (let i = displayStartIndex; i < textArray.length; i++) {
-                 const segmentText = textArray[i];
-                 let segmentToShow = "";
+            // Split the full text by segment index for potential styling/structure
+            for (let i = displayStartIndex; i < textArray.length; i++) {
+                const segmentText = textArray[i];
 
-                 if (i < currentTargetState.textIndex) {
-                     segmentToShow = segmentText;
-                 } else if (i === currentTargetState.textIndex) {
-                     segmentToShow = segmentText.substring(0, currentTargetState.charIndex);
-                 } else if (currentTargetState.isFinished && i === currentTargetState.textIndex) {
-                     // If animation finished, show the full last segment
-                     segmentToShow = segmentText;
-                 } else {
-                     break; // Don't render future segments
-                 }
-
-                 if (segmentToShow) {
+                if (i < currentTargetState.textIndex) {
+                    // Show full segment for previous segments
                     const span = document.createElement('span');
-                    span.className = 'text-segment'; // Add class for potential styling
-                    span.textContent = segmentToShow;
-                    textContentElement.appendChild(span);
-                 }
+                    span.className = 'text-segment';
+                    span.textContent = segmentText;
+                    textContentElement.insertBefore(span, cursorSpan);
+                } else if (i === currentTargetState.textIndex) {
+                    // For current segment, split at cursor position
+                    const span = document.createElement('span');
+                    span.className = 'text-segment';
+                    span.textContent = segmentText.substring(0, currentTargetState.charIndex);
+                    textContentElement.insertBefore(span, cursorSpan);
 
-                // Add paragraph breaks if needed (visual separation)
-                // const breakEl = document.createElement('hr');
-                // textContentElement.appendChild(breakEl);
-             }
-
-
-            // Add cursor if animation is not finished
-            if (!currentTargetState.isFinished) {
-                const cursorSpan = document.createElement('span');
-                cursorSpan.className = 'cursor';
-                textContentElement.appendChild(cursorSpan); // Append cursor at the very end
+                    // Hide cursor if finished
+                    cursorSpan.style.display = currentTargetState.isFinished ? 'none' : 'inline-block';
+                } else {
+                    break; // Don't render future segments
+                }
             }
 
             // Auto-scroll if live and not manually scrolled
@@ -529,6 +518,11 @@
                 if (!Array.isArray(textArray) || textArray.length === 0 || textArray.some(item => typeof item !== 'string')) {
                      throw new Error("Invalid JSON format. Expected an array of strings.");
                  }
+
+                // Create the cursor element first, before any text rendering
+                cursorSpan = document.createElement('span');
+                cursorSpan.className = 'cursor';
+                textContentElement.appendChild(cursorSpan);
 
                 showMessage("Parsing start time...");
                 startTime = parseStartTime(START_TIME_STR);
