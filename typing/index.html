@@ -185,7 +185,7 @@
     <div class="typewriter-container" id="typewriter-container">
         <div class="load-more-container" id="load-more-container" style="display: none;">
             <button class="load-more-button" id="load-more-button">
-                Load Previous Text
+                Load Previous Day
             </button>
         </div>
         <div class="text-content" id="text-content">
@@ -563,7 +563,7 @@
 
              // --- Update Button State ---
              loadMoreButton.disabled = (displayStartIndex <= 0);
-             loadMoreButton.textContent = (displayStartIndex <= 0) ? 'Beginning Reached' : 'Load Previous Text';
+             loadMoreButton.textContent = (displayStartIndex <= 0) ? 'Beginning Reached' : 'Load Previous Day';
              userHasScrolled = true; // Loading previous means user is looking at history
              isLive = false; // No longer live tracking the end
              liveTextElement.textContent = "HISTORY"; // Indicate viewing history
@@ -617,7 +617,7 @@
                  if (displayStartIndex > 0) {
                      loadMoreContainer.style.display = 'block';
                      loadMoreButton.disabled = false;
-                     loadMoreButton.textContent = 'Load Previous Text';
+                     loadMoreButton.textContent = 'Load Previous Day';
                  } else {
                      loadMoreContainer.style.display = 'block'; // Show it even if disabled initially
                      loadMoreButton.disabled = true;
