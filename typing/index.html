@@ -250,6 +250,7 @@
         let isLive = false; // Flag to track if the display is live or showing history/future
         let lastLogTime = 0; // Track when we last logged info
         let cursorSpan = null; // Add this line with other global variables
+        let finishedTimestamp = null; // Add this global variable
 
         // --- Helper Functions ---
 
@@ -471,6 +472,13 @@
                         recDotElement.style.opacity = '1';
                         recDotElement.style.backgroundColor = 'darkgrey';
                         isLive = false;
+                        // Store the finished timestamp if not already set
+                        if (!finishedTimestamp) {
+                            finishedTimestamp = calculateTimestampForPosition(
+                                currentTargetState.textIndex,
+                                currentTargetState.charIndex
+                            );
+                        }
                     }
                     break;
                 case 'in_progress':
@@ -709,19 +717,35 @@
         // --- Real-time Counter ---
         function updateTimeCounter() {
             if (!userHasScrolled) {
-                // Only update current time when in LIVE mode
-                const now = new Date();
-                const hours = String(now.getHours()).padStart(2, "0");
-                const minutes = String(now.getMinutes()).padStart(2, "0");
-                const seconds = String(now.getSeconds()).padStart(2, "0");
-                const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
-                timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+                if (currentTargetState.timeStatus === 'after_end' && finishedTimestamp) {
+                    // Show the finished timestamp and do not update further
+                    const historicalTime = new Date(finishedTimestamp);
+                    const hours = String(historicalTime.getHours()).padStart(2, "0");
+                    const minutes = String(historicalTime.getMinutes()).padStart(2, "0");
+                    const seconds = String(historicalTime.getSeconds()).padStart(2, "0");
+                    const milliseconds = String(historicalTime.getMilliseconds()).padStart(3, "0");
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
 
-                // Update day counter
-                const year = now.getFullYear();
-                const month = String(now.getMonth() + 1).padStart(2, "0");
-                const day = String(now.getDate()).padStart(2, "0");
-                document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+                    // Update day counter
+                    const year = historicalTime.getFullYear();
+                    const month = String(historicalTime.getMonth() + 1).padStart(2, "0");
+                    const day = String(historicalTime.getDate()).padStart(2, "0");
+                    document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+                } else {
+                    // Only update current time when in LIVE mode
+                    const now = new Date();
+                    const hours = String(now.getHours()).padStart(2, "0");
+                    const minutes = String(now.getMinutes()).padStart(2, "0");
+                    const seconds = String(now.getSeconds()).padStart(2, "0");
+                    const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+                    // Update day counter
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, "0");
+                    const day = String(now.getDate()).padStart(2, "0");
+                    document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+                }
             } else if (currentTargetState.timeStatus === 'in_progress' || currentTargetState.timeStatus === 'after_end') {
                 // In history mode, use the timestamp from the last visible segment
                 const timestamp = findLastVisibleTimestamp();
