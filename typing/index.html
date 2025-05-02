@@ -636,7 +636,16 @@
 
                 // Initial display update and start animation loop
                 updateDisplay(); // First render
-                 requestAnimationFrame(updateTimeCounter); // Start time counter loop
+
+                // --- Scroll to end if FINISHED ---
+                if (initialState.timeStatus === 'after_end') {
+                    // Wait for DOM update, then scroll to bottom
+                    setTimeout(() => {
+                        typewriterContainer.scrollTop = typewriterContainer.scrollHeight;
+                    }, 0);
+                }
+
+                requestAnimationFrame(updateTimeCounter); // Start time counter loop
 
 
             } catch (error) {
