@@ -14,7 +14,7 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            height: 100vh; /* Change from min-height to fixed height */
+            height: 100dvh;
             margin: 0;
             padding: 20px 20px 0 20px; /* Remove bottom padding */
             font-family: Arial, sans-serif;
@@ -76,7 +76,7 @@
         .typewriter-container {
             width: 90%;
             max-width: 800px;
-            height: calc(80vh - 80px); /* Changed from 100vh to 90vh to leave 10% space at bottom */
+            height: calc(92dvh - 80px);
             overflow-y: auto;
             background-color: rgba(30, 30, 30, 0.8);
             border: 1px solid #333;
@@ -88,13 +88,11 @@
             white-space: pre-wrap;
             word-wrap: break-word;
             box-sizing: border-box;
-            margin-bottom: 20px;
         }
 
         .text-content {
             position: relative;
-            padding-bottom: 30px; /* Space for cursor */
-            min-height: 100%; /* Ensure it takes space */
+            min-height: 100%;
             font-family: 'Kode Mono', monospace;
             color: #0f0;
             text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
