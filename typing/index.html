@@ -459,11 +459,19 @@
                     isLive = false;
                     break;
                 case 'after_end':
-                    liveTextElement.textContent = "FINISHED";
-                    recDotElement.style.animation = 'none';
-                    recDotElement.style.opacity = '1';
-                    recDotElement.style.backgroundColor = 'darkgrey';
-                    isLive = false;
+                    if (userHasScrolled) {
+                        liveTextElement.textContent = "HISTORY";
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '0';
+                        recDotElement.style.backgroundColor = 'darkgrey';
+                        isLive = false;
+                    } else {
+                        liveTextElement.textContent = "FINISHED";
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '1';
+                        recDotElement.style.backgroundColor = 'darkgrey';
+                        isLive = false;
+                    }
                     break;
                 case 'in_progress':
                 default:
@@ -666,8 +674,9 @@
              // Detect if user scrolled up significantly
              if (currentScrollTop < lastScrollTop - 10) { // Threshold to avoid minor jitter detection
                  userHasScrolled = true;
-                isLive = false; // No longer live tracking the end
-                 if (currentTargetState.timeStatus === 'in_progress') {
+                 isLive = false; // No longer live tracking the end
+                 // Allow HISTORY mode even after animation is finished
+                 if (currentTargetState.timeStatus === 'in_progress' || currentTargetState.timeStatus === 'after_end') {
                      liveTextElement.textContent = "HISTORY"; // Indicate viewing history
                  }
              } else if (currentScrollTop >= scrollBottom - 10) { // Near the bottom
@@ -713,7 +722,7 @@
                 const month = String(now.getMonth() + 1).padStart(2, "0");
                 const day = String(now.getDate()).padStart(2, "0");
                 document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
-            } else if (currentTargetState.timeStatus === 'in_progress') {
+            } else if (currentTargetState.timeStatus === 'in_progress' || currentTargetState.timeStatus === 'after_end') {
                 // In history mode, use the timestamp from the last visible segment
                 const timestamp = findLastVisibleTimestamp();
                 if (timestamp) {
