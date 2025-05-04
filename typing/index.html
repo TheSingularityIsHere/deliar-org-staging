@@ -28,6 +28,23 @@
             box-sizing: border-box; /* Include padding in height calculation */
         }
 
+        .go-back-container {
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .go-back-link {
+            color: #0f0;
+            text-decoration: underline;
+            font-family: 'Kode Mono', monospace;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .go-back-link:hover {
+            color: #fff;
+        }
+
         .status-container {
             width: 90%;
             max-width: 800px;
@@ -182,6 +199,9 @@
     </style>
 </head>
 <body>
+    <div class="go-back-container">
+        <a class="go-back-link" id="go-back-link" href="#">← About “The Threshold”</a>
+    </div>
     <div class="status-container">
          <div class="live-indicator">
              <div class="rec-dot" id="rec-dot"></div>
@@ -843,7 +863,14 @@ Progress: ${(elapsedSeconds / totalDurationSeconds * 100).toFixed(2)}%
 `);
         }
 
-        // --- Start Everything ---
+        (function() {
+            const goBackLink = document.getElementById('go-back-link');
+            const { origin, pathname, search, hash } = window.location;
+            const newPath = pathname.replace(/\/typing\/?$/, '/');
+            const cleanedPath = newPath.replace(/([^:]\/)\/+/g, "$1");
+            goBackLink.href = origin + cleanedPath + search + "#the-threshold";
+        })();
+
         loadAndInitialize();
 
     </script>
