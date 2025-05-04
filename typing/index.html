@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Live From “The Threshold”</title>
+    <title>Live From "The Threshold"</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap" rel="stylesheet">
@@ -196,12 +196,44 @@
             50% { opacity: 0.3; }
         }
 
+        .add-to-homescreen-btn {
+            position: absolute;
+            top: 18px;
+            right: 30px;
+            z-index: 20;
+            background: #222;
+            color: #0f0;
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            padding: 7px 16px;
+            font-family: 'Kode Mono', monospace;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.08);
+            transition: background 0.2s, color 0.2s;
+        }
+        .add-to-homescreen-btn:hover {
+            background: #0f0;
+            color: #000;
+        }
+        @media (max-width: 600px) {
+            .add-to-homescreen-btn {
+                top: 10px;
+                right: 10px;
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="go-back-container">
-        <a class="go-back-link" id="go-back-link" href="#">← About “The Threshold”</a>
+        <a class="go-back-link" id="go-back-link" href="#">← About "The Threshold"</a>
     </div>
+    <button class="add-to-homescreen-btn" id="add-to-homescreen-btn" style="display:none;">
+        + Install
+    </button>
     <div class="status-container">
          <div class="live-indicator">
              <div class="rec-dot" id="rec-dot"></div>
@@ -273,6 +305,39 @@
         let lastLogTime = 0; // Track when we last logged info
         let cursorSpan = null; // Add this line with other global variables
         let finishedTimestamp = null; // Add this global variable
+
+        // --- Add to Homescreen (PWA Install Prompt) ---
+        let deferredPrompt = null;
+        const addToHomescreenBtn = document.getElementById('add-to-homescreen-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            deferredPrompt = e;
+            // Show the custom install button
+            addToHomescreenBtn.style.display = 'block';
+        });
+
+        addToHomescreenBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            addToHomescreenBtn.disabled = true;
+            addToHomescreenBtn.textContent = 'Installing...';
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                addToHomescreenBtn.textContent = 'Added!';
+                setTimeout(() => addToHomescreenBtn.style.display = 'none', 2000);
+            } else {
+                addToHomescreenBtn.textContent = '+ Add to Homescreen';
+                addToHomescreenBtn.disabled = false;
+            }
+            deferredPrompt = null;
+        });
+
+        // Optionally hide the button if already installed
+        window.addEventListener('appinstalled', () => {
+            addToHomescreenBtn.style.display = 'none';
+        });
 
         // --- Helper Functions ---
 
@@ -872,6 +937,18 @@ Progress: ${(elapsedSeconds / totalDurationSeconds * 100).toFixed(2)}%
         })();
 
         loadAndInitialize();
+
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/typing/service-worker.js')
+              .then(reg => {
+                console.log('Service worker registered.', reg);
+              })
+              .catch(err => {
+                console.error('Service worker registration failed:', err);
+              });
+          });
+        }
 
     </script>
 </body>
