@@ -255,7 +255,7 @@
         <div class="text-content" id="text-content">
         </div>
          <div class="message-overlay" id="message-overlay">
-             Initializing... Please Wait.
+            Connecting to vitrine...
          </div>
     </div>
 
@@ -687,7 +687,7 @@
 
         async function loadAndInitialize() {
             try {
-                showMessage("Loading text data...");
+                showMessage("Connecting to vitrine...");
                 const response = await fetch(JSON_FILE_PATH);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status} - Could not fetch ${JSON_FILE_PATH}`);
@@ -810,8 +810,7 @@
                     const hours = String(historicalTime.getHours()).padStart(2, "0");
                     const minutes = String(historicalTime.getMinutes()).padStart(2, "0");
                     const seconds = String(historicalTime.getSeconds()).padStart(2, "0");
-                    const milliseconds = String(historicalTime.getMilliseconds()).padStart(3, "0");
-                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}`;
 
                     // Update day counter
                     const year = historicalTime.getFullYear();
@@ -824,8 +823,7 @@
                     const hours = String(now.getHours()).padStart(2, "0");
                     const minutes = String(now.getMinutes()).padStart(2, "0");
                     const seconds = String(now.getSeconds()).padStart(2, "0");
-                    const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
-                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}`;
 
                     // Update day counter
                     const year = now.getFullYear();
@@ -841,8 +839,7 @@
                     const hours = String(historicalTime.getHours()).padStart(2, "0");
                     const minutes = String(historicalTime.getMinutes()).padStart(2, "0");
                     const seconds = String(historicalTime.getSeconds()).padStart(2, "0");
-                    const milliseconds = String(historicalTime.getMilliseconds()).padStart(3, "0");
-                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}`;
 
                     // Update day counter
                     const year = historicalTime.getFullYear();
