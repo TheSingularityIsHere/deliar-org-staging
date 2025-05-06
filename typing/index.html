@@ -537,11 +537,72 @@
 
         // --- Main Update and Rendering ---
 
+        function calculateDayNumber(timestamp) {
+            if (!startTime) return 0;
+
+            // Convert both timestamps to local dates
+            const startDate = new Date(startTime);
+            const currentDate = new Date(timestamp);
+
+            // Set both to midnight for accurate day calculation
+            startDate.setHours(0, 0, 0, 0);
+            currentDate.setHours(0, 0, 0, 0);
+
+            // Calculate days difference
+            const diffTime = currentDate - startDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            return diffDays;
+        }
+
+        function updateStatusText(timestamp) {
+            const dayNumber = calculateDayNumber(timestamp);
+
+            switch(currentTargetState.timeStatus) {
+                case 'before_start':
+                    liveTextElement.textContent = `WAITING – DAY\u00A0${dayNumber}`;
+                    recDotElement.style.animation = 'none';
+                    recDotElement.style.opacity = '0.5';
+                    isLive = false;
+                    break;
+                case 'after_end':
+                    if (userHasScrolled) {
+                        liveTextElement.textContent = `HISTORY – DAY\u00A0${dayNumber}`;
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '0';
+                        recDotElement.style.backgroundColor = 'darkgrey';
+                        isLive = false;
+                    } else {
+                        liveTextElement.textContent = `FINISHED – DAY\u00A0${dayNumber}`;
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '1';
+                        recDotElement.style.backgroundColor = 'darkgrey';
+                        isLive = false;
+                    }
+                    break;
+                case 'in_progress':
+                default:
+                    if (userHasScrolled) {
+                        liveTextElement.textContent = `HISTORY – DAY\u00A0${dayNumber}`;
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '0';
+                        isLive = false;
+                    } else {
+                        liveTextElement.textContent = `LIVE – DAY\u00A0${dayNumber}`;
+                        recDotElement.style.animation = 'blink 1s infinite';
+                        recDotElement.style.backgroundColor = 'red';
+                        recDotElement.style.opacity = '1';
+                        isLive = true;
+                    }
+                    break;
+            }
+        }
+
         function updateDisplay() {
             const currentTime = Date.now();
             if (!startTime || textArray.length === 0) {
-                updateDisplayTimeoutId = setTimeout(updateDisplay, 100); // Check again in 100ms
-                return; // Not initialized yet
+                updateDisplayTimeoutId = setTimeout(updateDisplay, 100);
+                return;
             }
 
             const elapsedSeconds = (currentTime - startTime.getTime()) / 1000;
@@ -553,51 +614,14 @@
                 lastLogTime = currentTime;
             }
 
-            // Update Live/Status Indicator
-            switch(currentTargetState.timeStatus) {
-                case 'before_start':
-                    liveTextElement.textContent = "WAITING";
-                    recDotElement.style.animation = 'none';
-                    recDotElement.style.opacity = '0.5';
-                    isLive = false;
-                    break;
-                case 'after_end':
-                    if (userHasScrolled) {
-                        liveTextElement.textContent = "HISTORY";
-                        recDotElement.style.animation = 'none';
-                        recDotElement.style.opacity = '0';
-                        recDotElement.style.backgroundColor = 'darkgrey';
-                        isLive = false;
-                    } else {
-                        liveTextElement.textContent = "FINISHED";
-                        recDotElement.style.animation = 'none';
-                        recDotElement.style.opacity = '1';
-                        recDotElement.style.backgroundColor = 'darkgrey';
-                        isLive = false;
-                        // Store the finished timestamp if not already set
-                        if (!finishedTimestamp) {
-                            finishedTimestamp = calculateTimestampForPosition(
-                                currentTargetState.textIndex,
-                                currentTargetState.charIndex
-                            );
-                        }
-                    }
-                    break;
-                case 'in_progress':
-                default:
-                    if (userHasScrolled) {
-                        liveTextElement.textContent = "HISTORY";
-                        recDotElement.style.animation = 'none';
-                        recDotElement.style.opacity = '0'; // Hide the dot completely
-                        isLive = false;
-                    } else {
-                        liveTextElement.textContent = "LIVE";
-                        recDotElement.style.animation = 'blink 1s infinite';
-                        recDotElement.style.backgroundColor = 'red';
-                        recDotElement.style.opacity = '1';
-                        isLive = true;
-                    }
-                    break;
+            // Update status text based on current state
+            if (userHasScrolled) {
+                const visibleTimestamp = findLastVisibleTimestamp();
+                if (visibleTimestamp) {
+                    updateStatusText(visibleTimestamp);
+                }
+            } else {
+                updateStatusText(currentTime);
             }
 
             // Update DOM - Clear previous content except cursor
@@ -782,19 +806,17 @@
              const scrollBottom = typewriterContainer.scrollHeight - typewriterContainer.clientHeight;
 
              // Detect if user scrolled up significantly
-             if (currentScrollTop < lastScrollTop - 10) { // Threshold to avoid minor jitter detection
+             if (currentScrollTop < lastScrollTop - 10) {
                  userHasScrolled = true;
-                 isLive = false; // No longer live tracking the end
-                 // Allow HISTORY mode even after animation is finished
-                 if (currentTargetState.timeStatus === 'in_progress' || currentTargetState.timeStatus === 'after_end') {
-                     liveTextElement.textContent = "HISTORY"; // Indicate viewing history
+                 isLive = false;
+                 // Update status text immediately when scrolling
+                 const visibleTimestamp = findLastVisibleTimestamp();
+                 if (visibleTimestamp) {
+                     updateStatusText(visibleTimestamp);
                  }
-             } else if (currentScrollTop >= scrollBottom - 10) { // Near the bottom
+             } else if (currentScrollTop >= scrollBottom - 10) {
                  userHasScrolled = false;
-                 // isLive will be set correctly in updateDisplay based on timeStatus
-                 if (currentTargetState.timeStatus === 'in_progress') {
-                     liveTextElement.textContent = "LIVE";
-                 }
+                 updateStatusText(Date.now());
              }
              lastScrollTop = currentScrollTop;
         });
