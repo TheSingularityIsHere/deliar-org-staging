@@ -1,8 +1,8 @@
 const CACHE_NAME = 'threshold-cache-v1';
 const urlsToCache = [
-  '/',
-  '/typing/',
-  '/typing/index.html',
+  // '/',
+  // '/typing/',
+  // '/typing/index.html',
   // Add other assets you want to cache, e.g. CSS, JS, icons, manifest, etc.
 ];
 
