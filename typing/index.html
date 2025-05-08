@@ -980,6 +980,22 @@ Progress: ${(elapsedSeconds / totalDurationSeconds * 100).toFixed(2)}%
             navigator.serviceWorker.register('/typing/service-worker.js')
               .then(reg => {
                 console.log('Service worker registered.', reg);
+
+                // Check for updates every minute
+                setInterval(() => {
+                  reg.update();
+                }, 60 * 1000);
+
+                // Handle updates
+                reg.addEventListener('updatefound', () => {
+                  const newWorker = reg.installing;
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      // New content is available, reload the page
+                      window.location.reload();
+                    }
+                  });
+                });
               })
               .catch(err => {
                 console.error('Service worker registration failed:', err);
