@@ -9,7 +9,9 @@ Presentation:
 
 1. Serve files locally: `npm install -g serve && serve` - do NOT use Python!
 2. Open http://localhost:3000 in Chrome on OS X.
-3. Use the popup window on a different screen to control the video.
+3. Install app: top-right three dots menu -> Save, Share and Cast -> Install Page as App
+4. Launch the app and click on the "Click to Initialize" button.
+5. Use the popup window on a different screen to control the video.
 
 Adding keyframes to video:
 
