@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live From "The Threshold"</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="./favicon_io/site.webmanifest">
+
+    <style>
+
+        :root {
+            --bg: #01050E;
+            --text: #fff;
+            --border: #888;
+            --font-family: monospace;
+
+            /* --text: #0f0; */
+            /* --font-family: 'Kode Mono', monospace; */
+            /* --shadow: 0 0 5px rgba(0, 255, 0, 1); */
+
+            @media (prefers-color-scheme: light) {
+            }
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100dvh;
+            margin: 0;
+            padding: 20px 20px 0 20px; /* Remove bottom padding */
+            font-family: "Raleway", "Helvetica", sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow: hidden; /* Prevent any scrolling on body */
+            box-sizing: border-box; /* Include padding in height calculation */
+        }
+
+        .go-back-container {
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .go-back-link {
+            color: var(--text);
+            text-decoration: underline;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .go-back-link:hover {
+            color: #fff;
+        }
+
+        .status-container {
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            background-color: var(--bg);
+            margin-bottom: 20px;
+            position: relative;
+            font-family: var(--font-family);
+            font-size: 18px;
+            box-sizing: border-box;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+            font-smooth: never;
+            letter-spacing: 0.5px;
+            color: var(--text);
+            text-shadow: var(--shadow);
+        }
+
+         .live-indicator {
+            display: flex;
+            align-items: center;
+        }
+
+        .rec-dot {
+            width: 18px;
+            height: 18px;
+            min-width: 18px; /* Prevent shrinking */
+            min-height: 18px; /* Prevent shrinking */
+            flex-shrink: 0; /* Prevent flex container from shrinking the dot */
+            background-color: red;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: blink 1s infinite;
+        }
+
+        .rec-text {
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .time-counter, .progress-info, .day-counter {
+             letter-spacing: 1px;
+        }
+
+        .day-time-counters {
+            text-align: right;
+        }
+
+        .typewriter-container {
+            width: 90%;
+            max-width: 800px;
+            height: calc(92dvh - 80px);
+            overflow-y: auto;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            font-family: var(--font-family);
+            font-size: 16px;
+            line-height: 1.6;
+            position: relative;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            box-sizing: border-box;
+        }
+
+        .text-content {
+            position: relative;
+            min-height: 100%;
+            font-family: var(--font-family);
+            color: var(--text);
+            text-shadow: var(--shadow);
+
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+            font-smooth: never;
+            letter-spacing: 0.5px;
+        }
+
+        .text-segment {
+            display: inline; /* Change to inline instead of block */
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 15px;
+            height: 1.4em;
+            background-color: var(--text);
+            vertical-align: middle;
+            margin-left: 0;
+            animation: blink-cursor 1.0s steps(2) infinite;
+        }
+
+        @keyframes blink-cursor {
+            0%, 49% {
+                background-color: var(--text);
+            }
+            50%, 100% {
+                background-color: transparent;
+            }
+        }
+
+        .message-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 18px;
+            z-index: 10;
+            padding: 20px;
+            font-family: monospace;
+        }
+
+        .load-more-container {
+            text-align: center;
+            padding-top: 10px; /* Add padding above button */
+        }
+
+        .load-more-button {
+            display: inline-block; /* Make it inline */
+            padding: 8px 15px;
+            background-color: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .load-more-button:hover:not(:disabled) {
+            background-color: var(--bg);
+        }
+
+        .load-more-button:disabled {
+            background-color: var(--bg);
+            color: var(--text);
+            cursor: not-allowed;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.3; }
+        }
+
+        .add-to-homescreen-btn {
+            position: absolute;
+            top: 18px;
+            right: 30px;
+            z-index: 20;
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 7px 16px;
+            font-family: var(--font-family);
+            font-size: 15px;
+            cursor: pointer;
+            /* box-shadow: 0 2px 8px rgba(0,255,0,0.08); */
+            transition: background 0.2s, color 0.2s;
+        }
+        .add-to-homescreen-btn:hover {
+            background: var(--bg);
+            color: var(--text);
+        }
+        @media (max-width: 600px) {
+            .add-to-homescreen-btn {
+                top: 10px;
+                right: 10px;
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="go-back-container">
+        <a class="go-back-link" id="go-back-link" href="#">← About "The Threshold"</a>
+    </div>
+    <button class="add-to-homescreen-btn" id="add-to-homescreen-btn" style="display:none;">
+        + Install
+    </button>
+    <div class="status-container">
+         <div class="live-indicator">
+             <div class="rec-dot" id="rec-dot"></div>
+             <div class="rec-text" id="live-text">LOADING</div>
+         </div>
+         <div class="progress-info" id="progress-info" style="display: none;">--%</div>
+         <div class="day-time-counters">
+            <span class="day-counter" id="day-counter">YYYY-MM-DD</span>
+            <span class="time-counter" id="time-counter">--:--:--.---</span>
+         </div>
+    </div>
+
+    <div class="typewriter-container" id="typewriter-container">
+        <div class="load-more-container" id="load-more-container" style="display: none;">
+            <button class="load-more-button" id="load-more-button">
+                Load Previous Day
+            </button>
+        </div>
+        <div class="text-content" id="text-content">
+        </div>
+         <div class="message-overlay" id="message-overlay">
+            Connecting to vitrine...
+         </div>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const JSON_FILE_PATH = '20250424_122832.json?v4';
+        const DEFAULT_START_TIME_STR = "20250424-190000";
+        const FIRST_HOURS = 5;
+        const LAST_HOURS = 19;
+        const DEFAULT_HOURS = 24;
+        const HISTORY_LOAD_CHUNK_SIZE = 1;
+        // --- End Configuration ---
+
+        // --- Parse URL Parameters ---
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get start time from URL parameter or use default
+        const START_TIME_STR = getUrlParameter('start') || DEFAULT_START_TIME_STR;
+        console.log("Using start time:", START_TIME_STR);
+
+        // --- DOM Elements ---
+        const typewriterContainer = document.getElementById("typewriter-container");
+        const textContentElement = document.getElementById("text-content");
+        const progressInfoElement = document.getElementById("progress-info");
+        const timeCounterElement = document.getElementById("time-counter");
+        const messageOverlay = document.getElementById("message-overlay");
+        const loadMoreContainer = document.getElementById("load-more-container");
+        const loadMoreButton = document.getElementById("load-more-button");
+        const liveTextElement = document.getElementById("live-text");
+        const recDotElement = document.getElementById("rec-dot");
+
+        // --- Global State ---
+        let textArray = [];
+        let textDurations = []; // Duration of each text segment in seconds
+        let textCumulativeEndSeconds = []; // Cumulative end time in seconds relative to start
+        let totalDurationSeconds = 0;
+        let startTime = null; // JS Date object for start time
+        let updateDisplayTimeoutId = null; // Instead of animationFrameId
+        let userHasScrolled = false;
+        let lastScrollTop = 0;
+        let displayStartIndex = 0; // Index of the earliest text segment currently *rendered*
+        let currentTargetState = { textIndex: 0, charIndex: 0, isFinished: false };
+        let isLive = false; // Flag to track if the display is live or showing history/future
+        let lastLogTime = 0; // Track when we last logged info
+        let cursorSpan = null; // Add this line with other global variables
+        let finishedTimestamp = null; // Add this global variable
+
+        // --- Add to Homescreen (PWA Install Prompt) ---
+        let deferredPrompt = null;
+        const addToHomescreenBtn = document.getElementById('add-to-homescreen-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            deferredPrompt = e;
+            // Show the custom install button
+            addToHomescreenBtn.style.display = 'block';
+        });
+
+        addToHomescreenBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            addToHomescreenBtn.disabled = true;
+            addToHomescreenBtn.textContent = 'Installing...';
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                addToHomescreenBtn.textContent = 'Added!';
+                setTimeout(() => addToHomescreenBtn.style.display = 'none', 2000);
+            } else {
+                addToHomescreenBtn.textContent = '+ Add to Homescreen';
+                addToHomescreenBtn.disabled = false;
+            }
+            deferredPrompt = null;
+        });
+
+        // Optionally hide the button if already installed
+        window.addEventListener('appinstalled', () => {
+            addToHomescreenBtn.style.display = 'none';
+        });
+
+        // --- Helper Functions ---
+
+        function showMessage(message, isError = false) {
+            messageOverlay.textContent = message;
+            messageOverlay.style.display = 'flex';
+            messageOverlay.style.color = isError ? '#ff8888' : '#ffffff';
+            // Hide other elements
+            textContentElement.style.display = 'none';
+            loadMoreContainer.style.display = 'none';
+            liveTextElement.textContent = isError ? "ERROR" : "STATUS";
+            recDotElement.style.animation = isError ? 'none' : 'blink 1s infinite';
+            recDotElement.style.opacity = isError ? '1' : '1'; // Make dot solid on error
+             recDotElement.style.backgroundColor = isError ? 'darkred' : 'red';
+        }
+
+        function hideMessage() {
+            messageOverlay.style.display = 'none';
+            textContentElement.style.display = 'block';
+             // liveTextElement needs to be updated elsewhere based on state
+        }
+
+        function parseStartTime(timeStr) {
+            // Format: YYYYMMDD-HHMMSS
+            const year = parseInt(timeStr.substring(0, 4), 10);
+            const month = parseInt(timeStr.substring(4, 6), 10) - 1; // JS months are 0-indexed
+            const day = parseInt(timeStr.substring(6, 8), 10);
+            const hour = parseInt(timeStr.substring(9, 11), 10);
+            const minute = parseInt(timeStr.substring(11, 13), 10);
+            const second = parseInt(timeStr.substring(13, 15), 10);
+
+            // Create date in local timezone instead of UTC
+            const date = new Date(year, month, day, hour, minute, second);
+            // Quick validation
+            if (isNaN(date.getTime()) || date.getFullYear() !== year || date.getMonth() !== month) {
+                console.error("Invalid date components:", year, month, day, hour, minute, second);
+                throw new Error(`Invalid start time format or date components in: ${timeStr}`);
+            }
+            return date;
+        }
+
+        function calculateTextTimings() {
+            if (!textArray || textArray.length === 0) {
+                throw new Error("Text array is empty. Cannot calculate timings.");
+            }
+
+            textDurations = [];
+            textCumulativeEndSeconds = [];
+            totalDurationSeconds = 0;
+            let cumulativeSeconds = 0;
+
+            for (let i = 0; i < textArray.length; i++) {
+                let hours;
+                if (textArray.length === 1) {
+                    hours = FIRST_HOURS;
+                } else if (i === 0) {
+                    hours = FIRST_HOURS;
+                } else if (i === textArray.length - 1) {
+                    hours = LAST_HOURS;
+                } else {
+                    hours = DEFAULT_HOURS;
+                }
+                const seconds = hours * 3600;
+                textDurations.push(seconds);
+                totalDurationSeconds += seconds;
+                cumulativeSeconds += seconds;
+                textCumulativeEndSeconds.push(cumulativeSeconds);
+            }
+            console.log("Calculated Durations (s):", textDurations);
+            console.log("Calculated Cumulative End Times (s):", textCumulativeEndSeconds);
+            console.log("Total Duration (s):", totalDurationSeconds);
+        }
+
+        function calculateTargetState(elapsedSeconds) {
+            if (textArray.length === 0 || !startTime) {
+                return { textIndex: 0, charIndex: 0, isFinished: false };
+            }
+
+             const isBeforeStart = elapsedSeconds < 0;
+             const isAfterEnd = totalDurationSeconds > 0 && elapsedSeconds >= totalDurationSeconds;
+
+             if (isBeforeStart) {
+                return { textIndex: 0, charIndex: 0, isFinished: false, timeStatus: 'before_start' };
+             }
+              if (isAfterEnd) {
+                 const lastIndex = textArray.length - 1;
+                return { textIndex: lastIndex, charIndex: textArray[lastIndex].length, isFinished: true, timeStatus: 'after_end' };
+             }
+
+
+            let cumulativeSeconds = 0;
+            for (let i = 0; i < textArray.length; i++) {
+                const textDuration = textDurations[i];
+                const textLength = textArray[i].length;
+                const isLastText = (i === textArray.length - 1);
+                 const timeAtTextEnd = textCumulativeEndSeconds[i]; // Use precalculated cumulative time
+
+                // Check if the elapsed time falls within this text's duration OR
+                // if it's the last text (handle overshoot within the last segment)
+                 if (elapsedSeconds <= timeAtTextEnd || isLastText) {
+                    let targetCharIndex;
+                    if (textDuration <= 0 && textLength > 0) {
+                        // If duration is zero or negative, show the whole text immediately
+                        targetCharIndex = textLength;
+                    } else if (textLength === 0) {
+                        targetCharIndex = 0; // No characters in this text
+                    } else {
+                        const timeAtTextStart = i > 0 ? textCumulativeEndSeconds[i-1] : 0;
+                        const timeIntoText = Math.max(0, elapsedSeconds - timeAtTextStart);
+                        // Prevent division by zero if text_duration is somehow <= 0 here but length > 0
+                        const fraction = textDuration > 0 ? Math.min(1.0, timeIntoText / textDuration) : 1.0;
+                        targetCharIndex = Math.floor(textLength * fraction); // Use floor to get index before target char
+                        // Ensure index is within bounds [0, text_length]
+                        targetCharIndex = Math.max(0, Math.min(textLength, targetCharIndex));
+                    }
+                     return { textIndex: i, charIndex: targetCharIndex, isFinished: false, timeStatus: 'in_progress' };
+                }
+                // Cumulative seconds logic handled by checking textCumulativeEndSeconds[i]
+            }
+
+            // Fallback (should theoretically not be reached if isAfterEnd check is correct)
+            const lastIndex = textArray.length - 1;
+            return { textIndex: lastIndex, charIndex: textArray[lastIndex].length, isFinished: true, timeStatus: 'after_end' };
+        }
+
+        // Modify the findLastVisiblePosition function
+        function findLastVisiblePosition() {
+            const container = typewriterContainer;
+            const segments = textContentElement.getElementsByClassName('text-segment');
+            const containerRect = container.getBoundingClientRect();
+            const scrollBottom = container.scrollTop + container.clientHeight;
+
+            let lastVisibleIndex = currentTargetState.textIndex;
+            let lastVisibleChar = currentTargetState.charIndex;
+
+            // Start from the last segment and work backwards
+            for (let i = segments.length - 1; i >= 0; i--) {
+                const segment = segments[i];
+                const segmentRect = segment.getBoundingClientRect();
+                const relativeTop = segmentRect.top - containerRect.top;
+
+                if (relativeTop < container.clientHeight) {
+                    // This segment is visible
+                    lastVisibleIndex = displayStartIndex + i;
+                    // If this is the current segment being typed, use the current char index
+                    if (lastVisibleIndex === currentTargetState.textIndex) {
+                        lastVisibleChar = currentTargetState.charIndex;
+                    } else {
+                        lastVisibleChar = textArray[lastVisibleIndex].length;
+                    }
+                    break;
+                }
+            }
+
+            return { textIndex: lastVisibleIndex, charIndex: lastVisibleChar };
+        }
+
+        // Modify the calculateTimestampForPosition function
+        function calculateTimestampForPosition(textIndex, charIndex) {
+            if (!startTime || textIndex >= textArray.length) return null;
+
+            let secondsFromStart = 0;
+
+            // Add time for all completed segments before this one
+            for (let i = 0; i < textIndex; i++) {
+                secondsFromStart += textDurations[i];
+            }
+
+            // Add partial time for the current segment
+            if (textArray[textIndex].length > 0) {
+                const progress = charIndex / textArray[textIndex].length;
+                secondsFromStart += textDurations[textIndex] * progress;
+            }
+
+            return new Date(startTime.getTime() + (secondsFromStart * 1000));
+        }
+
+        // Add this helper function to split text into paragraphs
+        function splitIntoParagraphs(text) {
+            return text.split('\n\n').filter(p => p.length > 0);
+        }
+
+        // --- Main Update and Rendering ---
+
+        function calculateDayNumber(timestamp) {
+            if (!startTime) return 0;
+
+            // Convert both timestamps to local dates
+            const startDate = new Date(startTime);
+            const currentDate = new Date(timestamp);
+
+            // Set both to midnight for accurate day calculation
+            startDate.setHours(0, 0, 0, 0);
+            currentDate.setHours(0, 0, 0, 0);
+
+            // Calculate days difference
+            const diffTime = currentDate - startDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            return diffDays;
+        }
+
+        function updateStatusText(timestamp) {
+            const dayNumber = calculateDayNumber(timestamp);
+
+            switch(currentTargetState.timeStatus) {
+                case 'before_start':
+                    liveTextElement.textContent = `WAITING – DAY\u00A0${dayNumber}`;
+                    recDotElement.style.animation = 'none';
+                    recDotElement.style.opacity = '0.5';
+                    isLive = false;
+                    break;
+                case 'after_end':
+                    if (userHasScrolled) {
+                        liveTextElement.textContent = `HISTORY – DAY\u00A0${dayNumber}`;
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '0';
+                        recDotElement.style.backgroundColor = 'darkgrey';
+                        isLive = false;
+                    } else {
+                        liveTextElement.textContent = `FINISHED – DAY\u00A0${dayNumber}`;
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '1';
+                        recDotElement.style.backgroundColor = 'darkgrey';
+                        isLive = false;
+                    }
+                    break;
+                case 'in_progress':
+                default:
+                    if (userHasScrolled) {
+                        liveTextElement.textContent = `HISTORY – DAY\u00A0${dayNumber}`;
+                        recDotElement.style.animation = 'none';
+                        recDotElement.style.opacity = '0';
+                        isLive = false;
+                    } else {
+                        liveTextElement.textContent = `LIVE – DAY\u00A0${dayNumber}`;
+                        recDotElement.style.animation = 'blink 1s infinite';
+                        recDotElement.style.backgroundColor = 'red';
+                        recDotElement.style.opacity = '1';
+                        isLive = true;
+                    }
+                    break;
+            }
+        }
+
+        function updateDisplay() {
+            const currentTime = Date.now();
+            if (!startTime || textArray.length === 0) {
+                updateDisplayTimeoutId = setTimeout(updateDisplay, 100);
+                return;
+            }
+
+            const elapsedSeconds = (currentTime - startTime.getTime()) / 1000;
+            currentTargetState = calculateTargetState(elapsedSeconds);
+
+            // Log information every 10 seconds
+            if (currentTime - lastLogTime >= 10000) {
+                logCurrentState(elapsedSeconds);
+                lastLogTime = currentTime;
+            }
+
+            // Update status text based on current state
+            if (userHasScrolled) {
+                const visibleTimestamp = findLastVisibleTimestamp();
+                if (visibleTimestamp) {
+                    updateStatusText(visibleTimestamp);
+                }
+            } else {
+                updateStatusText(currentTime);
+            }
+
+            // Update DOM - Clear previous content except cursor
+            while (textContentElement.firstChild !== cursorSpan) {
+                textContentElement.removeChild(textContentElement.firstChild);
+            }
+
+            // Render text segments with paragraph splits
+            for (let i = displayStartIndex; i < textArray.length; i++) {
+                const segmentText = textArray[i];
+
+                if (i < currentTargetState.textIndex) {
+                    // For completed segments, split into paragraphs
+                    const paragraphs = splitIntoParagraphs(segmentText);
+                    let charCount = 0;
+                    paragraphs.forEach((paragraph, pIndex) => {
+                        const span = document.createElement('span');
+                        span.className = 'text-segment';
+                        span.textContent = paragraph + (pIndex < paragraphs.length - 1 ? '\n\n' : '');
+                        // Calculate timestamp based on when this paragraph would have been completed
+                        charCount += paragraph.length + (pIndex < paragraphs.length - 1 ? 2 : 0); // Add 2 for '\n\n'
+                        const segmentTime = calculateTimestampForPosition(i, charCount);
+                        span.dataset.timestamp = segmentTime.getTime();
+                        textContentElement.insertBefore(span, cursorSpan);
+                    });
+                } else if (i === currentTargetState.textIndex) {
+                    // For current segment, handle partial rendering
+                    const fullText = segmentText.substring(0, currentTargetState.charIndex);
+                    const paragraphs = splitIntoParagraphs(fullText);
+                    let charCount = 0;
+                    paragraphs.forEach((paragraph, pIndex) => {
+                        const span = document.createElement('span');
+                        span.className = 'text-segment';
+                        span.textContent = paragraph + (pIndex < paragraphs.length - 1 ? '\n\n' : '');
+                        // Calculate timestamp based on when this paragraph would have been completed
+                        charCount += paragraph.length + (pIndex < paragraphs.length - 1 ? 2 : 0); // Add 2 for '\n\n'
+                        const segmentTime = calculateTimestampForPosition(i, Math.min(charCount, currentTargetState.charIndex));
+                        span.dataset.timestamp = segmentTime.getTime();
+                        textContentElement.insertBefore(span, cursorSpan);
+                    });
+                } else {
+                    break; // Don't render future segments
+                }
+            }
+
+            // Auto-scroll if live and not manually scrolled
+            if (isLive && !userHasScrolled) {
+                typewriterContainer.scrollTop = typewriterContainer.scrollHeight;
+            }
+
+            // Update progress percentage
+             const progressPercent = totalDurationSeconds > 0
+                 ? Math.min(100, (elapsedSeconds / totalDurationSeconds) * 100)
+                 : (currentTargetState.isFinished ? 100 : 0);
+             progressInfoElement.textContent = `${progressPercent.toFixed(2)}%`;
+
+            // Schedule next update (every 50ms, adjust as needed)
+            updateDisplayTimeoutId = setTimeout(updateDisplay, 50);
+        }
+
+        function loadPreviousSegment() {
+             if (displayStartIndex <= 0) return; // Already at the beginning
+
+             displayStartIndex--;
+             loadMoreButton.disabled = true;
+             loadMoreButton.textContent = 'Loading...';
+
+            // --- Prepend the new text segment ---
+            const segmentText = textArray[displayStartIndex];
+             const segmentSpan = document.createElement('span');
+             segmentSpan.className = 'text-segment';
+             segmentSpan.textContent = segmentText; // Ensure newlines are preserved
+
+            // --- Manage Scroll Position ---
+             const oldScrollHeight = textContentElement.scrollHeight;
+             const oldScrollTop = typewriterContainer.scrollTop;
+
+            // Prepend the new segment
+             textContentElement.prepend(segmentSpan);
+             // Optional: Add a visual separator
+             // const separator = document.createElement('hr');
+             // separator.style.margin = '1em 0';
+             // textContentElement.prepend(separator);
+
+
+            // Adjust scroll position to keep the view relatively stable
+             const newScrollHeight = textContentElement.scrollHeight;
+             typewriterContainer.scrollTop = oldScrollTop + (newScrollHeight - oldScrollHeight);
+             lastScrollTop = typewriterContainer.scrollTop; // Update last scroll position
+
+
+             // --- Update Button State ---
+             loadMoreButton.disabled = (displayStartIndex <= 0);
+             loadMoreButton.textContent = (displayStartIndex <= 0) ? 'Beginning Reached' : 'Load Previous Day';
+             userHasScrolled = true; // Loading previous means user is looking at history
+             isLive = false; // No longer live tracking the end
+             liveTextElement.textContent = "HISTORY"; // Indicate viewing history
+
+        }
+
+        // --- Initialization ---
+
+        async function loadAndInitialize() {
+            try {
+                showMessage("Connecting to vitrine...");
+                const response = await fetch(JSON_FILE_PATH);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status} - Could not fetch ${JSON_FILE_PATH}`);
+                }
+                textArray = await response.json();
+
+                if (!Array.isArray(textArray) || textArray.length === 0 || textArray.some(item => typeof item !== 'string')) {
+                     throw new Error("Invalid JSON format. Expected an array of strings.");
+                 }
+
+                // Create the cursor element first, before any text rendering
+                cursorSpan = document.createElement('span');
+                cursorSpan.className = 'cursor';
+                textContentElement.appendChild(cursorSpan);
+
+                showMessage("Parsing start time...");
+                startTime = parseStartTime(START_TIME_STR);
+                console.log("Parsed Start Time:", startTime.toISOString());
+
+                showMessage("Calculating timings...");
+                calculateTextTimings();
+
+                // --- Determine Initial State ---
+                 const initialElapsed = (Date.now() - startTime.getTime()) / 1000;
+                 const initialState = calculateTargetState(initialElapsed);
+                 displayStartIndex = initialState.textIndex; // Start rendering from the current segment
+
+                 // Optionally load some immediate history for context
+                 const historyToLoad = 1; // Load 1 segment before the current one initially
+                 if (initialState.textIndex > 0) {
+                      displayStartIndex = Math.max(0, initialState.textIndex - historyToLoad);
+                 }
+
+                console.log("Initial Target State:", initialState);
+                 console.log("Initial Display Start Index:", displayStartIndex);
+
+                 hideMessage(); // Hide loading message
+
+                 // Show and enable the load more button if not starting at the very beginning
+                 if (displayStartIndex > 0) {
+                     loadMoreContainer.style.display = 'block';
+                     loadMoreButton.disabled = false;
+                     loadMoreButton.textContent = 'Load Previous Day';
+                 } else {
+                     loadMoreContainer.style.display = 'block'; // Show it even if disabled initially
+                     loadMoreButton.disabled = true;
+                     loadMoreButton.textContent = initialElapsed > 0 ? 'Beginning Reached' : 'Waiting...';
+                 }
+
+                // Initial display update and start animation loop
+                updateDisplay(); // First render
+
+                // --- Scroll to end if FINISHED ---
+                if (initialState.timeStatus === 'after_end') {
+                    // Wait for DOM update, then scroll to bottom
+                    setTimeout(() => {
+                        typewriterContainer.scrollTop = typewriterContainer.scrollHeight;
+                    }, 0);
+                }
+
+                requestAnimationFrame(updateTimeCounter); // Start time counter loop
+
+
+            } catch (error) {
+                console.error("Initialization failed:", error);
+                showMessage(`Error: ${error.message}. Please check console and configuration.`, true);
+                if (updateDisplayTimeoutId) {
+                    clearTimeout(updateDisplayTimeoutId);
+                }
+            }
+        }
+
+        // --- Event Listeners ---
+
+        typewriterContainer.addEventListener("scroll", () => {
+             const currentScrollTop = typewriterContainer.scrollTop;
+             const scrollBottom = typewriterContainer.scrollHeight - typewriterContainer.clientHeight;
+
+             // Detect if user scrolled up significantly
+             if (currentScrollTop < lastScrollTop - 10) {
+                 userHasScrolled = true;
+                 isLive = false;
+                 // Update status text immediately when scrolling
+                 const visibleTimestamp = findLastVisibleTimestamp();
+                 if (visibleTimestamp) {
+                     updateStatusText(visibleTimestamp);
+                 }
+             } else if (currentScrollTop >= scrollBottom - 10) {
+                 userHasScrolled = false;
+                 updateStatusText(Date.now());
+             }
+             lastScrollTop = currentScrollTop;
+        });
+
+        loadMoreButton.addEventListener('click', loadPreviousSegment);
+
+        document.addEventListener("visibilitychange", () => {
+             if (document.visibilityState === "visible") {
+                 console.log("Tab became visible, forcing state update.");
+                 // No need to explicitly catch up, updateDisplay handles it based on time
+                 if (updateDisplayTimeoutId === null && startTime) { // Restart loop if stopped
+                     updateDisplay();
+                 }
+             } else {
+                 console.log("Tab became hidden.");
+                 // Optional: Could clearTimeout here and restart on visible
+                 // clearTimeout(updateDisplayTimeoutId);
+                 // updateDisplayTimeoutId = null;
+             }
+         });
+
+        // --- Real-time Counter ---
+        function updateTimeCounter() {
+            if (!userHasScrolled) {
+                if (currentTargetState.timeStatus === 'after_end' && finishedTimestamp) {
+                    // Show the finished timestamp and do not update further
+                    const historicalTime = new Date(finishedTimestamp);
+                    const hours = String(historicalTime.getHours()).padStart(2, "0");
+                    const minutes = String(historicalTime.getMinutes()).padStart(2, "0");
+                    const seconds = String(historicalTime.getSeconds()).padStart(2, "0");
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}`;
+
+                    // Update day counter
+                    const year = historicalTime.getFullYear();
+                    const month = String(historicalTime.getMonth() + 1).padStart(2, "0");
+                    const day = String(historicalTime.getDate()).padStart(2, "0");
+                    document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+                } else {
+                    // Only update current time when in LIVE mode
+                    const now = new Date();
+                    const hours = String(now.getHours()).padStart(2, "0");
+                    const minutes = String(now.getMinutes()).padStart(2, "0");
+                    const seconds = String(now.getSeconds()).padStart(2, "0");
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}`;
+
+                    // Update day counter
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, "0");
+                    const day = String(now.getDate()).padStart(2, "0");
+                    document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+                }
+            } else if (currentTargetState.timeStatus === 'in_progress' || currentTargetState.timeStatus === 'after_end') {
+                // In history mode, use the timestamp from the last visible segment
+                const timestamp = findLastVisibleTimestamp();
+                if (timestamp) {
+                    const historicalTime = new Date(timestamp);
+                    const hours = String(historicalTime.getHours()).padStart(2, "0");
+                    const minutes = String(historicalTime.getMinutes()).padStart(2, "0");
+                    const seconds = String(historicalTime.getSeconds()).padStart(2, "0");
+                    timeCounterElement.textContent = `${hours}:${minutes}:${seconds}`;
+
+                    // Update day counter
+                    const year = historicalTime.getFullYear();
+                    const month = String(historicalTime.getMonth() + 1).padStart(2, "0");
+                    const day = String(historicalTime.getDate()).padStart(2, "0");
+                    document.getElementById("day-counter").textContent = `${year}-${month}-${day}`;
+                }
+            }
+
+            requestAnimationFrame(updateTimeCounter);
+        }
+
+        // Replace findLastVisiblePosition with this simpler version
+        function findLastVisibleTimestamp() {
+            const container = typewriterContainer;
+            const segments = textContentElement.getElementsByClassName('text-segment');
+            const containerRect = container.getBoundingClientRect();
+
+            // Start from the last segment and work backwards
+            for (let i = segments.length - 1; i >= 0; i--) {
+                const segment = segments[i];
+                const segmentRect = segment.getBoundingClientRect();
+                const relativeTop = segmentRect.top - containerRect.top;
+
+                // If any part of the segment is visible in the viewport
+                if (relativeTop < container.clientHeight) {
+                    return parseInt(segment.dataset.timestamp);
+                }
+            }
+
+            return null;
+        }
+
+        // --- Logging Function ---
+        function logCurrentState(elapsedSeconds) {
+            if (!startTime || textArray.length === 0 || !currentTargetState) return;
+
+            // Calculate time difference from start time
+            const days = Math.floor(elapsedSeconds / 86400);
+            const hours = Math.floor((elapsedSeconds % 86400) / 3600);
+            const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+            const seconds = Math.floor(elapsedSeconds % 60);
+
+            // Current time
+            const now = new Date();
+            const timeStr = now.toISOString();
+
+            // Cursor position info
+            const textIndex = currentTargetState.textIndex;
+            const charIndex = currentTargetState.charIndex;
+
+            // Calculate absolute character position
+            let absoluteCharPosition = charIndex;
+            for (let i = 0; i < textIndex; i++) {
+                absoluteCharPosition += textArray[i].length;
+            }
+
+            // Get context around cursor
+            let contextBefore = "";
+            let contextAfter = "";
+
+            if (textIndex < textArray.length) {
+                const currentText = textArray[textIndex];
+                const contextSize = 20; // Characters to show before/after cursor
+
+                const startPos = Math.max(0, charIndex - contextSize);
+                const endPos = Math.min(currentText.length, charIndex + contextSize);
+
+                contextBefore = currentText.substring(startPos, charIndex).replace(/\n/g, '/');
+                contextAfter = currentText.substring(charIndex, endPos).replace(/\n/g, '/');
+            }
+
+            // Log the information
+            console.log(`
+=== LOG UPDATE (${timeStr}) ===
+Time since start: ${days}d ${hours}h ${minutes}m ${seconds}s (${elapsedSeconds.toFixed(2)}s)
+Cursor position: Text #${textIndex}/${textArray.length}, Char ${charIndex}/${textArray[textIndex]?.length || 0} (${(100*charIndex/(textArray[textIndex]?.length || 1)).toFixed(2)}%)
+Overall: Char ${absoluteCharPosition}/${textArray.reduce((acc, curr) => acc + curr.length, 0)} (${(100*absoluteCharPosition/(textArray.reduce((acc, curr) => acc + curr.length, 0))).toFixed(2)}%)
+Context around target: "...${contextBefore}<-CURSOR->${contextAfter}..."
+Display state: ${isLive ? 'LIVE' : 'HISTORY'}, User scrolled: ${userHasScrolled}
+Progress: ${(elapsedSeconds / totalDurationSeconds * 100).toFixed(2)}%
+=== END LOG ===
+`);
+        }
+
+        (function() {
+            const goBackLink = document.getElementById('go-back-link');
+            const { origin, pathname, search, hash } = window.location;
+            const newPath = pathname.replace(/\/typing\/?$/, '/');
+            const cleanedPath = newPath.replace(/([^:]\/)\/+/g, "$1");
+            goBackLink.href = origin + cleanedPath + search + "#the-threshold";
+        })();
+
+        loadAndInitialize();
+
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/typing/service-worker.js')
+              .then(reg => {
+                console.log('Service worker registered.', reg);
+
+                // Check for updates every minute
+                setInterval(() => {
+                  reg.update();
+                }, 60 * 1000);
+
+                // Handle updates
+                reg.addEventListener('updatefound', () => {
+                  const newWorker = reg.installing;
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      // New content is available, reload the page
+                      window.location.reload();
+                    }
+                  });
+                });
+              })
+              .catch(err => {
+                console.error('Service worker registration failed:', err);
+              });
+          });
+        }
+
+    </script>
+
+    <script type="text/javascript" id="tag">
+        fetch("https://figur.li/l/?tag=loaded");
+    </script>
+
+</body>
+</html>
