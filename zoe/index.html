@@ -95,6 +95,7 @@
     let isInitialized = false;
     let currentDescription = '';
     let nextDescription = '';
+    let nextStart = '';
 
     // Initial setup
     video.pause();
@@ -315,7 +316,13 @@
         console.log('Auto-pausing at', pausePoints[nextPauseIndex].timestamp);
         video.pause();
         currentDescription = pausePoints[nextPauseIndex].description;
-        nextDescription = pausePoints[nextPauseIndex + 1].description;
+        if (nextPauseIndex + 1 < pausePoints.length) {
+          nextDescription = [nextPauseIndex + 1].description;
+          nextStart = '';
+        } else {
+          nextDescription = '(done)';
+          nextStart = '(done)';
+        }
         nextPauseIndex++;
         updateStatus();
       }
