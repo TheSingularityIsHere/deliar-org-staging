@@ -94,8 +94,6 @@
     let statusWindow = null;
     let isInitialized = false;
     let currentDescription = '';
-    let nextDescription = '';
-    let nextStart = '';
 
     // Initial setup
     video.pause();
@@ -154,7 +152,6 @@
         }
         pausePoints = await response.json();
         pausePoints.sort((a, b) => a.timestamp - b.timestamp);
-        nextDescription = pausePoints[0]?.description || '';
         updateStatus();
         console.log('pausePoints', pausePoints);
       } catch (error) {
@@ -242,10 +239,13 @@
         const nextButton = statusWindow.document.getElementById('nextButton');
         nextButton.disabled = video.paused;
 
+        const nextDescription = nextPauseIndex + 1 < pausePoints.length ? pausePoints[nextPauseIndex + 1].description : '(done)';
+        const nextStart = nextPauseIndex + 1 < pausePoints.length ? pausePoints[nextPauseIndex + 1].timestamp.toFixed(1) : '(done)';
+
         if (playStatus && timeStatus && descriptionElement) {
           playStatus.textContent = video.paused ? 'Paused' : 'Playing';
-          timeStatus.textContent = video.currentTime.toFixed(2);
-          descriptionElement.textContent = `current: ${currentDescription}\n\nnext: ${nextDescription}`;
+          timeStatus.textContent = video.currentTime.toFixed(1);
+          descriptionElement.textContent = `current: ${currentDescription}\n\nnext @${nextStart}: ${nextDescription}`;
         }
       }
     }
@@ -291,7 +291,6 @@
 
             currentDescription = pausePoints[nextPauseIndex].description;
             nextPauseIndex++;
-            nextDescription = pausePoints[nextPauseIndex]?.description || '';
           }
           updateStatus();
           toggleFullScreen();
@@ -316,13 +315,6 @@
         console.log('Auto-pausing at', pausePoints[nextPauseIndex].timestamp);
         video.pause();
         currentDescription = pausePoints[nextPauseIndex].description;
-        if (nextPauseIndex + 1 < pausePoints.length) {
-          nextDescription = [nextPauseIndex + 1].description;
-          nextStart = '';
-        } else {
-          nextDescription = '(done)';
-          nextStart = '(done)';
-        }
         nextPauseIndex++;
         updateStatus();
       }
