@@ -1,22 +1,25 @@
 [
 {
-  "timestamp": 15.0,
+  "timestamp": 16.0,
+  "loop": [10.0, 13.0],
   "description": "Danke"
 },
 {
-  "timestamp": 29.0,
+  "timestamp": 27.0,
+  "loop": [21.5, 27.0],
   "description": "Zuerst ein TV Spiel gewinnen"
 },
 {
-  "timestamp": 43.0,
+  "loop": [36, 38],
+  "timestamp": 39.5,
   "description": "Ich verstehe die Frage nicht"
 },
 {
-  "timestamp": 49.0,
+  "timestamp": 46.0,
   "description": "Ach so, meine Helfer"
 },
 {
-  "timestamp": 150.0,
+  "timestamp": 178.0,
   "description": "Oh ja, sehr sogar"
 }
 ]

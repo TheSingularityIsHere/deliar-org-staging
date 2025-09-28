@@ -93,7 +93,6 @@
     let nextPauseIndex = 0;
     let statusWindow = null;
     let isInitialized = false;
-    let currentDescription = '';
 
     // Initial setup
     video.pause();
@@ -239,8 +238,9 @@
         const nextButton = statusWindow.document.getElementById('nextButton');
         nextButton.disabled = video.paused;
 
-        const nextDescription = nextPauseIndex + 1 < pausePoints.length ? pausePoints[nextPauseIndex + 1].description : '(done)';
-        const nextStart = nextPauseIndex + 1 < pausePoints.length ? pausePoints[nextPauseIndex + 1].timestamp.toFixed(1) : '(done)';
+        const currentDescription = nextPauseIndex > 0 ? pausePoints[nextPauseIndex - 1].description : '';
+        const nextDescription = nextPauseIndex < pausePoints.length ? pausePoints[nextPauseIndex].description : '';
+        const nextStart = nextPauseIndex < pausePoints.length ? pausePoints[nextPauseIndex].timestamp.toFixed(1) : '';
 
         if (playStatus && timeStatus && descriptionElement) {
           playStatus.textContent = video.paused ? 'Paused' : 'Playing';
@@ -289,7 +289,6 @@
             console.log(`Attempting to set currentTime to: ${targetTime}`);
             video.currentTime = targetTime;
 
-            currentDescription = pausePoints[nextPauseIndex].description;
             nextPauseIndex++;
           }
           updateStatus();
@@ -310,13 +309,20 @@
     video.addEventListener('timeupdate', () => {
       updateStatus();
 
-      if (nextPauseIndex < pausePoints.length &&
-        video.currentTime >= pausePoints[nextPauseIndex].timestamp) {
-        console.log('Auto-pausing at', pausePoints[nextPauseIndex].timestamp);
-        video.pause();
-        currentDescription = pausePoints[nextPauseIndex].description;
-        nextPauseIndex++;
-        updateStatus();
+      if (nextPauseIndex < pausePoints.length) {
+        if (pausePoints[nextPauseIndex].hasOwnProperty('loop')) {
+          const loop = pausePoints[nextPauseIndex].loop;
+          if (video.currentTime >= loop[1]) {
+            console.log(`Looping back to ${loop[0]} from ${loop[1]}`);
+            video.currentTime = loop[0];
+          }
+        }
+        if (video.currentTime >= pausePoints[nextPauseIndex].timestamp) {
+          console.log('Auto-pausing at', pausePoints[nextPauseIndex].timestamp);
+          video.pause();
+          nextPauseIndex++;
+          updateStatus();
+        }
       }
     });
 
