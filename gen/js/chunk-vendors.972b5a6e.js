@@ -3874,4 +3874,4 @@ const wt="firebase-heartbeat-database",bt=1,_t="firebase-heartbeat-store";let Et
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */function Pt(t){lt(new r.uA("platform-logger",t=>new x(t),"PRIVATE")),lt(new r.uA("heartbeat",t=>new xt(t),"PRIVATE")),yt(R,N,t),yt(R,N,"esm2017"),yt("fire-js","")}Pt("")},9948:(t,e,n)=>{var r=n(5370),i=n(4644).getTypedArrayConstructor;t.exports=function(t,e){return r(i(t),e)}},9955:(t,e,n)=>{var r=n(4644),i=n(9213).findIndex,o=r.aTypedArray,s=r.exportTypedArrayMethod;s("findIndex",function(t){return i(o(this),t,arguments.length>1?arguments[1]:void 0)})}}]);
-//# sourceMappingURL=chunk-vendors.92319550.js.map
+//# sourceMappingURL=chunk-vendors.972b5a6e.js.map
