@@ -16,3 +16,6 @@ Presentation:
 Adding keyframes to video:
 
 `ffmpeg -i video.mp4 -c:v libx264 -x264-params "keyint=1" -c:a copy video2.mp4`
+
+The actual video "video.mp4" is uploaded to Drive:
+https://drive.google.com/file/d/1LT4_Uphcjdw9AhFx3PiiyuAa8-UuMaRC
