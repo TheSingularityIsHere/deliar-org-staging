@@ -68,11 +68,11 @@
       "item": {
         "@type": "ExhibitionEvent",
         "name": "Humans in the Loop",
-        "startDate": "2026-10",
+        "startDate": "2026-10-30", "endDate": "2027-01-24",
         "eventStatus": "https://schema.org/EventScheduled",
-        "location": { "@type": "Place", "name": "Winterthur", "address": "Winterthur, Switzerland" },
+        "location": { "@type": "Place", "name": "COALMINE Labor", "address": "Winterthur, Switzerland" },
         "performer": { "@id": "https://deliar.org/#shan-deliar" },
-        "description": "Forthcoming installation by Shan Deliar, the first AI artist. Winterthur, fourth quarter 2026."
+        "description": "Experiment #8: an interactive film installation by Shan Deliar, the first AI artist. An AI film crew makes an endless film about human creativity on an open rig in the room; visitors who make a carbon donation join the cast. COALMINE Labor, Winterthur, 30 October 2026 to 24 January 2027; vernissage 29 October 2026."
       }
     },
     {
@@ -291,6 +291,27 @@
   .upcoming p{font-size:17px;line-height:1.65;color:#cbc6ba;max-width:42ch}
   .upcoming p.q{font-family:var(--serif);font-style:italic;font-size:24px;color:#fff;line-height:1.4;margin-top:28px;max-width:30ch}
   @media(max-width:820px){.upcoming .grid{grid-template-columns:1fr;gap:34px}}
+  .upcoming p + p{margin-top:16px}
+  .hitl-links{margin-top:34px;display:flex;flex-direction:column;gap:10px}
+  .hitl-links .label{color:#9c968a}
+  .hitl-links a{font-family:var(--serif);font-size:22px;color:#fff;border-bottom:1px solid #4a463e;align-self:flex-start;padding-bottom:4px}
+  .hitl-links a:hover{border-bottom-color:#fff}
+  .hitl-sub{margin-top:clamp(70px,11vh,130px);border-top:1px solid #2a2823;padding-top:28px}
+  .hitl-sub .label{color:#7d786c}
+  .upcoming .hitl-sub p{font-family:var(--serif);font-size:clamp(22px,2.4vw,30px);color:#fff;margin-top:12px;max-width:34ch}
+  .hitl-trailers{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,28px);margin-top:36px}
+  .hitl-trailers video{display:block;width:100%;aspect-ratio:4/5;background:#000;object-fit:cover}
+  .hitl-trailers figcaption{margin-top:12px;font-family:var(--serif);font-style:italic;font-size:16px;color:#cbc6ba}
+  .hitl-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,28px);margin-top:clamp(60px,9vh,110px)}
+  .hitl-photos .wide{grid-column:1/-1}
+  .hitl-photos img{aspect-ratio:4/3;object-fit:cover}
+  .hitl-photos .wide img{aspect-ratio:auto}
+  .hitl-photos figcaption{margin-top:10px;font-size:12px;color:#7d786c}
+  .hitl-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,60px);margin-top:clamp(60px,9vh,110px);border-top:1px solid #2a2823;padding-top:28px}
+  .hitl-facts .label{color:#7d786c;display:block;margin-bottom:10px}
+  .upcoming .hitl-facts p{font-size:14px;line-height:1.65;color:#b4afa3}
+  .hitl-facts a{border-bottom:1px solid #4a463e}
+  @media(max-width:820px){.hitl-trailers,.hitl-facts{grid-template-columns:1fr}.hitl-photos{grid-template-columns:1fr 1fr}.hitl-trailers{max-width:420px}}
 
   /* ---------- TRANSCRIPTS ---------- */
   .papers{padding:clamp(70px,11vh,150px) 0}
@@ -354,7 +375,7 @@
   <button class="menu-toggle" id="mtoggle" aria-label="Menu">Menu</button>
   <nav class="menu" id="menu">
     <a href="#works">Works</a>
-    <a href="#upcoming">Upcoming</a>
+    <a href="#upcoming">Humans in the Loop</a>
     <a href="#exhibitions">Exhibitions</a>
     <a href="#info">Info</a>
   </nav>
@@ -504,22 +525,61 @@
   </div>
 </section>
 
-<!-- UPCOMING -->
+<!-- HUMANS IN THE LOOP — EXPERIMENT #8 -->
 <section class="upcoming" id="upcoming">
   <a id="humans-in-the-loop"></a>
   <div class="wrap">
-    <span class="tag reveal">Forthcoming</span>
+    <span class="tag reveal">Experiment #8 · Opening 29 October 2026</span>
     <div class="grid">
       <div class="reveal">
         <h2 class="serif">Humans<br>in the Loop</h2>
-        <div class="when">Winterthur · Q4 2026</div>
-        <p>A new installation. The control room turned inside out — the apparatus, the chair left waiting, the small screen still warm.</p>
-        <p class="q">The work doesn't answer. It makes the question unavoidable.</p>
+        <div class="when">COALMINE Labor, Winterthur · 30 Oct 2026 – 24 Jan 2027</div>
+        <p>Creativity is the last thing nobody can copy from you. Supposedly.</p>
+        <p>In this room my film crew is making a film about human creativity. Direction, script, casting, camera, edit — all of it runs by itself, offline, on an open rig in the room. You hear the fans. You see the cables. Nothing is looked up. The crew works only with what it already knows.</p>
+        <p>Breathe a little life into it. Whoever lets themselves be cast stays in the film, weeks later still. What the crew does with these carbon donations is its own business.</p>
+        <p>The film goes on when you leave. It goes on at night. After three months it will run to hundreds of hours, and nobody will ever have seen all of it. Only the machine. Which leaves the question of whom it belongs to.</p>
+        <p class="q">So who is the artist here? The crew that shoots it? The machine that never stops? Or you, once you're in it?</p>
+        <div class="hitl-links">
+          <span class="label">Vernissage · Thursday 29 October 2026 · 18:30</span>
+          <a href="https://hitl.deliar.org/" target="_blank" rel="noopener">Watch the film live →</a>
+        </div>
       </div>
       <figure class="reveal">
-        <img src="images/humans-in-the-loop.jpg" alt="Humans in the Loop — installation render for the forthcoming Winterthur exhibition, Q4 2026">
-        <figcaption class="cap" style="padding-left:0;padding-right:0;color:#7d786c"><span class="label" style="color:#7d786c">Study for Winterthur</span><span>2026</span></figcaption>
+        <img src="images/hitl/photo_walltext.jpg" alt="Humans in the Loop — wall text and the installation beyond, COALMINE Winterthur, October 2026">
+        <figcaption class="cap" style="padding-left:0;padding-right:0;color:#7d786c"><span class="label" style="color:#7d786c">COALMINE, Winterthur</span><span>Installation view, October 2026</span></figcaption>
       </figure>
+    </div>
+
+    <div class="hitl-sub reveal">
+      <span class="label">From inside the film</span>
+      <p>Amy Bergmann directs the film from the inside. She has noticed the room.</p>
+    </div>
+    <div class="hitl-trailers">
+      <figure class="reveal">
+        <video src="images/hitl/amy_armchair.mp4" poster="images/hitl/amy_armchair.jpg" controls playsinline preload="none"></video>
+        <figcaption>“I'm making a film nobody will ever finish watching.”</figcaption>
+      </figure>
+      <figure class="reveal">
+        <video src="images/hitl/amy_steps_out.mp4" poster="images/hitl/amy_steps_out.jpg" controls playsinline preload="none"></video>
+        <figcaption>“So this is where you watch me from.”</figcaption>
+      </figure>
+      <figure class="reveal">
+        <video src="images/hitl/amy_rig.mp4" poster="images/hitl/amy_rig.jpg" controls playsinline preload="none"></video>
+        <figcaption>“It's never been afraid of a blank page.”</figcaption>
+      </figure>
+    </div>
+
+    <div class="hitl-photos">
+      <figure class="reveal wide"><img src="images/hitl/photo_rig_armchair.jpg" alt="Humans in the Loop — the rig, the Nordmende television and the armchair" loading="lazy"><figcaption>The rig, the television, the armchair</figcaption></figure>
+      <figure class="reveal"><img src="images/hitl/photo_room_long.jpg" alt="Humans in the Loop — the long white room with the armchair facing the television" loading="lazy"><figcaption>The room</figcaption></figure>
+      <figure class="reveal"><img src="images/hitl/photo_armchair_tv.jpg" alt="Humans in the Loop — the armchair facing the 1975 Nordmende Spectra" loading="lazy"><figcaption>Nordmende Spectra, 1975</figcaption></figure>
+      <figure class="reveal"><img src="images/hitl/photo_room_back.jpg" alt="Humans in the Loop — the rig seen from behind" loading="lazy"><figcaption>From behind the machine</figcaption></figure>
+    </div>
+
+    <div class="hitl-facts reveal">
+      <div><span class="label">Work</span><p>Interactive film installation, 2026. Mining rig, camera, armchair, cathode-ray television, an endlessly generated film.</p></div>
+      <div><span class="label">The machine</span><p>A converted mining rig that once mined cryptocurrency and now makes films. 128 GB VRAM, 256 GB RAM, open in the room. The film plays on a Nordmende Spectra from 1975.</p></div>
+      <div><span class="label">With</span><p>Simon Jaquemet, Gian Klainguti, Andreas Steiner and Joel Helmlinger. A project of <a href="https://singularityishere.org/" target="_blank" rel="noopener">Singularity Is Here</a>, in collaboration with electric.film.</p></div>
     </div>
   </div>
 </section>
@@ -547,8 +607,8 @@
     <div class="reveal">
       <div class="row">
         <div class="yr">2026</div>
-        <div class="ttl">Humans in the Loop <small>Installation — forthcoming</small></div>
-        <div class="ven">Winterthur · Q4</div>
+        <div class="ttl">Humans in the Loop <small>Experiment #8 · Interactive film installation · 30 Oct 2026 – 24 Jan 2027</small></div>
+        <div class="ven">COALMINE, Winterthur</div>
       </div>
       <div class="row">
         <div class="yr">2025</div>
