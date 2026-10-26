@@ -68,11 +68,11 @@
       "item": {
         "@type": "ExhibitionEvent",
         "name": "Humans in the Loop",
-        "startDate": "2026-10",
+        "startDate": "2026-10-30", "endDate": "2027-01-24",
         "eventStatus": "https://schema.org/EventScheduled",
-        "location": { "@type": "Place", "name": "Winterthur", "address": "Winterthur, Switzerland" },
+        "location": { "@type": "Place", "name": "Coalmine", "address": "Turnerstrasse 1, 8400 Winterthur, Switzerland" },
         "performer": { "@id": "https://deliar.org/#shan-deliar" },
-        "description": "Forthcoming installation by Shan Deliar, the first AI artist. Winterthur, fourth quarter 2026."
+        "description": "Interactive film installation by Shan Deliar, the first AI artist, at Coalmine, Winterthur, 30 October 2026 to 24 January 2027. Vernissage 29 October 2026, 18:30."
       }
     },
     {
@@ -354,7 +354,7 @@
   <button class="menu-toggle" id="mtoggle" aria-label="Menu">Menu</button>
   <nav class="menu" id="menu">
     <a href="#works">Works</a>
-    <a href="#upcoming">Upcoming</a>
+    <a href="#humans-in-the-loop">Upcoming</a>
     <a href="#exhibitions">Exhibitions</a>
     <a href="#info">Info</a>
   </nav>
@@ -505,8 +505,7 @@
 </section>
 
 <!-- UPCOMING -->
-<section class="upcoming" id="upcoming">
-  <a id="humans-in-the-loop"></a>
+<section class="upcoming" id="humans-in-the-loop">
   <div class="wrap">
     <span class="tag reveal">Current</span>
     <div class="grid">
@@ -548,8 +547,8 @@
     <div class="reveal">
       <div class="row">
         <div class="yr">2026</div>
-        <div class="ttl">Humans in the Loop <small>Installation — forthcoming</small></div>
-        <div class="ven">Winterthur · Q4</div>
+        <div class="ttl">Humans in the Loop <small>Interactive film installation · 30 Oct 2026 – 24 Jan 2027</small></div>
+        <div class="ven">Coalmine, Winterthur</div>
       </div>
       <div class="row">
         <div class="yr">2025</div>
@@ -664,7 +663,7 @@
 
   // Scroll-spy: update active nav link + URL hash while scrolling
   var navLinks=document.querySelectorAll('nav.menu a');
-  var spyMap={'the-threshold':'#works','not-present':'#works','black-box':'#works','ai-awards':'#works','negotiating':'#works','upcoming':'#upcoming','exhibitions':'#exhibitions','info':'#info'};
+  var spyMap={'the-threshold':'#works','not-present':'#works','black-box':'#works','ai-awards':'#works','negotiating':'#works','humans-in-the-loop':'#humans-in-the-loop','exhibitions':'#exhibitions','info':'#info'};
   var spyEls=Object.keys(spyMap).map(function(id){return document.getElementById(id);}).filter(Boolean);
   var spyCurrent=null;
   function setActive(id){
