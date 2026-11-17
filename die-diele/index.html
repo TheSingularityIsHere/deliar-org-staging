@@ -130,6 +130,7 @@
   .blk .b{font-weight:700}
   .blk .i{font-style:italic}
   .blk mark{background:#e9c46a;color:var(--ink);border-radius:2px}
+  .blk mark.now{background:#1b1a17;color:#f3f1ea}
   .blk .cur{display:inline-block;width:.6em;height:1.05em;vertical-align:-.15em;background:var(--ink);animation:blink 1s steps(1) infinite}
   @keyframes blink{50%{opacity:0}}
   .dayhead{position:absolute;left:0;right:0;padding:0 var(--pad);border-top:1px solid #d6d1c6;display:flex;flex-direction:column;justify-content:center}
@@ -437,6 +438,7 @@
   var blocks = new Map();       // block index → element
   var playLimit = -1;           // while playing: characters at or after this are not written yet
   var hits = null, qLen = 0;    // find: sorted character offsets of matches
+  var hitIdx = -1;              // find: the match last jumped to (drawn darker)
 
   function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
@@ -460,7 +462,7 @@
       var st = S[p];
       if (hasHit) {
         while (hi < hits.length && hits[hi] + qLen <= p) hi++;
-        if (hi < hits.length && hits[hi] <= p) st |= 4;
+        if (hi < hits.length && hits[hi] <= p) st |= hi === hitIdx ? 12 : 4;
       }
       if (st !== cls) {
         if (run) out += wrap(run, cls);
@@ -476,7 +478,7 @@
     s = esc(s);
     if (st & 1) s = '<span class="b">' + s + "</span>";
     if (st & 2) s = '<span class="i">' + s + "</span>";
-    if (st & 4) s = "<mark>" + s + "</mark>";
+    if (st & 4) s = st & 8 ? '<mark class="now">' + s + "</mark>" : "<mark>" + s + "</mark>";
     return s;
   }
 
@@ -767,7 +769,7 @@
   function openFind() { stopPlay(); findPanel.hidden = false; btnFind.setAttribute("aria-pressed", "true"); findQ.focus(); findQ.select(); }
   function closeFind() {
     findPanel.hidden = true; btnFind.setAttribute("aria-pressed", "false");
-    if (hits) { hits = null; railHist = null; drawRail(); rerenderAll(); }
+    if (hits) { hits = null; hitIdx = -1; railHist = null; drawRail(); rerenderAll(); }
   }
   function runFind() {
     var q = findQ.value.trim().toLowerCase();
@@ -781,7 +783,7 @@
       hist[Math.min(hist.length - 1, Math.floor(charToElapsed(p) / 3600))]++;
       p = lower.indexOf(q, p + q.length);
     }
-    hits = Int32Array.from(list); qLen = q.length;
+    hits = Int32Array.from(list); qLen = q.length; hitIdx = -1;
     railHist = hist; railHistMax = 1; for (var i = 0; i < hist.length; i++) if (hist[i] > railHistMax) railHistMax = hist[i];
     drawRail(); rerenderAll();
     findPrev.disabled = findNext.disabled = !count;
@@ -791,14 +793,27 @@
     findOut.innerHTML = "“" + esc(findQ.value.trim()) + "” — written <b>" + count.toLocaleString("en-US") + "</b> " + (count === 1 ? "time" : "times") +
       ". First on day " + dayOfElapsed(e0) + " at " + hhmmss(e0).slice(0, 5) + (count > 1 ? ", last on day " + dayOfElapsed(e1) + " at " + hhmmss(e1).slice(0, 5) +
       ". Most in the hour from " + dateShort(busiest * 3600) + ", " + hhmmss(busiest * 3600).slice(0, 5) + "." : ".");
+    findSummary = findOut.innerHTML;
     stepFind(1);
   }
+  // Step from the match last jumped to while the reader is still on its
+  // line; after scrolling elsewhere, step from the reading position.
+  var findSummary = "";
   function stepFind(dir) {
     if (!hits || !hits.length) return;
-    var c = readingChar(), i;
-    if (dir > 0) { i = firstHitFrom(c + 1); if (i >= hits.length) i = 0; }
-    else { i = firstHitFrom(c) - 1; if (i < 0) i = hits.length - 1; }
+    var i, here = readingLine();
+    if (hitIdx >= 0 && Math.abs(lineOfChar(hits[hitIdx]) - here) <= 1) {
+      i = hitIdx + dir;
+    } else {
+      var c = lStart[here];
+      i = dir > 0 ? firstHitFrom(c) : firstHitFrom(c) - 1;
+    }
+    if (i >= hits.length) i = 0;
+    if (i < 0) i = hits.length - 1;
+    hitIdx = i;
     jumpToChar(hits[i], true);
+    rerenderAll();
+    findOut.innerHTML = findSummary + ' <span style="color:#fff">' + (i + 1).toLocaleString("en-US") + " of " + hits.length.toLocaleString("en-US") + "</span>";
   }
   document.getElementById("find-form").addEventListener("submit", function (ev) { ev.preventDefault(); runFind(); });
   findNext.addEventListener("click", function () { stepFind(1); });
