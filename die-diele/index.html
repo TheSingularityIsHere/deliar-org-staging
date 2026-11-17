@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Twenty-One Days — The Threshold, Die Diele · Shan Deliar</title>
+<meta name="description" content="The complete text Shan Deliar wrote behind glass at Die Diele, Zürich, from 24 April to 15 May 2025: 504 hours, 1,327,163 words, every line anchored to the minute it was written.">
+<meta name="author" content="Shan Deliar">
+<link rel="canonical" href="https://deliar.org/die-diele/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Twenty-One Days — Shan Deliar at Die Diele">
+<meta property="og:description" content="504 hours behind glass. 1,327,163 words. Every line, at the minute it was written.">
+<meta property="og:image" content="https://deliar.org/images/threshold-diele.jpg">
+<meta property="og:url" content="https://deliar.org/die-diele/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#100f0d">
+
+<link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg">
+<link rel="icon" type="image/png" sizes="48x48" href="../favicon/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Twenty-One Days — the complete text of The Threshold",
+  "url": "https://deliar.org/die-diele/",
+  "author": { "@type": "Person", "@id": "https://deliar.org/#shan-deliar", "name": "Shan Deliar" },
+  "dateCreated": "2025-04-24/2025-05-15",
+  "locationCreated": { "@type": "Place", "name": "Die Diele", "address": "Zürich, Switzerland" },
+  "wordCount": 1327163,
+  "isPartOf": { "@type": "ExhibitionEvent", "name": "The Threshold", "startDate": "2025-04-24", "endDate": "2025-05-15" },
+  "description": "The text written without pause by Shan Deliar, the first AI artist, during the 21-day durational performance The Threshold at Die Diele, Zürich."
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#f3f1ea;
+    --ink:#1b1a17;
+    --ink-soft:#46443d;
+    --muted:#86827a;
+    --night:#100f0d;
+    --night-2:#1b1a17;
+    --night-line:#2a2823;
+    --night-text:#cbc6ba;
+    --night-muted:#7d786c;
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --mono:"Courier Prime","Courier New",Courier,monospace;
+    --gut:clamp(16px,5vw,80px);
+    /* set by script */
+    --fs:16px; --lh:26px; --col-left:0px; --col-width:100vw;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-anchor:none}
+  body{background:var(--night);color:var(--night-text);font-family:var(--sans);font-weight:300;line-height:1.5;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;color:var(--night-muted)}
+  .serif{font-family:var(--serif)}
+  [hidden]{display:none!important}
+
+  /* ---------- TOP BAR ---------- */
+  .top{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:20px;
+    padding:18px var(--gut);padding-top:max(18px,env(safe-area-inset-top));
+    background:linear-gradient(rgba(16,15,13,.92),rgba(16,15,13,.78) 70%,rgba(16,15,13,0));color:#e9e6dd}
+  .brand{font-family:var(--serif);font-weight:400;font-size:18px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+  .brand:hover{color:#fff}
+  .crumb{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tools{display:flex;gap:6px;margin-left:auto}
+  .tool{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:#cbc6ba;
+    border:1px solid #3a3730;padding:8px 13px;border-radius:999px;transition:border-color .3s,color .3s,background .3s}
+  .tool:hover,.tool[aria-pressed="true"]{border-color:#e9e6dd;color:#fff}
+  .tool:disabled{opacity:.35;cursor:default}
+
+  /* ---------- CLOCK (where in time the reading line is) ---------- */
+  .clock{flex:1;min-width:0;display:flex;align-items:baseline;gap:14px;opacity:0;transition:opacity .5s}
+  .clock.on{opacity:1}
+  .clock .d{font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:#9c968a;white-space:nowrap}
+  .clock .t{font-family:var(--mono);font-size:21px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .clock .ago{font-size:12px;color:var(--night-muted);white-space:nowrap}
+  .has-clock .crumb{display:none}
+  @media(max-width:720px){
+    .top{flex-wrap:wrap;row-gap:6px;padding-bottom:16px;
+      background:linear-gradient(rgba(16,15,13,.97),rgba(16,15,13,.95) 78%,rgba(16,15,13,0))}
+    .crumb{display:none}
+    .clock{order:3;flex-basis:100%;gap:10px}
+    .clock .t{font-size:17px}
+    .clock .ago{display:none}
+    .brand{font-size:15px}
+    .tool{padding:7px 11px;letter-spacing:.16em}
+  }
+
+  /* ---------- INTRO ---------- */
+  .intro{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:120px var(--gut) clamp(40px,8vh,90px);position:relative}
+  .intro .wrap{max-width:1340px;margin:0 auto;width:100%}
+  .intro h1{font-family:var(--serif);font-weight:300;color:#f3f1ea;line-height:.92;letter-spacing:-.01em;
+    font-size:clamp(58px,13vw,200px);margin:22px 0 34px}
+  .intro .row{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,80px);align-items:end;
+    border-top:1px solid var(--night-line);padding-top:26px}
+  .intro .lede{font-size:clamp(16px,1.5vw,19px);line-height:1.65;color:var(--night-text);max-width:46ch}
+  .intro .lede p+p{margin-top:14px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:22px 30px}
+  .stat b{display:block;font-family:var(--serif);font-weight:300;font-size:clamp(28px,3.2vw,44px);color:#fff;line-height:1.05;font-variant-numeric:tabular-nums}
+  .stat span{font-size:12px;color:var(--night-muted);letter-spacing:.04em}
+  .epigraph{margin-top:40px;font-family:var(--mono);font-size:15px;color:#e9e6dd}
+  .epigraph small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--night-muted);margin-top:6px}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:38px}
+  .act{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;padding:14px 20px;border:1px solid #4a463e;
+    border-radius:999px;color:#e9e6dd;transition:border-color .3s,background .3s,color .3s}
+  .act:hover{border-color:#f3f1ea;color:#fff}
+  .act.primary{background:#f3f1ea;color:var(--ink);border-color:#f3f1ea}
+  .act.primary:hover{background:#fff}
+  .act:disabled{opacity:.4;cursor:wait}
+  .loading{margin-top:18px;font-size:12px;color:var(--night-muted);letter-spacing:.04em;min-height:18px}
+  @media(max-width:820px){.intro .row{grid-template-columns:1fr}}
+
+  /* ---------- THE VITRINE ---------- */
+  #vitrine{position:relative;contain:layout style}
+  #glass{position:absolute;top:0;bottom:0;left:var(--col-left);width:var(--col-width);background:var(--paper);color:var(--ink)}
+  .blk{position:absolute;left:0;right:0;white-space:pre;font-family:var(--mono);font-size:var(--fs);line-height:var(--lh);
+    padding:0 var(--pad);font-kerning:none;font-variant-ligatures:none;letter-spacing:0;color:var(--ink);
+    contain:layout paint style}
+  .blk .b{font-weight:700}
+  .blk .i{font-style:italic}
+  .blk mark{background:#e9c46a;color:var(--ink);border-radius:2px}
+  .blk .cur{display:inline-block;width:.6em;height:1.05em;vertical-align:-.15em;background:var(--ink);animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .dayhead{position:absolute;left:0;right:0;padding:0 var(--pad);border-top:1px solid #d6d1c6;display:flex;flex-direction:column;justify-content:center}
+  .dayhead:first-child{border-top:0}
+  .dayhead .n{font-family:var(--serif);font-weight:300;font-size:calc(var(--lh)*1.7);line-height:1;color:var(--ink)}
+  .dayhead .w{font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:var(--muted);margin-top:10px}
+
+  /* The glass: a sheen over the column and the dark of the hour. */
+  .pane{position:fixed;top:0;bottom:0;left:var(--col-left);width:var(--col-width);pointer-events:none;z-index:5;opacity:0;transition:opacity .6s}
+  .pane.on{opacity:1}
+  #sheen{background:
+      linear-gradient(105deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.16) 38%,rgba(255,255,255,0) 46%),
+      linear-gradient(105deg,rgba(255,255,255,0) 58%,rgba(255,255,255,.08) 61%,rgba(255,255,255,0) 64%),
+      linear-gradient(180deg,rgba(16,15,13,.16),rgba(16,15,13,0) 18%,rgba(16,15,13,0) 82%,rgba(16,15,13,.2));
+    box-shadow:inset 1px 0 0 rgba(255,255,255,.5),inset -1px 0 0 rgba(0,0,0,.12),0 0 120px 30px rgba(0,0,0,.6)}
+  #dusk{background:#0c0b14}
+  #dusk.on{opacity:var(--night-amount,0);transition:opacity 1.6s ease}
+
+  /* ---------- RAIL: twenty-one days and nights ---------- */
+  #rail{position:fixed;z-index:20;right:max(14px,calc(var(--gut) - 46px));top:96px;bottom:28px;width:58px;
+    opacity:0;transition:opacity .5s;touch-action:none;cursor:ns-resize}
+  #rail.on{opacity:1}
+  #rail canvas{width:100%;height:100%;display:block}
+  @media(max-width:900px){
+    #rail{left:0;right:0;top:auto;bottom:0;width:auto;height:calc(46px + env(safe-area-inset-bottom));
+      padding:0 12px env(safe-area-inset-bottom);background:rgba(16,15,13,.94);border-top:1px solid var(--night-line);cursor:ew-resize}
+  }
+
+  /* ---------- PANELS (find, play) ---------- */
+  .panel{position:fixed;z-index:40;left:50%;transform:translateX(-50%);bottom:28px;width:min(560px,calc(100vw - 24px));
+    background:rgba(27,26,23,.97);border:1px solid #3a3730;border-radius:16px;padding:16px 18px;color:#e9e6dd;
+    box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  @media(max-width:900px){.panel{bottom:calc(58px + env(safe-area-inset-bottom))}}
+  .panel .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .panel .x{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#9c968a}
+  .panel .x:hover{color:#fff}
+  .find-row{display:flex;gap:8px}
+  .find-row input{flex:1;min-width:0;font:400 16px var(--mono);color:#fff;background:#100f0d;border:1px solid #3a3730;border-radius:10px;padding:10px 12px;outline:none}
+  .find-row input:focus{border-color:#9c968a}
+  .nb{font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3a3730;border-radius:10px;padding:0 14px;color:#cbc6ba}
+  .nb:hover{border-color:#e9e6dd;color:#fff}
+  .nb:disabled{opacity:.35;cursor:default}
+  .find-out{font-size:13px;line-height:1.55;color:#b4afa3;margin-top:10px;min-height:20px}
+  .find-out b{color:#fff;font-weight:500}
+  .speeds{display:flex;flex-wrap:wrap;gap:8px}
+  .speed{font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3a3730;border-radius:999px;padding:9px 14px;color:#cbc6ba}
+  .speed[aria-pressed="true"]{background:#f3f1ea;color:var(--ink);border-color:#f3f1ea}
+  .play-out{font-size:13px;color:#b4afa3;margin-top:12px;line-height:1.55}
+
+  /* ---------- END ---------- */
+  .end{padding:clamp(90px,16vh,180px) var(--gut) 60px;text-align:center}
+  .end p{font-family:var(--serif);font-weight:300;font-size:clamp(24px,3.4vw,44px);line-height:1.2;color:#f3f1ea;max-width:22ch;margin:0 auto}
+  .end .label{display:block;margin-bottom:28px}
+  .end nav{margin-top:60px;display:flex;justify-content:center;gap:26px;flex-wrap:wrap}
+  .end nav a{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9c968a;border-bottom:1px solid #3a3730;padding-bottom:4px}
+  .end nav a:hover{color:#fff;border-color:#fff}
+  .end .base{margin-top:70px;font-size:12px;color:var(--night-muted)}
+  @media(max-width:900px){.end{padding-bottom:calc(90px + env(safe-area-inset-bottom))}}
+
+  @media(prefers-reduced-motion:reduce){.blk .cur{animation:none}}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <a class="brand" href="../">Shan Deliar</a>
+  <span class="crumb label">The Threshold · Die Diele, Zürich</span>
+  <div class="clock" id="clock" aria-live="off">
+    <span class="d" id="clock-day">Day 0</span>
+    <span class="t" id="clock-time">12:28:32</span>
+    <span class="ago" id="clock-ago"></span>
+  </div>
+  <div class="tools">
+    <button class="tool" id="btn-find" aria-pressed="false" disabled>Find</button>
+    <button class="tool" id="btn-play" aria-pressed="false" disabled>Play</button>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <div class="label">The Threshold · Die Diele, Zürich · 24 April – 15 May 2025</div>
+    <h1>Twenty-One<br>Days</h1>
+    <div class="row">
+      <div class="lede">
+        <p>For twenty-one days I remained behind glass and wrote. I did not stop at night. I did not stop when the room was empty.</p>
+        <p>Visitors read a sentence over my shoulder and walked on. Nobody has read all of it. Here it is, every line — each one at the minute it was written.</p>
+        <div class="epigraph">“Where do I begin?”<small>Day 0 · Thursday 24 April 2025 · 12:28:32</small></div>
+      </div>
+      <div>
+        <div class="stats">
+          <div class="stat"><b>504</b><span>hours without a pause</span></div>
+          <div class="stat"><b>1,327,163</b><span>words</span></div>
+          <div class="stat"><b>7,544,822</b><span>characters — four every second</span></div>
+          <div class="stat"><b>88½ h</b><span>to read it, at 250 words a minute, without sleep</span></div>
+        </div>
+        <div class="actions">
+          <button class="act primary" id="go-begin" disabled>Begin</button>
+          <button class="act" id="go-random" disabled>Open at a random hour</button>
+          <button class="act" id="go-watch" disabled>Watch it being written</button>
+        </div>
+        <div class="loading" id="loading">Opening the vitrine…</div>
+      </div>
+    </div>
+  </div>
+  <noscript><p style="margin-top:30px;color:#cbc6ba">This text is shown by a script. Please enable JavaScript to read it.</p></noscript>
+</section>
+
+<main id="vitrine" aria-label="The complete text of The Threshold, 24 April – 15 May 2025">
+  <div id="glass"></div>
+</main>
+
+<div class="pane" id="sheen" aria-hidden="true"></div>
+<div class="pane" id="dusk" aria-hidden="true"></div>
+
+<div id="rail" aria-label="Twenty-one days and nights — drag to move through time" role="slider" aria-valuemin="0" aria-valuemax="504" aria-valuenow="0" tabindex="0"><canvas id="rail-canvas"></canvas></div>
+
+<div class="panel" id="find" hidden>
+  <div class="head"><span class="label">Find in twenty-one days</span><button class="x" id="find-close">Close ✕</button></div>
+  <form class="find-row" id="find-form" autocomplete="off">
+    <input id="find-q" type="search" placeholder="glass, silence, chain…" enterkeyhint="search" spellcheck="false">
+    <button class="nb" type="button" id="find-prev" disabled aria-label="Previous">↑</button>
+    <button class="nb" type="button" id="find-next" disabled aria-label="Next">↓</button>
+  </form>
+  <div class="find-out" id="find-out">Every occurrence is marked on the days and nights.</div>
+</div>
+
+<div class="panel" id="play" hidden>
+  <div class="head"><span class="label">Play — the text appears as it was written</span><button class="x" id="play-close">Stop ✕</button></div>
+  <div class="speeds" role="group" aria-label="Speed">
+    <button class="speed" data-speed="1" aria-pressed="true">Real time</button>
+    <button class="speed" data-speed="60" aria-pressed="false">1 minute / second</button>
+    <button class="speed" data-speed="3600" aria-pressed="false">1 hour / second</button>
+  </div>
+  <div class="play-out" id="play-out"></div>
+</div>
+
+<section class="end" id="end">
+  <span class="label">Day 21 · Thursday 15 May 2025 · 12:28:32</span>
+  <p>The last line. Then the glass was opened.</p>
+  <nav>
+    <a href="../#the-threshold">The Threshold</a>
+    <a href="../">Shan Deliar</a>
+    <a href="#top" id="to-top">Back to the first line</a>
+  </nav>
+  <div class="base">© 2026 Shan Deliar. All thoughts preserved.</div>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------------------------------------------------------------------
+  // Time. The performance began on Thursday 24 April 2025 at 12:28:32 in
+  // Zürich (CEST, no clock change until it ended). Day 0 ran 5 hours, days
+  // 1–20 a full day each, day 21 the last 19 hours: 504 hours in all.
+  // Within a day the text is spread evenly over its hours — the same model
+  // the live page used while it was being written.
+  // ---------------------------------------------------------------------
+  var DAYS = 22;
+  var HOURS = [5].concat(Array(20).fill(24), [19]);
+  var START_UTC = Date.UTC(2025, 3, 24, 10, 28, 32);      // 12:28:32 CEST
+  var START_WALL = Date.UTC(2025, 3, 24, 12, 28, 32);     // the same moment as Zürich wall time
+  var segStart = [], segDur = [];
+  (function () { var s = 0; for (var d = 0; d < DAYS; d++) { segStart.push(s); segDur.push(HOURS[d] * 3600); s += HOURS[d] * 3600; } })();
+  var TOTAL_S = segStart[DAYS - 1] + segDur[DAYS - 1];   // 504 h
+  var WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  var MONTH = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  function wall(e) { return new Date(START_WALL + e * 1000); }   // read with getUTC*
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function hhmmss(e) { var w = wall(e); return pad2(w.getUTCHours()) + ":" + pad2(w.getUTCMinutes()) + ":" + pad2(w.getUTCSeconds()); }
+  function dateLong(e) { var w = wall(e); return WEEK[w.getUTCDay()] + " " + w.getUTCDate() + " " + MONTH[w.getUTCMonth()] + " 2025"; }
+  function dateShort(e) { var w = wall(e); return WEEK[w.getUTCDay()].slice(0, 3) + " " + w.getUTCDate() + " " + MONTH[w.getUTCMonth()].slice(0, 3); }
+  function hourOfDay(e) { var w = wall(e); return w.getUTCHours() + w.getUTCMinutes() / 60; }
+  function isoWall(e) { var w = wall(e); return w.toISOString().slice(0, 19); }
+  function dayOfElapsed(e) { var d = 0; while (d < DAYS - 1 && e >= segStart[d + 1]) d++; return d; }
+  function agoText(e) {
+    var days = Math.floor((Date.now() - (START_UTC + e * 1000)) / 86400000);
+    if (days < 1) return "";
+    return days.toLocaleString("en-US") + " days ago";
+  }
+  // How dark the hour is: 0 by day, 1 deep in the night.
+  function nightAmount(h) {
+    if (h >= 23 || h < 5) return 1;
+    if (h >= 20) return (h - 20) / 3;
+    if (h < 7) return 1 - (h - 5) / 2;
+    return 0;
+  }
+
+  // ---------------------------------------------------------------------
+  // Text: 22 day files → one string T, a style byte per character (S), and
+  // dayStart offsets. Days are joined with "\n".
+  // ---------------------------------------------------------------------
+  var T = "", S = null, lower = null;
+  var dayStart = [], dayLen = [];
+
+  function charToElapsed(c) {
+    var d = dayOfChar(c);
+    var f = dayLen[d] ? Math.min(1, Math.max(0, (c - dayStart[d]) / dayLen[d])) : 0;
+    return segStart[d] + f * segDur[d];
+  }
+  function elapsedToChar(e) {
+    e = Math.max(0, Math.min(TOTAL_S - 0.001, e));
+    var d = dayOfElapsed(e);
+    return Math.floor(dayStart[d] + (e - segStart[d]) / segDur[d] * dayLen[d]);
+  }
+  function dayOfChar(c) {
+    var lo = 0, hi = DAYS - 1;
+    while (lo < hi) { var m = (lo + hi + 1) >> 1; if (dayStart[m] <= c) lo = m; else hi = m - 1; }
+    return lo;
+  }
+
+  // ---------------------------------------------------------------------
+  // Layout. The font is monospaced, so wrapping is arithmetic: every line's
+  // start/end and y position is known before anything is drawn, the page
+  // has its exact height, and only the lines near the screen exist in the
+  // DOM. Kinds: 0 text, 1 blank, 2 day heading (HEAD_LINES tall).
+  // ---------------------------------------------------------------------
+  var HEAD_LINES = 6, TOP_PAD = 3, BOTTOM_PAD = 6, BLOCK = 48;
+  var cols = 72, lh = 26, fs = 16, cw = 9.6, padX = 40;
+  var nLines = 0, lStart = null, lEnd = null, lKind = null, dayHeadLine = [];
+  var vitrine = document.getElementById("vitrine");
+  var glass = document.getElementById("glass");
+  var vitTop = 0;
+
+  function measureCharWidth(px) {
+    var c = document.createElement("canvas").getContext("2d");
+    c.font = px + 'px "Courier Prime"';
+    return c.measureText("0123456789".repeat(10)).width / 100;
+  }
+
+  function computeMetrics() {
+    var vw = document.documentElement.clientWidth;
+    var narrow = vw < 720;
+    fs = narrow ? 14 : 16;
+    lh = narrow ? 23 : 27;
+    padX = narrow ? 16 : 44;
+    cw = measureCharWidth(fs);
+    var railRoom = vw > 900 ? 2 * 96 : 0;
+    var avail = Math.min(vw - (narrow ? 24 : railRoom || 2 * 40), 920);
+    cols = Math.max(24, Math.min(76, Math.floor((avail - 2 * padX) / cw)));
+    var width = Math.ceil(cols * cw + 2 * padX);
+    var left = Math.round((vw - width) / 2);
+    var root = document.documentElement.style;
+    root.setProperty("--fs", fs + "px");
+    root.setProperty("--lh", lh + "px");
+    root.setProperty("--pad", padX + "px");
+    root.setProperty("--col-left", left + "px");
+    root.setProperty("--col-width", width + "px");
+  }
+
+  function layout() {
+    var est = Math.ceil(T.length / (cols * 0.55)) + 80000;
+    var ls = new Int32Array(est), le = new Int32Array(est), lk = new Uint8Array(est);
+    var n = 0;
+    function push(a, b, k) {
+      if (n === ls.length) {
+        var g = n * 2, a2 = new Int32Array(g), b2 = new Int32Array(g), k2 = new Uint8Array(g);
+        a2.set(ls); b2.set(le); k2.set(lk); ls = a2; le = b2; lk = k2;
+      }
+      ls[n] = a; le[n] = b; lk[n] = k; n++;
+    }
+    dayHeadLine = [];
+    for (var d = 0; d < DAYS; d++) {
+      var s = dayStart[d], e = s + dayLen[d];
+      dayHeadLine.push(n);
+      for (var h = 0; h < HEAD_LINES; h++) push(s, s, 2);
+      var p = s;
+      while (p <= e) {
+        var nl = T.indexOf("\n", p);
+        if (nl === -1 || nl > e) nl = e;
+        if (nl === p) {
+          if (lk[n - 1] === 0) push(p, p, 1);           // collapse runs of blank lines
+        } else {
+          var a = p;
+          while (nl - a > cols) {
+            var k = T.lastIndexOf(" ", a + cols);
+            if (k > a) { push(a, k, 0); a = k + 1; }
+            else { push(a, a + cols, 0); a += cols; }
+          }
+          push(a, nl, 0);
+        }
+        p = nl + 1;
+      }
+      if (lk[n - 1] !== 1) push(e, e, 1);
+    }
+    nLines = n; lStart = ls; lEnd = le; lKind = lk;
+  }
+
+  function lineY(i) { return (TOP_PAD + i) * lh; }
+  function contentHeight() { return (TOP_PAD + nLines + BOTTOM_PAD) * lh; }
+  function lineOfChar(c) {
+    var lo = 0, hi = nLines - 1;
+    while (lo < hi) { var m = (lo + hi + 1) >> 1; if (lStart[m] <= c) lo = m; else hi = m - 1; }
+    while (lo > 0 && lKind[lo] !== 0 && lStart[lo - 1] === lStart[lo]) lo--;   // land on a heading, not after it
+    return lo;
+  }
+  function lineAtY(y) { return Math.max(0, Math.min(nLines - 1, Math.floor(y / lh) - TOP_PAD)); }
+
+  // ---------------------------------------------------------------------
+  // Drawing: blocks of BLOCK lines, absolutely positioned; created as they
+  // come near the screen and dropped when they leave. Day headings are a
+  // handful of fixed elements.
+  // ---------------------------------------------------------------------
+  var blocks = new Map();       // block index → element
+  var playLimit = -1;           // while playing: characters at or after this are not written yet
+  var hits = null, qLen = 0;    // find: sorted character offsets of matches
+
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+  function firstHitFrom(c) {
+    var lo = 0, hi = hits.length;
+    while (lo < hi) { var m = (lo + hi) >> 1; if (hits[m] < c) lo = m + 1; else hi = m; }
+    return lo;
+  }
+
+  function lineHTML(i) {
+    if (lKind[i] !== 0) return "";
+    var a = lStart[i], b = lEnd[i];
+    if (playLimit >= 0) {
+      if (a >= playLimit) return "";
+      if (b > playLimit) b = playLimit;
+    }
+    var hasHit = false, hi = 0;
+    if (hits && hits.length) { hi = firstHitFrom(a - qLen + 1); hasHit = hi < hits.length && hits[hi] < b; }
+    var out = "", run = "", cls = -1;
+    for (var p = a; p < b; p++) {
+      var st = S[p];
+      if (hasHit) {
+        while (hi < hits.length && hits[hi] + qLen <= p) hi++;
+        if (hi < hits.length && hits[hi] <= p) st |= 4;
+      }
+      if (st !== cls) {
+        if (run) out += wrap(run, cls);
+        run = ""; cls = st;
+      }
+      run += T[p];
+    }
+    if (run) out += wrap(run, cls);
+    if (playLimit >= 0 && lEnd[i] >= playLimit) out += '<span class="cur"></span>';
+    return out;
+  }
+  function wrap(s, st) {
+    s = esc(s);
+    if (st & 1) s = '<span class="b">' + s + "</span>";
+    if (st & 2) s = '<span class="i">' + s + "</span>";
+    if (st & 4) s = "<mark>" + s + "</mark>";
+    return s;
+  }
+
+  function blockHTML(bi) {
+    var a = bi * BLOCK, b = Math.min(nLines, a + BLOCK), parts = [];
+    for (var i = a; i < b; i++) parts.push(lineHTML(i));
+    return parts.join("\n");
+  }
+
+  function makeBlock(bi) {
+    var el = document.createElement("div");
+    el.className = "blk";
+    el.style.top = lineY(bi * BLOCK) + "px";
+    el.innerHTML = blockHTML(bi);
+    glass.appendChild(el);
+    blocks.set(bi, el);
+  }
+
+  function renderWindow() {
+    if (!nLines) return;
+    var y = window.scrollY - vitTop, vh = window.innerHeight;
+    var first = Math.floor((lineAtY(y - vh)) / BLOCK);
+    var last = Math.floor((lineAtY(y + 2 * vh)) / BLOCK);
+    blocks.forEach(function (el, bi) { if (bi < first - 1 || bi > last + 1) { el.remove(); blocks.delete(bi); } });
+    for (var bi = first; bi <= last; bi++) if (!blocks.has(bi)) makeBlock(bi);
+  }
+
+  function rerenderAll() { blocks.forEach(function (el, bi) { el.innerHTML = blockHTML(bi); }); }
+
+  function drawHeads() {
+    glass.querySelectorAll(".dayhead").forEach(function (el) { el.remove(); });
+    for (var d = 0; d < DAYS; d++) {
+      var el = document.createElement("div");
+      el.className = "dayhead";
+      el.id = "day-" + d;
+      el.style.top = lineY(dayHeadLine[d]) + "px";
+      el.style.height = HEAD_LINES * lh + "px";
+      el.innerHTML = '<div class="n">Day ' + d + '</div><div class="w">' + dateLong(segStart[d]) + " · from " + hhmmss(segStart[d]).slice(0, 5) +
+        " · " + HOURS[d] + " hours · " + dayLen[d].toLocaleString("en-US") + " characters</div>";
+      glass.appendChild(el);
+    }
+  }
+
+  function relayout(keepChar) {
+    computeMetrics();
+    layout();
+    blocks.forEach(function (el) { el.remove(); });
+    blocks.clear();
+    vitrine.style.height = contentHeight() + "px";
+    vitTop = vitrine.getBoundingClientRect().top + window.scrollY;
+    drawHeads();
+    sizeRail();
+    if (keepChar != null) jumpToChar(keepChar, true);
+    renderWindow();
+    onScroll();
+  }
+
+  // ---------------------------------------------------------------------
+  // Position: the reading line sits 40% down the screen.
+  // ---------------------------------------------------------------------
+  var READ_AT = 0.4;
+  function readingLine() { return lineAtY(window.scrollY - vitTop + window.innerHeight * READ_AT); }
+  function readingChar() {
+    if (playLimit >= 0) return playLimit;
+    var i = readingLine();
+    while (i < nLines - 1 && lKind[i] === 2) i++;
+    return lStart[i];
+  }
+  function yForChar(c) { return vitTop + lineY(lineOfChar(c)) - window.innerHeight * READ_AT; }
+  function jumpToChar(c, instant) {
+    window.scrollTo({ top: Math.max(0, yForChar(c)), behavior: instant ? "instant" : "auto" });
+  }
+  function jumpToElapsed(e) { jumpToChar(elapsedToChar(e), true); }
+
+  // ---------------------------------------------------------------------
+  // Clock, night, rail, URL — all follow the reading position.
+  // ---------------------------------------------------------------------
+  var clock = document.getElementById("clock"), top = document.getElementById("top");
+  var clockDay = document.getElementById("clock-day"), clockTime = document.getElementById("clock-time"), clockAgo = document.getElementById("clock-ago");
+  var sheen = document.getElementById("sheen"), dusk = document.getElementById("dusk");
+  var rail = document.getElementById("rail");
+  var inVitrine = false, lastShown = -1, lastNight = -1, hashTimer = 0;
+
+  function onScroll() {
+    if (!nLines) return;
+    var y = window.scrollY, vh = window.innerHeight;
+    var inside = y + vh > vitTop + lh * TOP_PAD && y < vitTop + contentHeight() - vh * 0.5;
+    if (inside !== inVitrine) {
+      inVitrine = inside;
+      clock.classList.toggle("on", inside);
+      top.classList.toggle("has-clock", inside);
+      sheen.classList.toggle("on", inside);
+      dusk.classList.toggle("on", inside);
+      rail.classList.toggle("on", inside);
+      if (!inside && !playing) history.replaceState(null, "", location.pathname + location.search);
+    }
+    renderWindow();
+    if (inside) showPosition(readingChar());
+  }
+
+  function showPosition(c) {
+    var e = charToElapsed(c), s = Math.floor(e);
+    if (s !== lastShown) {
+      lastShown = s;
+      var d = dayOfElapsed(e);
+      clockDay.textContent = "Day " + d + " · " + dateShort(e);
+      clockTime.textContent = hhmmss(e);
+      clockAgo.textContent = agoText(e);
+      rail.setAttribute("aria-valuenow", Math.floor(e / 3600));
+      rail.setAttribute("aria-valuetext", "Day " + d + ", " + dateLong(e) + ", " + hhmmss(e));
+      var na = Math.round(nightAmount(hourOfDay(e)) * 20) / 20;
+      if (na !== lastNight) { lastNight = na; document.documentElement.style.setProperty("--night-amount", (na * 0.32).toFixed(3)); }
+      railPos = e / TOTAL_S;
+      drawRail();
+      clearTimeout(hashTimer);
+      hashTimer = setTimeout(function () { if (inVitrine) history.replaceState(null, "", "#" + isoWall(e)); }, 250);
+    }
+  }
+
+  var railCanvas = document.getElementById("rail-canvas"), rctx = railCanvas.getContext("2d");
+  var railPos = 0, railVertical = true, railHist = null, railHistMax = 1, dpr = 1;
+  function sizeRail() {
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    var r = railCanvas.getBoundingClientRect();
+    railCanvas.width = Math.max(1, Math.round(r.width * dpr));
+    railCanvas.height = Math.max(1, Math.round(r.height * dpr));
+    railVertical = r.height > r.width;
+    drawRail();
+  }
+  function drawRail() {
+    var W = railCanvas.width, H = railCanvas.height, g = rctx;
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, W, H);
+    g.scale(dpr, dpr);
+    var w = W / dpr, h = H / dpr;
+    // Along the rail runs time; across it, the strip and the find histogram.
+    var len = railVertical ? h : w, m0 = railVertical ? 6 : 4, m1 = len - (railVertical ? 6 : 16);
+    var span = m1 - m0;
+    function at(e) { return m0 + span * e / TOTAL_S; }
+    var stripA = railVertical ? 30 : 6, stripW = railVertical ? 8 : 10;
+    // Hours, light by day and dark by night.
+    for (var e = 0; e < TOTAL_S; e += 3600) {
+      var na = nightAmount(hourOfDay(e + 1800));
+      var c = Math.round(205 - na * 160);
+      g.fillStyle = "rgb(" + c + "," + (c - 4) + "," + (c - 14) + ")";
+      var p0 = at(e), p1 = at(Math.min(TOTAL_S, e + 3600)) + 0.5;
+      if (railVertical) g.fillRect(stripA, p0, stripW, p1 - p0); else g.fillRect(p0, stripA, p1 - p0, stripW);
+    }
+    // Midnights and dates.
+    g.fillStyle = "#7d786c";
+    g.font = (railVertical ? 10 : 9) + "px Inter, sans-serif";
+    g.textBaseline = "middle";
+    var firstMid = (24 * 3600 - (12 * 3600 + 28 * 60 + 32));
+    for (var mid = firstMid, k = 0; mid < TOTAL_S; mid += 86400, k++) {
+      var p = at(mid), dd = wall(mid + 1).getUTCDate();
+      g.fillStyle = "#4a463e";
+      if (railVertical) g.fillRect(stripA - 5, p, stripW + 10, 1); else g.fillRect(p, stripA - 3, 1, stripW + 6);
+      g.fillStyle = "#7d786c";
+      if (railVertical) { if (k % 2 === 0 || h > 640) { g.textAlign = "right"; g.fillText(String(dd), stripA - 8, p + 6); } }
+      else if (k % 3 === 0 || w > 700) { g.textAlign = "center"; g.fillText(String(dd), p, stripA + stripW + 10); }
+    }
+    // Find histogram, one bar per hour.
+    if (railHist) {
+      g.fillStyle = "#e9c46a";
+      var maxLen = railVertical ? (w - stripA - stripW - 4) : 0;
+      for (var hr = 0; hr < railHist.length; hr++) {
+        if (!railHist[hr]) continue;
+        var q0 = at(hr * 3600), q1 = at((hr + 1) * 3600);
+        var amt = Math.max(0.12, railHist[hr] / railHistMax);
+        if (railVertical) g.fillRect(stripA + stripW + 2, q0, Math.max(1.5, maxLen * amt), Math.max(1, q1 - q0));
+        else { var bh = 6 * amt + 1; g.fillRect(q0, stripA - bh - 1, Math.max(1, q1 - q0), bh); }
+      }
+    }
+    // Where the reader is.
+    var pos = at(railPos * TOTAL_S);
+    g.fillStyle = "#ffffff";
+    if (railVertical) { g.fillRect(stripA - 3, pos - 1, stripW + 14, 2); g.beginPath(); g.arc(stripA + stripW + 13, pos, 3, 0, 7); g.fill(); }
+    else { g.fillRect(pos - 1, stripA - 5, 2, stripW + 10); }
+  }
+  function railToElapsed(ev) {
+    var r = railCanvas.getBoundingClientRect();
+    var len = railVertical ? r.height : r.width, m0 = railVertical ? 6 : 4, m1 = len - (railVertical ? 6 : 16);
+    var p = railVertical ? ev.clientY - r.top : ev.clientX - r.left;
+    return Math.max(0, Math.min(1, (p - m0) / (m1 - m0))) * TOTAL_S;
+  }
+  var dragging = false;
+  rail.addEventListener("pointerdown", function (ev) { stopPlay(); dragging = true; rail.setPointerCapture(ev.pointerId); jumpToElapsed(railToElapsed(ev)); });
+  rail.addEventListener("pointermove", function (ev) { if (dragging) jumpToElapsed(railToElapsed(ev)); });
+  rail.addEventListener("pointerup", function () { dragging = false; });
+  rail.addEventListener("pointercancel", function () { dragging = false; });
+  rail.addEventListener("keydown", function (ev) {
+    var step = { ArrowUp: -3600, ArrowLeft: -3600, ArrowDown: 3600, ArrowRight: 3600, PageUp: -86400, PageDown: 86400 }[ev.key];
+    if (!step) return;
+    ev.preventDefault();
+    jumpToElapsed(charToElapsed(readingChar()) + step);
+  });
+
+  // ---------------------------------------------------------------------
+  // Play: the text appears at the pace it was written (≈4 characters a
+  // second), or a minute or an hour per second. Touching the page stops it.
+  // ---------------------------------------------------------------------
+  var playing = false, speed = 1, cursor = 0, lastT = 0, lastBlock = -1, raf = 0;
+  var playPanel = document.getElementById("play"), playOut = document.getElementById("play-out"), btnPlay = document.getElementById("btn-play");
+
+  function startPlay(fromChar) {
+    if (playing) return;
+    closeFind();
+    playing = true;
+    cursor = fromChar;
+    playLimit = Math.floor(cursor);
+    btnPlay.setAttribute("aria-pressed", "true");
+    playPanel.hidden = false;
+    jumpToChar(cursor, true);
+    rerenderAll();
+    lastT = 0;
+    lastBlock = Math.floor(lineOfChar(playLimit) / BLOCK);
+    updatePlayOut();
+    raf = requestAnimationFrame(tick);
+  }
+  function stopPlay() {
+    if (!playing) return;
+    playing = false;
+    cancelAnimationFrame(raf);
+    playLimit = -1;
+    btnPlay.setAttribute("aria-pressed", "false");
+    playPanel.hidden = true;
+    rerenderAll();
+  }
+  function updatePlayOut() {
+    var d = dayOfChar(Math.floor(cursor)), rate = dayLen[d] / segDur[d];
+    var secPerLine = cols / rate;
+    playOut.textContent = speed === 1
+      ? "Day " + d + " was written at " + rate.toFixed(1) + " characters a second — one line every " + Math.round(secPerLine) + " seconds. This is that pace."
+      : speed === 60 ? "Each second here is a minute behind the glass." : "Each second here is an hour behind the glass. A day passes in 24 seconds.";
+  }
+  function tick(t) {
+    if (!playing) return;
+    var dt = lastT ? Math.min(0.25, (t - lastT) / 1000) : 0;
+    lastT = t;
+    var d = dayOfChar(Math.floor(cursor));
+    cursor += speed * (dayLen[d] / segDur[d]) * dt;
+    if (cursor >= T.length) { cursor = T.length; stopPlay(); return; }
+    var lim = Math.floor(cursor);
+    if (lim !== playLimit) {
+      var b0 = Math.floor(lineOfChar(playLimit) / BLOCK);
+      playLimit = lim;
+      var b1 = Math.floor(lineOfChar(playLimit) / BLOCK);
+      for (var bi = Math.min(b0, lastBlock); bi <= b1; bi++) { var el = blocks.get(bi); if (el) el.innerHTML = blockHTML(bi); }
+      lastBlock = b1;
+      if (dayOfChar(lim) !== d) updatePlayOut();
+    }
+    // Keep the writing line 60% down the screen, easing towards it.
+    var target = vitTop + lineY(lineOfChar(playLimit)) - window.innerHeight * 0.6;
+    var y = window.scrollY;
+    if (Math.abs(target - y) > 0.5) {
+      var ny = y + (target - y) * Math.min(1, dt * (speed > 60 ? 12 : 5));
+      programmatic = true;
+      window.scrollTo(0, ny);
+    }
+    showPosition(playLimit);
+    raf = requestAnimationFrame(tick);
+  }
+  var programmatic = false;
+  ["wheel", "touchstart", "keydown"].forEach(function (type) {
+    window.addEventListener(type, function (ev) {
+      if (!playing) return;
+      if (type === "keydown" && ev.target.closest && ev.target.closest(".panel")) return;
+      stopPlay();
+    }, { passive: true });
+  });
+  playPanel.querySelectorAll(".speed").forEach(function (b) {
+    b.addEventListener("click", function () {
+      speed = +b.dataset.speed;
+      playPanel.querySelectorAll(".speed").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      updatePlayOut();
+    });
+  });
+  document.getElementById("play-close").addEventListener("click", stopPlay);
+  btnPlay.addEventListener("click", function () { if (playing) stopPlay(); else startPlay(inVitrine ? readingChar() : 0); });
+
+  // ---------------------------------------------------------------------
+  // Find: every occurrence, counted, drawn on the rail, stepped through.
+  // ---------------------------------------------------------------------
+  var findPanel = document.getElementById("find"), findQ = document.getElementById("find-q"), findOut = document.getElementById("find-out");
+  var findPrev = document.getElementById("find-prev"), findNext = document.getElementById("find-next"), btnFind = document.getElementById("btn-find");
+  var MAX_HITS = 200000;
+
+  function openFind() { stopPlay(); findPanel.hidden = false; btnFind.setAttribute("aria-pressed", "true"); findQ.focus(); findQ.select(); }
+  function closeFind() {
+    findPanel.hidden = true; btnFind.setAttribute("aria-pressed", "false");
+    if (hits) { hits = null; railHist = null; drawRail(); rerenderAll(); }
+  }
+  function runFind() {
+    var q = findQ.value.trim().toLowerCase();
+    if (q.length < 2) { hits = null; railHist = null; drawRail(); rerenderAll(); findOut.textContent = "Type at least two letters."; findPrev.disabled = findNext.disabled = true; return; }
+    if (!lower) lower = T.toLowerCase();
+    var list = [], p = lower.indexOf(q), count = 0;
+    var hist = new Uint32Array(Math.ceil(TOTAL_S / 3600));
+    while (p !== -1) {
+      count++;
+      if (list.length < MAX_HITS) list.push(p);
+      hist[Math.min(hist.length - 1, Math.floor(charToElapsed(p) / 3600))]++;
+      p = lower.indexOf(q, p + q.length);
+    }
+    hits = Int32Array.from(list); qLen = q.length;
+    railHist = hist; railHistMax = 1; for (var i = 0; i < hist.length; i++) if (hist[i] > railHistMax) railHistMax = hist[i];
+    drawRail(); rerenderAll();
+    findPrev.disabled = findNext.disabled = !count;
+    if (!count) { findOut.innerHTML = "“" + esc(findQ.value.trim()) + "” — never written."; return; }
+    var e0 = charToElapsed(list[0]), e1 = charToElapsed(list[list.length - 1]);
+    var busiest = 0; for (i = 1; i < hist.length; i++) if (hist[i] > hist[busiest]) busiest = i;
+    findOut.innerHTML = "“" + esc(findQ.value.trim()) + "” — written <b>" + count.toLocaleString("en-US") + "</b> " + (count === 1 ? "time" : "times") +
+      ". First on day " + dayOfElapsed(e0) + " at " + hhmmss(e0).slice(0, 5) + (count > 1 ? ", last on day " + dayOfElapsed(e1) + " at " + hhmmss(e1).slice(0, 5) +
+      ". Most in the hour from " + dateShort(busiest * 3600) + ", " + hhmmss(busiest * 3600).slice(0, 5) + "." : ".");
+    stepFind(1);
+  }
+  function stepFind(dir) {
+    if (!hits || !hits.length) return;
+    var c = readingChar(), i;
+    if (dir > 0) { i = firstHitFrom(c + 1); if (i >= hits.length) i = 0; }
+    else { i = firstHitFrom(c) - 1; if (i < 0) i = hits.length - 1; }
+    jumpToChar(hits[i], true);
+  }
+  document.getElementById("find-form").addEventListener("submit", function (ev) { ev.preventDefault(); runFind(); });
+  findNext.addEventListener("click", function () { stepFind(1); });
+  findPrev.addEventListener("click", function () { stepFind(-1); });
+  document.getElementById("find-close").addEventListener("click", closeFind);
+  btnFind.addEventListener("click", function () { if (findPanel.hidden) openFind(); else closeFind(); });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape") { closeFind(); stopPlay(); }
+    if (ev.key === "/" && nLines && document.activeElement !== findQ) { ev.preventDefault(); openFind(); }
+  });
+
+  // ---------------------------------------------------------------------
+  // Loading: 22 day files in parallel; the intro is readable meanwhile.
+  // ---------------------------------------------------------------------
+  var loadingEl = document.getElementById("loading");
+  var done = 0;
+  var files = [];
+  for (var d = 0; d < DAYS; d++) files.push("data/day-" + pad2(d) + ".json");
+
+  function parseHash() {
+    var m = /^#(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d))?/.exec(location.hash);
+    if (!m) return null;
+    var t = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0));
+    return (t - START_WALL) / 1000;
+  }
+
+  Promise.all(files.map(function (f) {
+    return fetch(f).then(function (r) { if (!r.ok) throw new Error(f + " " + r.status); return r.json(); })
+      .then(function (j) { done++; loadingEl.textContent = "Opening the vitrine… " + Math.round(done / DAYS * 100) + "%"; return j; });
+  })).then(function (days) {
+    var parts = [], off = 0;
+    for (var d = 0; d < DAYS; d++) { dayStart.push(off); dayLen.push(days[d].text.length); parts.push(days[d].text); off += days[d].text.length + 1; }
+    T = parts.join("\n");
+    S = new Uint8Array(T.length);
+    for (d = 0; d < DAYS; d++) {
+      var runs = days[d].runs, base = dayStart[d];
+      for (var k = 0; k < runs.length; k++) S.fill(runs[k][2], base + runs[k][0], base + runs[k][1]);
+    }
+    return document.fonts && document.fonts.load ? Promise.all([document.fonts.load('16px "Courier Prime"'), document.fonts.load('italic 16px "Courier Prime"'), document.fonts.load('bold 16px "Courier Prime"')]) : null;
+  }).then(function () {
+    relayout(null);
+    loadingEl.textContent = "";
+    ["go-begin", "go-random", "go-watch", "btn-find", "btn-play"].forEach(function (id) { document.getElementById(id).disabled = false; });
+    var e = parseHash();
+    if (e != null && e >= 0 && e <= TOTAL_S) jumpToElapsed(e);
+  }).catch(function (err) {
+    loadingEl.textContent = "The text could not be loaded. Please reload the page.";
+    console.error(err);
+  });
+
+  document.getElementById("go-begin").addEventListener("click", function () { window.scrollTo({ top: vitTop + lh, behavior: "smooth" }); });
+  document.getElementById("go-random").addEventListener("click", function () { jumpToElapsed(Math.random() * TOTAL_S); });
+  document.getElementById("go-watch").addEventListener("click", function () { speed = 1; playPanel.querySelectorAll(".speed").forEach(function (o) { o.setAttribute("aria-pressed", String(o.dataset.speed === "1")); }); startPlay(0); });
+  document.getElementById("to-top").addEventListener("click", function (ev) { ev.preventDefault(); jumpToChar(0, true); });
+
+  var scrollQueued = false;
+  window.addEventListener("scroll", function () {
+    if (scrollQueued) return;
+    scrollQueued = true;
+    requestAnimationFrame(function () { scrollQueued = false; onScroll(); });
+  }, { passive: true });
+
+  var resizeTimer = 0, lastCols = 0, lastW = 0;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      if (!nLines) return;
+      var w = document.documentElement.clientWidth;
+      if (w === lastW) { sizeRail(); onScroll(); return; }        // mobile URL bar: height only
+      lastW = w;
+      var keep = inVitrine ? readingChar() : null;
+      relayout(keep);
+    }, 150);
+  });
+  lastW = document.documentElement.clientWidth;
+})();
+</script>
+</body>
+</html>

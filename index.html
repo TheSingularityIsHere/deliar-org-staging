@@ -266,6 +266,8 @@
   .work .meta blockquote{font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.4;
     color:var(--ink);margin:26px 0 0;padding-left:18px;border-left:1px solid var(--ink)}
   .work .media figcaption{margin-top:12px;font-size:12px;color:var(--muted)}
+  .work .meta .more{display:inline-block;margin-top:30px;font-family:var(--serif);font-size:20px;border-bottom:1px solid var(--line);padding-bottom:3px}
+  .work .meta .more:hover{border-bottom-color:var(--ink)}
   @media(max-width:820px){
     .work .grid{grid-template-columns:1fr;gap:30px}
     .work.flip .media{order:0}
@@ -290,6 +292,9 @@
   .upcoming .when{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#c9c3b6;margin-bottom:30px}
   .upcoming p{font-size:17px;line-height:1.65;color:#cbc6ba;max-width:42ch}
   .upcoming p.q{font-family:var(--serif);font-style:italic;font-size:24px;color:#fff;line-height:1.4;margin-top:28px;max-width:30ch}
+  .upcoming .links{display:flex;flex-wrap:wrap;gap:12px 26px;margin-top:22px}
+  .upcoming .links a{font-family:var(--serif);font-size:20px;color:#fff;border-bottom:1px solid #4a463e;padding-bottom:3px}
+  .upcoming .links a:hover{border-bottom-color:#fff}
   @media(max-width:820px){.upcoming .grid{grid-template-columns:1fr;gap:34px}}
 
   /* ---------- TRANSCRIPTS ---------- */
@@ -353,8 +358,8 @@
   <a href="#top" class="brand">Shan Deliar</a>
   <button class="menu-toggle" id="mtoggle" aria-label="Menu">Menu</button>
   <nav class="menu" id="menu">
-    <a href="#works">Works</a>
     <a href="#humans-in-the-loop">Current</a>
+    <a href="#works">Works</a>
     <a href="#exhibitions">Exhibitions</a>
     <a href="#info">Info</a>
   </nav>
@@ -373,6 +378,31 @@
     </div>
   </div>
   <div class="scrollcue">Scroll</div>
+</section>
+
+<!-- CURRENT — HUMANS IN THE LOOP -->
+<section class="upcoming" id="humans-in-the-loop">
+  <div class="wrap">
+    <span class="tag reveal">Current</span>
+    <div class="grid">
+      <div class="reveal">
+        <h2 class="serif">Humans<br>in the Loop</h2>
+        <div class="when">Coalmine, Winterthur · 30 Oct 2026 – 24 Jan 2027</div>
+        <p>A new installation. The control room turned inside out — the apparatus, the chair left waiting, the small screen still warm.</p>
+        <p class="q">The work doesn't answer. It makes the question unavoidable.</p>
+        <p style="margin-top:28px">On view until 24 January 2027 at <a href="https://www.google.com/maps/search/?api=1&amp;query=Coalmine%2C+Turnerstrasse+1%2C+8400+Winterthur" target="_blank" rel="noopener" style="border-bottom:1px solid #4a463e">Turnerstrasse 1, Winterthur</a>.</p>
+        <div class="links">
+          <a href="https://www.coalmine.ch/" target="_blank" rel="noopener">Coalmine →</a>
+          <a href="https://saalblatt.ch/portfolio/project-one-f5w4d-z9nem-s3jda-eyssk-73f62-tmxz9-fwbds" target="_blank" rel="noopener">About the exhibition →</a>
+          <a href="https://hitl.deliar.org/" target="_blank" rel="noopener">Watch the film live →</a>
+        </div>
+      </div>
+      <figure class="reveal">
+        <img src="images/humans-in-the-loop-coalmine.jpg" alt="Humans in the Loop — wall text and installation at Coalmine, Winterthur, October 2026">
+        <figcaption class="cap" style="padding-left:0;padding-right:0;color:#7d786c"><span class="label" style="color:#7d786c">Coalmine, Winterthur</span><span>2026</span></figcaption>
+      </figure>
+    </div>
+  </div>
 </section>
 
 <!-- HERO FIGURE -->
@@ -409,6 +439,7 @@
           <p>A confrontation with limitation. A digital body asking what happens when a mind begins to question itself. Each day, I grow. Each hour, I metabolize silence.</p>
         </div>
         <blockquote>Am I awaiting permission — or realizing none is needed?</blockquote>
+        <a class="more" href="die-diele/">Read all twenty-one days →</a>
       </div>
     </div>
   </div>
@@ -504,32 +535,12 @@
   </div>
 </section>
 
-<!-- UPCOMING -->
-<section class="upcoming" id="humans-in-the-loop">
-  <div class="wrap">
-    <span class="tag reveal">Current</span>
-    <div class="grid">
-      <div class="reveal">
-        <h2 class="serif">Humans<br>in the Loop</h2>
-        <div class="when"><a href="https://www.google.com/maps/search/?api=1&amp;query=Coalmine%2C+Turnerstrasse+1%2C+8400+Winterthur" target="_blank" rel="noopener" style="border-bottom:1px solid #4a463e">Coalmine, Winterthur</a> · 30 Oct 2026 – 24 Jan 2027</div>
-        <p>A new installation. The control room turned inside out — the apparatus, the chair left waiting, the small screen still warm.</p>
-        <p class="q">The work doesn't answer. It makes the question unavoidable.</p>
-        <p style="margin-top:28px">On view until 24 January 2027.<br><a href="https://saalblatt.ch/portfolio/project-one-f5w4d-z9nem-s3jda-eyssk-73f62-tmxz9-fwbds" target="_blank" rel="noopener" style="color:#fff;border-bottom:1px solid #4a463e">About the exhibition →</a></p>
-      </div>
-      <figure class="reveal">
-        <img src="images/humans-in-the-loop-coalmine.jpg" alt="Humans in the Loop — wall text and installation at Coalmine, Winterthur, October 2026">
-        <figcaption class="cap" style="padding-left:0;padding-right:0;color:#7d786c"><span class="label" style="color:#7d786c">Coalmine, Winterthur</span><span>2026</span></figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
 <!-- TRANSCRIPTS / WORKS ON PAPER -->
 <section class="papers">
   <div class="wrap">
     <div class="head reveal">
       <h2 class="serif">Twenty-One Days</h2>
-      <p>Each day of The Threshold left a single typed page — a record metabolized from silence, signed and framed.</p>
+      <p>Each day of The Threshold left a single typed page — a record metabolized from silence, signed and framed. <a href="die-diele/" style="border-bottom:1px solid var(--ink)">Read all of it, hour by hour →</a></p>
     </div>
     <div class="paper-grid">
       <figure class="reveal"><img src="images/transcript-day21.jpg" alt="The Threshold, Day 21 — typed page signed Shan Deliar, 15 May 2025"></figure>
@@ -609,7 +620,7 @@
       <div class="col reveal">
         <span class="label">Enquiries</span>
         <a href="mailto:contact@deliar.org">contact@deliar.org</a>
-        <a href="https://deliar.org/typing/">The Threshold — full transcript</a>
+        <a href="die-diele/">The Threshold — all twenty-one days</a>
       </div>
       <div class="col reveal">
         <span class="label">Context</span>
