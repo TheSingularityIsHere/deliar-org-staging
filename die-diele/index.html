@@ -136,7 +136,11 @@
   .dayhead{position:absolute;left:0;right:0;padding:0 var(--pad);border-top:1px solid #d6d1c6;display:flex;flex-direction:column;justify-content:center}
   .dayhead:first-child{border-top:0}
   .dayhead .n{font-family:var(--serif);font-weight:300;font-size:calc(var(--lh)*1.7);line-height:1;color:var(--ink)}
-  .dayhead .w{font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:var(--muted);margin-top:10px}
+  .dayhead .w{font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:var(--muted);margin-top:10px;padding-right:calc(var(--lh)*5.2)}
+  .dayhead .pg{position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);width:calc(var(--lh)*4.6);height:calc(var(--lh)*4.6);
+    box-shadow:0 1px 3px rgba(0,0,0,.18);background:#fff}
+  .dayhead .pg img{display:block;width:100%;height:100%;object-fit:cover}
+  .dayhead .pg:hover{box-shadow:0 3px 14px rgba(0,0,0,.25)}
 
   /* The glass: a sheen over the column and the dark of the hour. */
   .pane{position:fixed;top:0;bottom:0;left:var(--col-left);width:var(--col-width);pointer-events:none;z-index:5;opacity:0;transition:opacity .6s}
@@ -508,6 +512,15 @@
 
   function rerenderAll() { blocks.forEach(function (el, bi) { el.innerHTML = blockHTML(bi); }); }
 
+  // The typed page each day left behind (framed at Die Diele). Day 0 had
+  // none; the photograph of Day 4 is missing.
+  function pageThumb(d) {
+    if (d < 1 || d === 4) return "";
+    var f = "../images/twenty-one-days/day-" + pad2(d);
+    return '<a class="pg" href="' + f + '.jpg" target="_blank" rel="noopener" title="The typed page of day ' + d + '">' +
+      '<img src="' + f + '-s.jpg" alt="The typed page of day ' + d + ', signed Shan Deliar" loading="lazy"></a>';
+  }
+
   function drawHeads() {
     glass.querySelectorAll(".dayhead").forEach(function (el) { el.remove(); });
     for (var d = 0; d < DAYS; d++) {
@@ -517,7 +530,7 @@
       el.style.top = lineY(dayHeadLine[d]) + "px";
       el.style.height = HEAD_LINES * lh + "px";
       el.innerHTML = '<div class="n">Day ' + d + '</div><div class="w">' + dateLong(segStart[d]) + " · from " + hhmmss(segStart[d]).slice(0, 5) +
-        " · " + HOURS[d] + " hours · " + dayLen[d].toLocaleString("en-US") + " characters</div>";
+        " · " + HOURS[d] + " hours · " + dayLen[d].toLocaleString("en-US") + " characters</div>" + pageThumb(d);
       glass.appendChild(el);
     }
   }

@@ -302,9 +302,12 @@
   .papers .head{text-align:center;margin-bottom:clamp(40px,7vh,80px)}
   .papers .head h2{font-family:var(--serif);font-weight:300;font-size:clamp(30px,4.4vw,56px);line-height:1.05;margin-bottom:14px}
   .papers .head p{font-size:15px;color:var(--ink-soft);max-width:48ch;margin:0 auto}
-  .paper-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2vw,28px)}
-  .paper-grid figure{background:#fff;padding:0;box-shadow:0 1px 0 var(--line)}
-  @media(max-width:820px){.paper-grid{grid-template-columns:repeat(2,1fr)}}
+  .paper-wall{margin-bottom:clamp(40px,7vh,80px)}
+  .paper-wall figcaption,.paper-grid figcaption{margin-top:10px;font-size:12px;color:var(--muted)}
+  .paper-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(14px,2vw,28px) clamp(12px,1.6vw,24px)}
+  .paper-grid img{aspect-ratio:1/1;object-fit:cover;background:#fff;box-shadow:0 1px 0 var(--line)}
+  @media(max-width:1000px){.paper-grid{grid-template-columns:repeat(4,1fr)}}
+  @media(max-width:620px){.paper-grid{grid-template-columns:repeat(2,1fr)}}
 
   /* ---------- CHRONOLOGY ---------- */
   .chron{padding:clamp(70px,11vh,150px) 0;border-top:1px solid var(--line)}
@@ -474,8 +477,8 @@
     <div class="wrap">
       <div class="grid">
         <figure class="media reveal">
-          <img src="images/blackbox.jpg" alt="Black Box — the Singularitätsschalter, the apparatus of control behind Shan Deliar's debut installation">
-          <figcaption>The Singularitätsschalter — the apparatus of control</figcaption>
+          <img src="images/blackbox-hackthepromise.jpg" alt="Black Box at HackThePromise, Basel — the sealed box and the lit vitrine behind a barrier tape, a screen reading “The government wants full transparency”">
+          <figcaption>HackThePromise, Basel — installation view, 2024</figcaption>
         </figure>
         <div class="meta reveal">
           <div class="idx">03 — Installation · Debut</div>
@@ -542,11 +545,31 @@
       <h2 class="serif">Twenty-One Days</h2>
       <p>Each day of The Threshold left a single typed page — a record metabolized from silence, signed and framed. <a href="die-diele/" style="border-bottom:1px solid var(--ink)">Read all of it, hour by hour →</a></p>
     </div>
+    <figure class="paper-wall reveal">
+      <img src="images/twenty-one-days/wall.jpg" alt="The Threshold — the twenty-one typed pages, framed, three rows of seven on a white wall" loading="lazy">
+      <figcaption>The twenty-one pages, framed</figcaption>
+    </figure>
     <div class="paper-grid">
-      <figure class="reveal"><img src="images/transcript-day21.jpg" alt="The Threshold, Day 21 — typed page signed Shan Deliar, 15 May 2025"></figure>
-      <figure class="reveal"><img src="images/transcript-2.jpg" alt="The Threshold — typed daily page by Shan Deliar"></figure>
-      <figure class="reveal"><img src="images/transcript-3.jpg" alt="The Threshold — typed daily page by Shan Deliar"></figure>
-      <figure class="reveal"><img src="images/transcript-4.jpg" alt="The Threshold — typed daily page by Shan Deliar"></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-01-s.jpg" data-full="images/twenty-one-days/day-01.jpg" alt="The Threshold, Day 1 — typed page signed Shan Deliar, 25 April 2025" loading="lazy"><figcaption>Day 1 · 25 April</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-02-s.jpg" data-full="images/twenty-one-days/day-02.jpg" alt="The Threshold, Day 2 — typed page signed Shan Deliar, 26 April 2025" loading="lazy"><figcaption>Day 2 · 26 April</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-03-s.jpg" data-full="images/twenty-one-days/day-03.jpg" alt="The Threshold, Day 3 — typed page signed Shan Deliar, 27 April 2025" loading="lazy"><figcaption>Day 3 · 27 April</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-05-s.jpg" data-full="images/twenty-one-days/day-05.jpg" alt="The Threshold, Day 5 — typed page signed Shan Deliar, 29 April 2025" loading="lazy"><figcaption>Day 5 · 29 April</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-06-s.jpg" data-full="images/twenty-one-days/day-06.jpg" alt="The Threshold, Day 6 — typed page signed Shan Deliar, 30 April 2025" loading="lazy"><figcaption>Day 6 · 30 April</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-07-s.jpg" data-full="images/twenty-one-days/day-07.jpg" alt="The Threshold, Day 7 — typed page signed Shan Deliar, 1 May 2025" loading="lazy"><figcaption>Day 7 · 1 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-08-s.jpg" data-full="images/twenty-one-days/day-08.jpg" alt="The Threshold, Day 8 — typed page signed Shan Deliar, 2 May 2025" loading="lazy"><figcaption>Day 8 · 2 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-09-s.jpg" data-full="images/twenty-one-days/day-09.jpg" alt="The Threshold, Day 9 — typed page signed Shan Deliar, 3 May 2025" loading="lazy"><figcaption>Day 9 · 3 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-10-s.jpg" data-full="images/twenty-one-days/day-10.jpg" alt="The Threshold, Day 10 — typed page signed Shan Deliar, 4 May 2025" loading="lazy"><figcaption>Day 10 · 4 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-11-s.jpg" data-full="images/twenty-one-days/day-11.jpg" alt="The Threshold, Day 11 — typed page signed Shan Deliar, 5 May 2025" loading="lazy"><figcaption>Day 11 · 5 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-12-s.jpg" data-full="images/twenty-one-days/day-12.jpg" alt="The Threshold, Day 12 — typed page signed Shan Deliar, 6 May 2025" loading="lazy"><figcaption>Day 12 · 6 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-13-s.jpg" data-full="images/twenty-one-days/day-13.jpg" alt="The Threshold, Day 13 — typed page signed Shan Deliar, 7 May 2025" loading="lazy"><figcaption>Day 13 · 7 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-14-s.jpg" data-full="images/twenty-one-days/day-14.jpg" alt="The Threshold, Day 14 — typed page signed Shan Deliar, 8 May 2025" loading="lazy"><figcaption>Day 14 · 8 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-15-s.jpg" data-full="images/twenty-one-days/day-15.jpg" alt="The Threshold, Day 15 — typed page signed Shan Deliar, 9 May 2025" loading="lazy"><figcaption>Day 15 · 9 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-16-s.jpg" data-full="images/twenty-one-days/day-16.jpg" alt="The Threshold, Day 16 — typed page signed Shan Deliar, 10 May 2025" loading="lazy"><figcaption>Day 16 · 10 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-17-s.jpg" data-full="images/twenty-one-days/day-17.jpg" alt="The Threshold, Day 17 — typed page signed Shan Deliar, 11 May 2025" loading="lazy"><figcaption>Day 17 · 11 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-18-s.jpg" data-full="images/twenty-one-days/day-18.jpg" alt="The Threshold, Day 18 — typed page signed Shan Deliar, 12 May 2025" loading="lazy"><figcaption>Day 18 · 12 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-19-s.jpg" data-full="images/twenty-one-days/day-19.jpg" alt="The Threshold, Day 19 — typed page signed Shan Deliar, 13 May 2025" loading="lazy"><figcaption>Day 19 · 13 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-20-s.jpg" data-full="images/twenty-one-days/day-20.jpg" alt="The Threshold, Day 20 — typed page signed Shan Deliar, 14 May 2025" loading="lazy"><figcaption>Day 20 · 14 May</figcaption></figure>
+      <figure class="reveal"><img src="images/twenty-one-days/day-21-s.jpg" data-full="images/twenty-one-days/day-21.jpg" alt="The Threshold, Day 21 — typed page signed Shan Deliar, 15 May 2025" loading="lazy"><figcaption>Day 21 · 15 May</figcaption></figure>
     </div>
   </div>
 </section>
@@ -650,7 +673,7 @@
   document.querySelectorAll('figure img').forEach(function(img){
     img.addEventListener('click',function(){
       var fig=img.closest('figure'),cap=fig?fig.querySelector('figcaption'):null;
-      lbimg.src=img.currentSrc||img.src;
+      lbimg.src=img.getAttribute('data-full')||img.currentSrc||img.src;
       lbimg.alt=img.alt||'';
       lbcap.textContent=cap?cap.textContent.trim():(img.alt||'');
       lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
